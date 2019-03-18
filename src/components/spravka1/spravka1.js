@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-//import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import  './App.css'
-import stanc2 from  './stanc'
-//import columns  from './gridColumns'
+import stanc2 from  '../../services/stanc'
 
-class App extends Component {
+import  './spravka1.css'
+
+class Spravka1 extends Component {
     constructor(props) {
         super(props);
 
@@ -167,41 +166,41 @@ class App extends Component {
 
             });
         }
-    return (
-        <div >
-            <div  className="bd-table" >
-                <div  className="row justify-content-md-end">
-                    <div className="col col-md-12 ">
-                        { isLoading
-                            ? <p>Обновление...</p>
-                            : <p>Обновлено {loadingDate}</p>
-                        }
+        return (
+            <div >
+                <div  className="bd-table" >
+                    <div  className="row justify-content-md-end">
+                        <div className="col col-md-12 ">
+                            { isLoading
+                                ? <p>Обновление...</p>
+                                : <p>Обновлено {loadingDate}</p>
+                            }
+                        </div>
                     </div>
-                </div>
-                <div  className="row ">
-                    <div className="col-md-3">
+                    <div  className="row ">
+                        <div className="col-md-3">
+                        </div>
+                        <div className="col-md-3 grid-top-header">
+                            на станциях назначения
+                        </div>
+                        <div className="col-md-3 grid-top-header">
+                            на подходах к станции
+                        </div>
+                        <div className="col-md-3 grid-top-header">
+                            на дальнем подходе
+                        </div>
                     </div>
-                    <div className="col-md-3 grid-top-header">
-                        на станциях назначения
-                    </div>
-                    <div className="col-md-3 grid-top-header">
-                        на подходах к станции
-                    </div>
-                    <div className="col-md-3 grid-top-header">
-                        на дальнем подходе
-                    </div>
-                </div>
 
-                <div  className="row ">
-                    <div className="lg-auto">
-                        <BootstrapTable keyField='ID' data={ stanc2 } columns={ columns } classes={'grid-cell-pad'}   hover condensed expandRow={ expandRow }  />
+                    <div  className="row ">
+                        <div className="lg-auto">
+                            <BootstrapTable keyField='ID' data={ stanc2 } columns={ columns } classes={'grid-cell-pad'}   hover condensed expandRow={ expandRow }  />
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
-  }
+        );
+    }
 }
 
-export default App;
+export default Spravka1;
