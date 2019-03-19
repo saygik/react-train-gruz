@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import React from 'react';
 
 import Spravka1 from '../spravka1'
