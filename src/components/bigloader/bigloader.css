@@ -1,0 +1,77 @@
+.centered {
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -130px;
+}
+@keyframes lds-double-ring {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes lds-double-ring {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes lds-double-ring_reverse {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+@-webkit-keyframes lds-double-ring_reverse {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}
+.lds-double-ring {
+    position: relative;
+}
+.lds-double-ring div {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: 20px;
+    left: 20px;
+    border-radius: 50%;
+    border: 10px solid #000;
+    border-color: #034904 transparent #034904 transparent;
+    -webkit-animation: lds-double-ring 2.4s linear infinite;
+    animation: lds-double-ring 2.4s linear infinite;
+}
+.lds-double-ring div:nth-child(2) {
+    width: 136px;
+    height: 136px;
+    top: 32px;
+    left: 32px;
+    border-color: transparent #3ac811 transparent #3ac811;
+    -webkit-animation: lds-double-ring_reverse 2.4s linear infinite;
+    animation: lds-double-ring_reverse 2.4s linear infinite;
+}
+.lds-double-ring {
+    width: 200px !important;
+    height: 200px !important;
+    -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+    transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
