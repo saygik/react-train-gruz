@@ -1,79 +1,127 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {connect} from 'react-redux'
-import {moduleName, selectSprav1ExpandedCol,selectSprav1ExpandedRow} from '../../ducks/spravka1'
+import {moduleName, selectedStationAndTipSelector, sumVesFindVagonsSelector,closeFindVagons} from '../../ducks/spravka1'
 import LittleLoader from "../littleloader"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
+import parse from 'html-react-parser'
 import  './spravka1.css'
 
 class FindVagons extends Component {
 
 
-    handleExpand(row) {
-        const { expandedCol, expanded, selectSprav1ExpandedCol, selectSprav1ExpandedRow } = this.props;
-
-        if (!expanded.includes(row.id)) {
-            selectSprav1ExpandedCol(row.col);
-            selectSprav1ExpandedRow([row.id]);
-        } else {
-            if (expandedCol===row.col) {
-                selectSprav1ExpandedRow([]);
-            } else {
-                selectSprav1ExpandedCol(row.col);
-            }
-
-        }
-    }
 
 
     render() {
-        const {  loading } = this.props;
+        const {  loading , vagonsOnStance, selectedStation, sumVes, closeFindVagons} = this.props;
 
         const littleLoader= loading ? <LittleLoader/> : null;
+        const topText= `${selectedStation.onStation===1 ? 'На станции' : 'До станции'} <span class="badge badge-secondary">${selectedStation.stanName}</span> `+
+                       `${selectedStation.onStation===1 ? '' : selectedStation.onNod===1 ? 'на ближнем подходе' : 'на дальнем подходе'} `+
+                       `найдено <span class="text-primary">${selectedStation.tipName}</span> вагонов: <span class="badge badge-pill badge-success">${vagonsOnStance.length}</span>`;
+
         const columns = [
             {
-                dataField: 'ID',
-                text: 'id',
-                hidden: true
-            },
-            {
-                dataField: 'TIPZAP',
+                dataField: 'Id',
                 text: '#',
-                hidden: true
-            },
-            {
-                dataField: 'NAME',
-                text: 'Станция',
-                classes: 'grid-cell-pad grid-name-col',
-                headerStyle: (colum, colIndex) => {
-                    return { width: '180px', textAlign: 'center' };
-                }
-            }, {
-                dataField: 'KODS',
-                text: 'КОД',
                 headerAlign: 'center',
-                headerClasses: 'grid-header-font',
-                classes: 'grid-cell-pad grid-font',
-
+                headerClasses: ' grid-find-vagon-header-font  grid-find-vagon-header-sm',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
             },
             {
-                dataField: 'COL',
-                text: 'ИТОГО',
-                align: 'center',
-                headerClasses: 'grid-end-col grid-header-font',
-                classes: 'grid-cell-pad grid-end-col grid-font',
-
+                dataField: 'Kodv',
+                text: 'вагон',
+                headerAlign: 'center',
+                headerClasses: ' grid-find-vagon-header-font  grid-find-vagon-header-sm2',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+            },
+            {
+                dataField: 'Ind',
+                text: 'инд',
+                headerAlign: 'center',
+                headerClasses: ' grid-find-vagon-header-font  grid-find-vagon-header-md',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+            },
+            {
+                dataField: 'Nameoper',
+                text: 'опер',
+                headerAlign: 'center',
+                headerClasses: ' grid-find-vagon-header-font  grid-find-vagon-header-sm',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+            },
+            {
+                dataField: 'Datelast',
+                text: 'дата',
+                headerAlign: 'center',
+                headerClasses: 'grid-find-vagon-header-font  grid-find-vagon-header-sm2',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+            },
+            {
+                dataField: 'Timelast',
+                text: 'время',
+                headerAlign: 'center',
+                headerClasses: 'grid-find-vagon-header-font  grid-find-vagon-header-sm2',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+            },
+            {
+                dataField: 'Namekodslast',
+                text: 'стан по',
+                headerAlign: 'center',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+                headerClasses: 'grid-find-vagon-header-font grid-find-vagon-header-md'
+            },
+            {
+                dataField: 'Nameklient',
+                text: 'клиент',
+                headerAlign: 'center',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell-left',
+                headerClasses: 'grid-find-vagon-header-font grid-find-vagon-header-lg'
+            },
+            {
+                dataField: 'Ves',
+                text: 'вес',
+                headerAlign: 'center',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell',
+                headerClasses: 'grid-find-vagon-header-font grid-find-vagon-header-sm'
+            },
+            {
+                dataField: 'Namegruz',
+                text: 'Груз',
+                headerAlign: 'center',
+                classes: 'grid-find-vagon-cell-font-sm grid-find-vagon-cell-left',
+                headerClasses: 'grid-find-vagon-header-font grid-find-vagon-header-lg'
 
             }];
 
         return (
-            <div >
-                <div  className="bd-table" >
+                <div className="find-vagon-container" >
+                    <div  className="row " >
+                        <div className="col text-right">
+                            <button type="button" class="close" aria-label="Close" onClick={closeFindVagons}>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div  className="row find-vagon-header" >
+                        <div className="col-11 text-left">
+                            {parse(topText)}
+                        </div>
+                        <div className="col-1 ">
+                            {littleLoader}
+                        </div>
+                    </div>
+                    <div  className="row " >
+                        <div className="col col-md-12 text-left">
+                            {parse(sumVes===0 ? `Суммарный вес не определен` : `Суммарный вес: <span class="badge badge-pill badge-success">${sumVes}</span> т.`)}
+                        </div>
+                    </div>
+                <div  className="bd-table">
                     <div  className="row ">
                         <div className="lg-auto">
-                            <BootstrapTable keyField='ID' data={ vagonsOnStance } columns={ columns } classes={'grid-cell-pad'}   hover condensed   />
+                            <BootstrapTable keyField='Id' data={ vagonsOnStance } columns={ columns } classes={'grid-find-vagon'}   hover condensed   />
 
                         </div>
                     </div>
@@ -85,11 +133,10 @@ class FindVagons extends Component {
 
 
 export default connect(state=>({
-    loading: state[moduleName].loading,
-    firstLoad: state[moduleName].firstLoad,
-    infoMsg: state[moduleName].infoMsg,
-    expanded: state[moduleName].sprav1ExpandedRows,
-    expandedCol: state[moduleName].sprav1ExpandedCol,
+    selectedStation:selectedStationAndTipSelector(state),
+    sumVes:sumVesFindVagonsSelector(state),
+    loading: state[moduleName].loadingVagons,
+    sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
     vagonsOnStance: state[moduleName].vagons
-}), { selectSprav1ExpandedCol, selectSprav1ExpandedRow})(FindVagons)
+}), {closeFindVagons })(FindVagons)
 

@@ -18,9 +18,11 @@ class Spravka1 extends Component {
         const sprav1Table= !firstLoad ? <Sprav1Table/> : null;
 
         return (
-            <div >
-                {bigLoader}
-                {sprav1Table}
+            <div class="card m-3" >
+                <div class="card-body">
+                    {bigLoader}
+                    {sprav1Table}
+                </div>
             </div>
         );
     }

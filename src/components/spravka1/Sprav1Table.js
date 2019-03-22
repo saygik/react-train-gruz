@@ -1,38 +1,20 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {connect} from 'react-redux'
-import {moduleName, selectSprav1ExpandedCol,selectSprav1ExpandedRow} from '../../ducks/spravka1'
+import {moduleName, selectSprav1Cell} from '../../ducks/spravka1'
 import LittleLoader from "../littleloader"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-
+import FindVagons from './FindVagons'
 import  './spravka1.css'
 
 class Sprav1Table extends Component {
 
-
-    handleExpand(row) {
-        const { expandedCol, expanded, selectSprav1ExpandedCol, selectSprav1ExpandedRow } = this.props;
-
-        if (!expanded.includes(row.id)) {
-            selectSprav1ExpandedCol(row.col);
-            selectSprav1ExpandedRow([row.id]);
-        } else {
-            if (expandedCol===row.col) {
-                selectSprav1ExpandedRow([]);
-            } else {
-                selectSprav1ExpandedCol(row.col);
-            }
-
-        }
-    }
-
-
     render() {
-        const {  expanded, expandedCol, stances, infoMsg, loading } = this.props;
+        const {  stances, infoMsg, loading, selectSprav1Cell, sprav1SelectedCell} = this.props;
 
         const littleLoader= loading ? <LittleLoader/> : null;
-        const that=this;
+
         const columns = [
             {
                 dataField: 'ID',
@@ -91,14 +73,11 @@ class Sprav1Table extends Component {
             }];
         const expandRow = {
             renderer: row => (
-                <div className="container">
-                    <p>{ `Это таблица для строки ${row.ID}  и для колонки ${expandedCol}` }</p>
-
-                </div>
+                    <FindVagons/>
             ),
             onlyOneExpanding: true,
             expandByColumnOnly: true,
-            expanded: expanded
+            expanded: sprav1SelectedCell=== null ? [] : [sprav1SelectedCell.id]
         };
         function countFormatter(cell, row) {
             if (cell===0) {
@@ -118,15 +97,11 @@ class Sprav1Table extends Component {
                 headerClasses:'grid-header-font ' + headerClass,
                 classes: (cell, row, rowIndex, colIndex) => {
                     if (cell  === 0) return isGroupSum ? headerClass : 'grid-empty-col grid-cell-pad';
-                    if (expanded.includes(rowIndex+1)) return 'grid-cell grid-font grid-cell-selected' ;
-
                     return 'grid-cell grid-font ' +( isGroupSum ? headerClass : '');
                 },
                 events: {
                     onClick: (e, column, columnIndex, row, rowIndex) => {
-                        //   console.log(e);
-                        console.log('col',{string: row.TIPZAP, row: row.KODS, col: column.dataField });
-                        that.handleExpand({id: row.ID, stan: row.KODS, col: column.dataField });
+                        selectSprav1Cell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME});
 
 
                     },
@@ -161,7 +136,7 @@ class Sprav1Table extends Component {
 
                     <div  className="row ">
                         <div className="lg-auto">
-                            <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'grid-cell-pad'}   hover condensed expandRow={ expandRow }  />
+                            <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'grid-cell-pad'}   condensed expandRow={ expandRow }  />
 
                         </div>
                     </div>
@@ -176,8 +151,7 @@ export default connect(state=>({
     loading: state[moduleName].loading,
     firstLoad: state[moduleName].firstLoad,
     infoMsg: state[moduleName].infoMsg,
-    expanded: state[moduleName].sprav1ExpandedRows,
-    expandedCol: state[moduleName].sprav1ExpandedCol,
+    sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
     stances: state[moduleName].entities
-}), { selectSprav1ExpandedCol, selectSprav1ExpandedRow})(Sprav1Table)
+}), { selectSprav1Cell})(Sprav1Table)
 
