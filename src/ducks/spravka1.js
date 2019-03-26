@@ -1,15 +1,16 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
-import {appName,apiConfig} from '../config'
-import {getCurrentDateTime, getFindVagonTipFromCol} from './utils'
+import {appName} from '../config'
+import { getFindVagonTipFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import stanc2 from '../services/stanc'
+import {fetchGruzSprav1, fetchFindVagons} from './api'
 
 
 /************************************************************************
  * Constants
  * */
 export const moduleName = 'spravka1'
+export const rusName = 'Дислокация вагонов'
 const prefix = `${appName}/${moduleName}`
 
 export const FETCH_SPRAVKA1_REQUEST = `${prefix}/FETCH_SPRAVKA1_REQUEST`
@@ -116,9 +117,9 @@ export const selectedStationSelector = createSelector(selectedStationTipSelector
 })
 export const selectedStationAndTipSelector = createSelector( selectedStationSelector,selectedStationTipSelector, (rows, station) => {
     if (rows.length>0) {
-        let selectedStationWithTipAndPlace = getFindVagonTipFromCol(station)
-        selectedStationWithTipAndPlace.stan=rows[0].KODS
-        selectedStationWithTipAndPlace.stanName=rows[0].NAME
+        let selectedStationWithTipAndPlace = getFindVagonTipFromCol(station);
+        selectedStationWithTipAndPlace.stan=rows[0].KODS;
+        selectedStationWithTipAndPlace.stanName=rows[0].NAME;
         return selectedStationWithTipAndPlace
     } else {
         return null
@@ -159,42 +160,24 @@ export const fetchAllSaga = function * () {
     while (true){
         yield take(FETCH_SPRAVKA1_REQUEST)
         const state= yield select(stateSelector)
-        try {
-            const response = yield call(fetch, apiConfig.apiGruzUrl+"gruzSprav1");
-
-            if (response.status===200) {
-                const data = yield call([response, response.json])
-                if (state.firstLoad && data ) {
+            const res = yield call(fetchGruzSprav1);
+            if (res.fetchOK) {
+                if (state.firstLoad ) {
                     yield put({
                         type: SELECT_SPRAVKA1_FIRSTLOAD
                     })
                 }
                 yield put({
                     type: FETCH_SPRAVKA1_SUCCESS,
-                    payload: {data: data.addata, msg: `Данные успешно обновлены ${getCurrentDateTime()}`}
+                    payload: {data: res.data, msg: res.msg}
                 })
 
-            } else {
-                 yield put({
+            }else {
+                yield put({
                     type: FETCH_SPRAVKA1_ERROR,
-                    payload: {msg: `Ошибка получения данных с сервера` }
+                    payload: {msg: res.msg }
                 })
             }
-
-                //     yield put({
-                //         type: SELECT_SPRAVKA1_FIRSTLOAD
-                //     })
-                //
-                // yield put({
-                //     type: FETCH_SPRAVKA1_SUCCESS,
-                //     payload: {data: stanc2, msg: `Данные успешно обновлены ${getCurrentDateTime()}`}
-                // })
-
-        } catch (e) {
-            console.log('error:',e);
-            return null; // good to return something here
-        }
-
     }
 }
 
@@ -256,25 +239,19 @@ export const fetchFindVagonsSaga = function * () {
                 type: EMPTY_FIND_VAGONS
             })
           }else {
-            try {
-                const response = yield call(fetch, apiConfig.apiGruzUrl + `gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`);
-                if (response.status === 200) {
-                    const data = yield call([response, response.json])
+                const res = yield call(fetchFindVagons, row);
+                if (res.fetchOK) {
                     yield put({
                         type: FETCH_FIND_VAGONS_SUCCESS,
-                        payload: {data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`}
+                        payload: {data: res.data, msg: res.msg}
                     })
-                } else {
+
+                }else {
                     yield put({
                         type: FETCH_FIND_VAGONS_ERROR,
-                        payload: {msg: `Ошибка получения данных с сервера`}
+                        payload: {msg:  res.msg}
                     })
                 }
-
-            } catch (e) {
-                console.log('error:', e);
-                return null; // good to return something here
-            }
         }
     }
 }

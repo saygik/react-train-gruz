@@ -1,58 +1,51 @@
-.bd-table {
-    margin: 1.5rem;
-}
-.grid-top-header {
-    font-size: 0.9rem;
-    font-weight: bold;
-
-}
-.grid-header-font {
-    font-size: 0.7rem;
-}
-.grid-font {
-    font-size: 0.9rem;
-}
-.grid-cell-pad {
+.sprav1-grid-cell {
     padding: 4px !important;
 }
-.grid-cell {
-    padding: 4px !important;
-}
-.grid-cell-selected {
-    background: #fd0d09;
-}
-.grid-cell:hover {
+.sprav1-grid-cell:hover {
     font-weight: bold;
     cursor: pointer;
-    background: #034904;
+    background: #828b93;
     font-size: 1.1rem;
     color: #ffffff;;
     padding: 1px !important;
 }
 
-.grid-name-col {
-    font-size: 0.8rem;
-    font-weight: bold;
-}
-.grid-end-col {
-    background: #3ac811;
-}
-.grid-end-group1 {
-    background: #d8d703;
 
+.sprav1-grid-empty-col {
+    background: #ffffff;
 }
-.grid-end-group2 {
-    background: #a8d80d;
+
+.sprav1-header {
+    height: 24px;
 }
-.grid-end-group3 {
-    background: #d8a80b;
+.sprav1-grid-cell-pad {
+    padding: 4px !important;
 }
-.grid-empty-col {
-    background: #f6f6f6;
+.sprav1-grid-name-col {
+    font-size: 0.8rem;
 }
-.rowClass {
-    padding:3px;
+.sprav1-grid-header-font {
+    font-size: 0.7rem;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    color: #040404;
 }
+.sprav1-grid-end-group1 {
+    background: #ced6bb;
+}
+.sprav1-grid-end-group2 {
+    background: #97b08c;
+}
+.sprav1-grid-end-group3 {
+    background: #bfdbb0;
+}
+.sprav1-grid-end {
+    background: #8b937d;
+}
+.sprav1-grid-begin {
+    background: #dce6b0;
+}
+
 
 .find-vagon-container {
     background: #e9f3bc;

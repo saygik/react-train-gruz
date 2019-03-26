@@ -1,16 +1,20 @@
 import React, {Component} from 'react'
 import Root from './components/Root'
-import store from './redux'
+import configureStore, { history } from './redux'
 import {Provider} from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+
+const store = configureStore(/* provide initial state if any */)
+
 
 class App extends Component {
     render() {
-        return (
-            <Provider store={store}>
-                        <Root/>
-            </Provider>
-
-        )
+        return <Provider store={store}>
+            <ConnectedRouter history={history}>
+                <Root/>
+            </ConnectedRouter>
+        </Provider>
     }
 }
 export default App
+

@@ -3,7 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import {connect} from 'react-redux'
 import {moduleName, selectedStationAndTipSelector, sumVesFindVagonsSelector,closeFindVagons} from '../../ducks/spravka1'
 import LittleLoader from "../littleloader"
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 import parse from 'html-react-parser'
