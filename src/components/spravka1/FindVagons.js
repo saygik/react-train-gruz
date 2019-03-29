@@ -3,7 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import {connect} from 'react-redux'
 import {moduleName, selectedStationAndTipSelector, sumVesFindVagonsSelector,closeFindVagons} from '../../ducks/spravka1'
 import LittleLoader from "../littleloader"
-
+import StantionsHeader from "../headers/StantionsHeader"
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 import parse from 'html-react-parser'
@@ -18,9 +18,6 @@ class FindVagons extends Component {
         const {  loading , vagonsOnStance, selectedStation, sumVes, closeFindVagons} = this.props;
 
         const littleLoader= loading ? <LittleLoader/> : null;
-        const topText= `${selectedStation.onStation===1 ? 'На станции' : 'До станции'} <span class="badge badge-secondary">${selectedStation.stanName}</span> `+
-                       `${selectedStation.onStation===1 ? '' : selectedStation.onNod===1 ? 'на ближнем подходе' : 'на дальнем подходе'} `+
-                       `найдено <span class="text-primary">${selectedStation.tipName}</span> вагонов: <span class="badge badge-pill badge-success">${vagonsOnStance.length}</span>`;
 
         const columns = [
             {
@@ -99,7 +96,7 @@ class FindVagons extends Component {
                 <div className="find-vagon-container" >
                     <div  className="row " >
                         <div className="col text-right">
-                            <button type="button" class="close" aria-label="Close" onClick={closeFindVagons}>
+                            <button type="button" className="close" aria-label="Close" onClick={closeFindVagons}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -107,12 +104,13 @@ class FindVagons extends Component {
 
                     <div  className="row find-vagon-header" >
                         <div className="col-11 text-left">
-                            {parse(topText)}
+                            <StantionsHeader stanName={selectedStation.stanName} onStation={selectedStation.onStation+selectedStation.onNod} tipVagons={selectedStation.tipName} numVagons={vagonsOnStance.length} />
                         </div>
                         <div className="col-1 ">
                             {littleLoader}
                         </div>
                     </div>
+
                     <div  className="row " >
                         <div className="col col-md-12 text-left">
                             {parse(sumVes===0 ? `Суммарный вес не определен` : `Суммарный вес: <span class="badge badge-pill badge-success">${sumVes}</span> т.`)}

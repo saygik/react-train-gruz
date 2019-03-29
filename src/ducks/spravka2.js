@@ -3,30 +3,30 @@ import {appName} from '../config'
 import { getFindVagonTipFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav1, fetchFindVagons} from '../services/api'
+import {fetchGruzSprav2, fetchFindVagons} from '../services/api'
 
 
 /************************************************************************
  * Constants
  * */
-export const moduleName = 'spravka1'
-export const rusName = 'Дислокация вагонов'
+export const moduleName = 'spravka2'
+export const rusName = 'Погрузка, выгрузка и поступление вагонов с местным грузом'
 const prefix = `${appName}/${moduleName}`
 
-export const FETCH_SPRAVKA1_REQUEST = `${prefix}/FETCH_SPRAVKA1_REQUEST`
-export const FETCH_SPRAVKA1_SUCCESS = `${prefix}/FETCH_SPRAVKA1_SUCCESS`
-export const FETCH_SPRAVKA1_ERROR = `${prefix}/FETCH_SPRAVKA1_ERROR`
+export const FETCH_SPRAVKA2_REQUEST = `${prefix}/FETCH_SPRAVKA2_REQUEST`
+export const FETCH_SPRAVKA2_SUCCESS = `${prefix}/FETCH_SPRAVKA2_SUCCESS`
+export const FETCH_SPRAVKA2_ERROR = `${prefix}/FETCH_SPRAVKA2_ERROR`
 
 export const FETCH_FIND_VAGONS_REQUEST = `${prefix}/FETCH_FIND_VAGONS_REQUEST`
 export const FETCH_FIND_VAGONS_SUCCESS = `${prefix}/FETCH_FIND_VAGONS_SUCCESS`
 export const FETCH_FIND_VAGONS_ERROR = `${prefix}/FETCH_FIND_VAGONS_ERROR`
 export const EMPTY_FIND_VAGONS = `${prefix}/EMPTY_FIND_VAGONS`
 
-export const SPRAVKA1_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA1_CELL_CHANGE_REQUEST`
-export const SPRAVKA1_CELL_UNCHECK = `${prefix}/SPRAVKA1_CELL_UNCHECK`
+export const SPRAVKA2_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA2_CELL_CHANGE_REQUEST`
+export const SPRAVKA2_CELL_UNCHECK = `${prefix}/SPRAVKA2_CELL_UNCHECK`
 
-export const SELECT_SPRAVKA1_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA1_FIRSTLOAD`
-export const SELECT_SPRAVKA1_CELL = `${prefix}/SELECT_SPRAVKA1_CELL`
+export const SELECT_SPRAVKA2_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA2_FIRSTLOAD`
+export const SELECT_SPRAVKA2_CELL = `${prefix}/SELECT_SPRAVKA2_CELL`
 
 /*************************************************************************
  * Reducer
@@ -61,28 +61,28 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loadingVagons', false)
 
-        case SELECT_SPRAVKA1_FIRSTLOAD:
+        case SELECT_SPRAVKA2_FIRSTLOAD:
             return state
                 .set('firstLoad', false)
 
-        case SELECT_SPRAVKA1_CELL:
+        case SELECT_SPRAVKA2_CELL:
             return state
                 .set('sprav1SelectedCell', payload.cell)
-        case SPRAVKA1_CELL_UNCHECK:
+        case SPRAVKA2_CELL_UNCHECK:
             return state
                 .set('vagons', [])
                 .set('sprav1SelectedCell', null)
 
-        case FETCH_SPRAVKA1_REQUEST:
+        case FETCH_SPRAVKA2_REQUEST:
             return state
                 .set('loading', true)
                 .set('infoMsg', "Обновление данных...")
-        case FETCH_SPRAVKA1_SUCCESS:
+        case FETCH_SPRAVKA2_SUCCESS:
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
                 .set('entities', payload.data)
-        case FETCH_SPRAVKA1_ERROR:
+        case FETCH_SPRAVKA2_ERROR:
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
@@ -133,19 +133,19 @@ export const selectedStationAndTipSelector = createSelector( selectedStationSele
 
 export const fetchAll=() => {
     return {
-        type: FETCH_SPRAVKA1_REQUEST
+        type: FETCH_SPRAVKA2_REQUEST
     }
 }
 export const selectSprav1Cell=(row)=> {
     return {
-        type: SPRAVKA1_CELL_CHANGE_REQUEST,
+        type: SPRAVKA2_CELL_CHANGE_REQUEST,
         payload: row
     }
 }
 
 export const closeFindVagons=() => {
     return {
-        type: SPRAVKA1_CELL_UNCHECK
+        type: SPRAVKA2_CELL_UNCHECK
     }
 }
 
@@ -158,26 +158,26 @@ export const closeFindVagons=() => {
 export const fetchAllSaga = function * () {
 
     while (true){
-        yield take(FETCH_SPRAVKA1_REQUEST)
+        yield take(FETCH_SPRAVKA2_REQUEST)
         const state= yield select(stateSelector)
-            const res = yield call(fetchGruzSprav1);
-            if (res.fetchOK) {
-                if (state.firstLoad ) {
-                    yield put({
-                        type: SELECT_SPRAVKA1_FIRSTLOAD
-                    })
-                }
+        const res = yield call(fetchGruzSprav2);
+        if (res.fetchOK) {
+            if (state.firstLoad ) {
                 yield put({
-                    type: FETCH_SPRAVKA1_SUCCESS,
-                    payload: {data: res.data, msg: res.msg}
-                })
-
-            }else {
-                yield put({
-                    type: FETCH_SPRAVKA1_ERROR,
-                    payload: {msg: res.msg }
+                    type: SELECT_SPRAVKA2_FIRSTLOAD
                 })
             }
+            yield put({
+                type: FETCH_SPRAVKA2_SUCCESS,
+                payload: {data: res.data, msg: res.msg}
+            })
+
+        }else {
+            yield put({
+                type: FETCH_SPRAVKA2_ERROR,
+                payload: {msg: res.msg }
+            })
+        }
     }
 }
 
@@ -187,43 +187,43 @@ export const cellChange = function * (action) {
 
     try {
         const cellClicked=action.payload
-         if (cellClicked.cell!==0 && cellClicked.stan!=='s001' && cellClicked.stan!=='s002') {
+        if (cellClicked.cell!==0 && cellClicked.stan!=='s001' && cellClicked.stan!=='s002') {
 
-             const row = yield select(selectedStationAndTipSelector)
-             if (row === null) {
-                 yield put({
-                     type: SELECT_SPRAVKA1_CELL,
-                     payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
-                 })
-                 yield put({
-                     type: EMPTY_FIND_VAGONS
-                 })
-                 yield put({
-                     type: FETCH_FIND_VAGONS_REQUEST
-                 })
-             } else {
-                 if (row.col === cellClicked.col && row.id===cellClicked.id) {
-                     yield put({
-                         type: SELECT_SPRAVKA1_CELL,
-                         payload: {cell: null}
-                     })
-                     } else {
-                        yield put({
-                            type: SELECT_SPRAVKA1_CELL,
-                            payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
-                        })
-                     yield put({
-                         type: EMPTY_FIND_VAGONS
-                     })
-                        yield put({
-                            type: FETCH_FIND_VAGONS_REQUEST
-                        })
+            const row = yield select(selectedStationAndTipSelector)
+            if (row === null) {
+                yield put({
+                    type: SELECT_SPRAVKA2_CELL,
+                    payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
+                })
+                yield put({
+                    type: EMPTY_FIND_VAGONS
+                })
+                yield put({
+                    type: FETCH_FIND_VAGONS_REQUEST
+                })
+            } else {
+                if (row.col === cellClicked.col && row.id===cellClicked.id) {
+                    yield put({
+                        type: SELECT_SPRAVKA2_CELL,
+                        payload: {cell: null}
+                    })
+                } else {
+                    yield put({
+                        type: SELECT_SPRAVKA2_CELL,
+                        payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
+                    })
+                    yield put({
+                        type: EMPTY_FIND_VAGONS
+                    })
+                    yield put({
+                        type: FETCH_FIND_VAGONS_REQUEST
+                    })
 
-                 }
+                }
 
-                 }
+            }
 
-         }
+        }
     } catch (_) {
 
     }
@@ -238,20 +238,20 @@ export const fetchFindVagonsSaga = function * () {
             yield put({
                 type: EMPTY_FIND_VAGONS
             })
-          }else {
-                const res = yield call(fetchFindVagons, row);
-                if (res.fetchOK) {
-                    yield put({
-                        type: FETCH_FIND_VAGONS_SUCCESS,
-                        payload: {data: res.data, msg: res.msg}
-                    })
+        }else {
+            const res = yield call(fetchFindVagons, row);
+            if (res.fetchOK) {
+                yield put({
+                    type: FETCH_FIND_VAGONS_SUCCESS,
+                    payload: {data: res.data, msg: res.msg}
+                })
 
-                }else {
-                    yield put({
-                        type: FETCH_FIND_VAGONS_ERROR,
-                        payload: {msg:  res.msg}
-                    })
-                }
+            }else {
+                yield put({
+                    type: FETCH_FIND_VAGONS_ERROR,
+                    payload: {msg:  res.msg}
+                })
+            }
         }
     }
 }
@@ -261,6 +261,6 @@ export function* saga() {
     yield all([
         fetchAllSaga(),
         fetchFindVagonsSaga(),
-        takeEvery(SPRAVKA1_CELL_CHANGE_REQUEST,cellChange)
+        takeEvery(SPRAVKA2_CELL_CHANGE_REQUEST,cellChange)
     ])
 }

@@ -4,6 +4,7 @@ import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
 import WagonApproach from './wagonapproach'
 import Spravka1 from './spravka1'
+import Spravka2 from './spravka2'
 import Home from './home'
 import Logo from '../img/train.png'
 import "./root.css"
@@ -14,7 +15,7 @@ class Root extends Component {
         return (
             <div>
                 <Navbar fixed="top" bg="light" expand="lg">
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand as={Link} to='/'>
                         <img src={Logo} alt="Logo" />
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -23,6 +24,7 @@ class Root extends Component {
                             <Nav.Link as={Link} to='/'>Домашняя</Nav.Link>
                             <NavDropdown title="Отчеты" id="basic-nav-dropdown">
                                 <NavDropdown.Item as={Link} to={'/disl'}>Дислокация вагонов</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={'/pogrvygr'}>Погрузка, выгрузка и поступление вагонов с местным грузом</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item as={Link} to={'/podhod'}>Подход вагонов</NavDropdown.Item>
                             </NavDropdown>
@@ -31,6 +33,7 @@ class Root extends Component {
                 </Navbar>
                 <Route path="/" exact component={Home} />
                 <Route path="/disl" component={Spravka1}/>
+                <Route path="/pogrvygr" component={Spravka2}/>
                 <Route path="/podhod" component={WagonApproach}/>
 
             </div>

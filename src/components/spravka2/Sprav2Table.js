@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux'
+import  './spravka2.css'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import {moduleName, selectSprav1Cell} from '../../ducks/spravka1'
-import FindVagons from './FindVagons'
+import {moduleName, selectSprav1Cell} from '../../ducks/spravka2'
+//import FindVagons from './FindVagons'
 
-class Sprav1Table extends Component {
+class Sprav2Table extends Component {
 
     render() {
         const { stances, selectSprav1Cell, sprav1SelectedCell} = this.props;
@@ -87,7 +88,7 @@ class Sprav1Table extends Component {
 
         const expandRow = {
             renderer: row => (
-                    <FindVagons/>
+                <div>пока пусто</div>
             ),
             onlyOneExpanding: true,
             expandByColumnOnly: true,
@@ -123,30 +124,30 @@ class Sprav1Table extends Component {
             });
         }
         return (
-                <Row className="p-0 sprav1-header d-inline">
-                    <Col >
-                        <div>
-                            <Row>
-                                <Col md={3}>
-                                </Col>
-                                <Col md={3} >
-                                    на станциях назначения
-                                </Col>
-                                <Col md={3} >
-                                    на подходах к станции
-                                </Col>
-                                <Col md={3} >
-                                    на дальнем подходе
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col >
-                                    <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}   condensed expandRow={ expandRow } rowStyle={ rowStyle2 } />
-                                </Col>
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
+            <Row className="p-0 sprav1-header d-inline">
+                <Col >
+                    <div>
+                        <Row>
+                            <Col md={3}>
+                            </Col>
+                            <Col md={3} >
+                                погружено вагонов
+                            </Col>
+                            <Col md={3} >
+                                выгружено вагонов
+                            </Col>
+                            <Col md={3} >
+                                поступило на отделение
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col >
+                                <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}   condensed expandRow={ expandRow } rowStyle={ rowStyle2 } />
+                            </Col>
+                        </Row>
+                    </div>
+                </Col>
+            </Row>
         );
     }
 }
@@ -155,5 +156,5 @@ class Sprav1Table extends Component {
 export default connect(state=>({
     sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
     stances: state[moduleName].entities
-}), { selectSprav1Cell})(Sprav1Table)
+}), { selectSprav1Cell})(Sprav2Table)
 

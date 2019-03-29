@@ -1,0 +1,46 @@
+.sprav2-grid-cell {
+    padding: 4px !important;
+}
+.sprav2-grid-cell:hover {
+    font-weight: bold;
+    cursor: pointer;
+    background: #828b93;
+    font-size: 1.1rem;
+    color: #ffffff;;
+    padding: 1px !important;
+}
+.sprav2-grid-empty-col {
+    background: #ffffff;
+}
+.sprav2-header {
+    height: 24px;
+}
+.sprav2-grid-cell-pad {
+    padding: 4px !important;
+}
+.sprav2-grid-name-col {
+    font-size: 0.8rem;
+}
+.sprav2-grid-header-font {
+    font-size: 0.7rem;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    color: #040404;
+}
+.sprav2-grid-end-group1 {
+    background: #ced6bb;
+}
+.sprav2-grid-end-group2 {
+    background: #97b08c;
+}
+.sprav2-grid-end-group3 {
+    background: #bfdbb0;
+}
+.sprav2-grid-end {
+    background: #8b937d;
+}
+.sprav2-grid-begin {
+    background: #dce6b0;
+}
+
+

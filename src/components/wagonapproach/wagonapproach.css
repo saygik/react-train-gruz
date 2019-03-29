@@ -1,0 +1,43 @@
+.table-podhod {
+    background: #dce6b0;
+}
+
+.table-podhod-cell-font-sm {
+    font-size: 0.73rem;
+}
+.table-podhod-cell {
+    padding: 3px 3px 3px 3px  !important;
+    text-align: center;
+    background: #eff8d4;
+}
+.table-podhod-cell-left {
+    padding: 3px 3px 3px 3px  !important;
+    text-align: left;
+    background: #eff8d4;
+}
+
+.table-podhod-header-font {
+    font-size: 1em;
+    font-weight: normal;
+    background: #b7c092;
+
+}
+.table-podhod-header-sm
+{
+    width: 25px;
+}
+.table-podhod-header-sm2
+{
+    width: 45px;
+}
+.table-podhod-header-md
+{
+    width: 70px;
+}
+.table-podhod-header-lg
+{
+    width: 140px;
+}
+.table-podhod-header {
+    height: 20px;
+}
