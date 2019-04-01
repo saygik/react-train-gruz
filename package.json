@@ -13,6 +13,7 @@
     "history": "latest",
     "html-react-parser": "^0.6.3",
     "immutable": "^4.0.0-rc.12",
+    "isomorphic-fetch": "^2.2.1",
     "node-sass": "^4.9.4",
     "prop-types": "^15.6.2",
     "react": "^16.8.5",
@@ -29,6 +30,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.0.2",
+    "regenerator": "^0.13.3",
     "reselect": "^4.0.0"
   },
   "scripts": {
@@ -45,5 +47,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1"
+  }
 }

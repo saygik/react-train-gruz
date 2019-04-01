@@ -1,3 +1,6 @@
+import "@babel/polyfill";
+import "isomorphic-fetch";
+
 import React, {Component} from 'react'
 import Root from './components/Root'
 import configureStore, { history } from './redux'
@@ -17,4 +20,3 @@ class App extends Component {
     }
 }
 export default App
-
