@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import  './spravka2.css'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import {moduleName, selectSprav1Cell} from '../../ducks/spravka2'
 //import FindVagons from './FindVagons'

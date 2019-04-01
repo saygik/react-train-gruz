@@ -1,17 +1,23 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import {moduleName, rusName, fetchStantions} from "../../ducks/wagonapproach"
 import PageTemplate from '../reporttemplate/PageTemplate'
-import WagonApproachUI from './WagonApproachUI'
+import {fetchAll, moduleName, rusName } from '../../ducks/spravka1'
 
-class WagonApproach extends Component {
+import Sprav1Table from "./Sprav1Table"
+
+
+class Spravka1 extends Component {
     componentDidMount() {
-        this.props.fetchStantions()
+        this.props.fetchAll()
         // this.timer = setInterval(() => this.props.fetchAll(), 10000);
     }
+    componentWillUnmount() {
+        // this.timer = null;
+    }
+
     render() {
         const { firstLoad, infoMsg, loading} = this.props
-        const moduleBody= !firstLoad ? <WagonApproachUI/> : null;
+        const moduleBody= !firstLoad ? <Sprav1Table/> : null;
         return (
             <div >
                 <PageTemplate firstLoad={firstLoad} textHeader={rusName} infoMsg={infoMsg} loading={loading} moduleBody={moduleBody} />
@@ -25,4 +31,4 @@ export default connect(state=>({
     firstLoad: state[moduleName].firstLoad,
     infoMsg: state[moduleName].infoMsg,
 
-}), {fetchStantions})(WagonApproach)
+}), {fetchAll})(Spravka1)

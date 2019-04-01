@@ -9,6 +9,7 @@ import Home from './home'
 import Logo from '../img/train.png'
 import "./root.css"
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 
 class Root extends Component {
     render() {

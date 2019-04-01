@@ -8,7 +8,7 @@ import LittleLoader from "../littleloader"
 class ReportTemplate extends Component {
 
     render() {
-        const { textHeader,  infoMsg, loading} = this.props;
+        const { textHeader,  infoMsg, loading, moduleBody} = this.props;
 
         const littleLoader= loading ? <LittleLoader/> : null;
 
@@ -37,7 +37,7 @@ class ReportTemplate extends Component {
                             <Col className='border p-1'>
                                 <Row className='p-0 sprav1-header d-inline'>
                                     <Col className='p-0'>
-                                            {this.props.children}
+                                            {moduleBody}
                                     </Col>
                                 </Row>
 

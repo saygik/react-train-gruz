@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {moduleName, selectedStationAndTipSelector, sumVesFindVagonsSelector,closeFindVagons} from '../../ducks/spravka1'
 import LittleLoader from "../littleloader"
 import StantionsHeader from "../headers/StantionsHeader"
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+
 
 import parse from 'html-react-parser'
 import  './spravka1.css'
