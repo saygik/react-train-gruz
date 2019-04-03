@@ -1,0 +1,56 @@
+.sprav31-grid-cell {
+    padding: 4px !important;
+}
+.sprav31-grid-cell:hover {
+    font-weight: bold;
+    cursor: pointer;
+    background: #828b93;
+    font-size: 1.1rem;
+    color: #ffffff;;
+    padding: 1px !important;
+}
+
+
+.sprav31-grid-empty-col {
+    background: #ffffff;
+}
+
+.sprav31-header {
+    height: 24px;
+}
+.sprav31-grid-cell-pad {
+    padding: 4px !important;
+}
+.sprav31-grid-name-col {
+    font-size: 0.8rem;
+}
+.sprav31-grid-header-font {
+    font-size: 0.8rem;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    color: #313131;
+    white-space: nowrap;
+}
+.sprav31-grid-end-group1 {
+    background: #ced6bb;
+}
+.sprav31-grid-end-group2 {
+    background: #97b08c;
+}
+.sprav31-grid-end-group3 {
+    background: #bfdbb0;
+}
+.sprav31-grid-end {
+    background: #8b937d;
+}
+
+.sprav31-grid-begin {
+    background: #dce6b0;
+}
+.verticalText {
+    writing-mode: vertical-rl;
+    -ms-writing-mode:rl-tb;
+}
+.verticalTextMS {
+    -ms-writing-mode:rl-tb;
+}
