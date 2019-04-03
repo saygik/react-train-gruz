@@ -134,7 +134,7 @@ class Sprav31Table extends Component {
             });
         }
         return (
-            <Row className="p-0 sprav31-header d-inline">
+            <Row className="p-0 sprav31-header d-inline no-gutters">
                 <Col >
                     <div>
                         <Row>
