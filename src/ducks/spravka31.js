@@ -1,10 +1,8 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import { getFindVagonTipFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav31, fetchFindVagons} from '../services/api'
-
+import {fetchGruzSprav31} from '../services/api'
 
 /************************************************************************
  * Constants
@@ -18,20 +16,21 @@ export const FETCH_SPRAVKA31_SUCCESS = `${prefix}/FETCH_SPRAVKA31_SUCCESS`
 export const FETCH_SPRAVKA31_ERROR = `${prefix}/FETCH_SPRAVKA31_ERROR`
 
 
-
+export const SPRAVKA_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA_CELL_CHANGE_REQUEST`
+export const SPRAVKA_CELL_UNCHECK = `${prefix}/SPRAVKA_CELL_UNCHECK`
 export const SELECT_SPRAVKA31_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA31_FIRSTLOAD`
+export const SPRAVKA_CELL_CHECK = `${prefix}/SPRAVKA_CELL_CHECK`
 
 /*************************************************************************
  * Reducer
  * */
 export const ReducerRecord = Record({
     entities: [],
-    vagons: [],
     loading: false,
     loadingVagons: false,
     firstLoad: true,
     infoMsg: '',
-    sprav1SelectedCell: null
+    spravSelectedCell: null
 })
 
 
@@ -43,7 +42,12 @@ export default function reducer(state = new ReducerRecord(), action) {
         case SELECT_SPRAVKA31_FIRSTLOAD:
             return state
                 .set('firstLoad', false)
-
+        case SPRAVKA_CELL_CHECK:
+            return state
+                .set('spravSelectedCell', payload.cell)
+        case SPRAVKA_CELL_UNCHECK:
+            return state
+                .set('spravSelectedCell', null)
         case FETCH_SPRAVKA31_REQUEST:
             return state
                 .set('loading', true)
@@ -67,16 +71,9 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 export const stateSelector = state => state[moduleName];
-export const selectedStationTipSelector = createSelector(stateSelector, state => {
-    return state.sprav1SelectedCell
-})
-
 export const entitiesSelector = createSelector(stateSelector, state=> state.entities)
-export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
-export const sumVesFindVagonsSelector = createSelector(vagonsSelector, (vagons)=> {
-    if (vagons.length>0) {
-        return vagons.reduce((sum,row) => sum + parseInt(row.Ves),0)
-    } else return 0
+export const selectedStationTipSelector = createSelector(stateSelector, state => {
+    return state.spravSelectedCell
 })
 
 export const selectedStationSelector = createSelector(selectedStationTipSelector, entitiesSelector, (station,entities )=> {
@@ -88,9 +85,14 @@ export const selectedStationSelector = createSelector(selectedStationTipSelector
 })
 export const selectedStationAndTipSelector = createSelector( selectedStationSelector,selectedStationTipSelector, (rows, station) => {
     if (rows.length>0) {
-        let selectedStationWithTipAndPlace = getFindVagonTipFromCol(station);
+        const stanpo=station.col.substring(1)
+        let selectedStationWithTipAndPlace = {id: station.id, tip: 0,tipName:'' ,onStation: 0, onNod: 1, col: station.col};
+        if (stanpo===rows[0].KODS) {
+            selectedStationWithTipAndPlace.onStation=1
+        }
         selectedStationWithTipAndPlace.stan=rows[0].KODS;
         selectedStationWithTipAndPlace.stanName=rows[0].NAME;
+        selectedStationWithTipAndPlace.filter={stanPO: stanpo};
         return selectedStationWithTipAndPlace
     } else {
         return null
@@ -108,7 +110,19 @@ export const fetchAll=() => {
     }
 }
 
+export const spravkaCellSelect=(row)=> {
+    return {
+        type: SPRAVKA_CELL_CHANGE_REQUEST,
+        payload: row
+    }
+}
 
+export const closeFindVagons=() => {
+
+    return {
+        type: SPRAVKA_CELL_UNCHECK
+    }
+}
 
 /***********************************************************************
  * Sagas
@@ -141,10 +155,44 @@ export const fetchAllSaga = function * () {
     }
 }
 
+export const cellChange = function * (action) {
 
+    try {
+        const cellClicked=action.payload
+        if (cellClicked.cell!==0 && cellClicked.stan!=='s001' && cellClicked.stan!=='s002' && cellClicked.stan!=='s000') {
+
+            const row = yield select(selectedStationAndTipSelector)
+            if (row === null) {
+                yield put({
+                    type: SPRAVKA_CELL_CHECK,
+                    payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
+                })
+            } else {
+                if (row.col === cellClicked.col && row.id===cellClicked.id) {
+                    yield put({
+                        type: SPRAVKA_CELL_CHECK,
+                        payload: {cell: null}
+                    })
+                } else {
+                    yield put({
+                        type: SPRAVKA_CELL_CHECK,
+                        payload: {cell: {id: cellClicked.id, col: cellClicked.col}}
+                    })
+
+                }
+
+            }
+
+        }
+    } catch (_) {
+
+    }
+}
 
 export function* saga() {
     yield all([
         fetchAllSaga(),
+        takeEvery(SPRAVKA_CELL_CHANGE_REQUEST,cellChange)
+
     ])
 }

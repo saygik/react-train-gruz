@@ -16,7 +16,7 @@ class ReportTemplate extends Component {
             <div >
                 <Row className={'m-3'}>
                     <Col>
-                        <Row className={'border rounded-top report-template-header'}>
+                        <Row className={'border rounded-top report-template-header gruz-bg-header-one'}>
                             <Col>
                                 <Row className="p-0 report-template-header-2">
                                     <Col  className="pt-2 pl-4 pb-0">

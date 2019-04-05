@@ -49,8 +49,36 @@
 }
 .verticalText {
     writing-mode: vertical-rl;
-    -ms-writing-mode:rl-tb;
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: bt-rl;
 }
-.verticalTextMS {
-    -ms-writing-mode:rl-tb;
+.tooltip-top > .tooltip-inner {
+    background-color: #dce6b0;
+    color: #000;
 }
+
+.tooltip-top > .tooltip-arrow {
+    background-color: #dce6b0;
+
+}
+
+/*
+#mapping_table tbody {
+    display:block;
+    height:500px;
+    overflow-y:scroll;
+}
+#mapping_table thead{
+    display:table;
+    width:99.1%;
+    table-layout:fixed;
+}
+#mapping_table tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+*/
+
+
+

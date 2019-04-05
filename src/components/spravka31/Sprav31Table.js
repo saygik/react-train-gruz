@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
-import {moduleName} from '../../ducks/spravka31'
-import parse from 'html-react-parser'
+import {moduleName, spravkaCellSelect, selectedStationAndTipSelector, closeFindVagons} from '../../ducks/spravka31'
+import FindVagons from '../findvagons'
 import  './spravka31.css'
 
 class Sprav31Table extends Component {
 
     render() {
-        const { stances, selectSprav1Cell, sprav1SelectedCell} = this.props;
-
+        const { stances, spravkaCellSelect, spravSelectedCell, selectedStationAndTip, closeFindVagons} = this.props;
 
         const columns = [
             {
@@ -26,9 +25,12 @@ class Sprav31Table extends Component {
             {
                 dataField: 'NAME',
                 text: 'СТАНЦИЯ' ,
-                classes: 'sprav31-grid-cell-pad sprav31-grid-name-col sprav31-grid-end-group1',
+                classes: 'sprav31-grid-cell-pad sprav31-grid-name-col ',
+                style: () => {
+                    return { width: '160px', textAlign: 'center' };
+                },
                 headerClasses: 'sprav31-grid-header-font sprav31-grid-begin',
-                headerStyle: (colum, colIndex) => {
+                headerStyle: () => {
                     return { width: '160px', textAlign: 'center' };
                 }
             }, {
@@ -36,10 +38,13 @@ class Sprav31Table extends Component {
                 text: 'КОД',
                 headerAlign: 'center',
                 headerClasses: 'sprav31-grid-header-font sprav31-grid-begin',
-                headerStyle: (colum, colIndex) => {
+                style: () => {
                     return { width: '50px', textAlign: 'center' };
                 },
-                classes: 'sprav31-grid-cell-pad grid-font sprav31-grid-end-group1',
+                headerStyle: () => {
+                    return { width: '50px', textAlign: 'center' };
+                },
+                classes: 'sprav31-grid-cell-pad grid-font ',
 
             },
             simplyColumn('S1387','СТОЛБЦЫ'),
@@ -100,13 +105,26 @@ class Sprav31Table extends Component {
             return style;
         };
 
-        function countFormatter(cell, row) {
+        function countFormatter(cell, row, rowIndex, formatExtraData) {
             if (cell===0) {
                 return (
                     ''
                 );
             }
-            return (<div style={{ cursor: "pointer"}}>{ cell }</div>);
+            return (
+                <OverlayTrigger
+                    key={`tooltip-${row.ID}-${formatExtraData.column}`}
+                    placement={'top'}
+                    overlay={
+                        <Tooltip id={`tooltip-${row.ID}-${formatExtraData.column}` } className={'tooltip-top'}>
+                            На станции <strong>{formatExtraData.stancName}</strong> до станции <strong>{row.NAME}</strong>
+                        </Tooltip>
+                    }
+                >
+                    <div style={{ cursor: "pointer"}}>{ cell }</div>
+                </OverlayTrigger>
+
+        );
         }
         function stancFormatter(column) {
             return (
@@ -116,7 +134,7 @@ class Sprav31Table extends Component {
             );
         }
         function simplyColumn(name, text) {
-            const headerCaption=`<span class="verticalText">${text}</span>`
+            // const headerCaption=`<span class="verticalText">${text}</span>`
             // console.log('---',parse(headerCaption))
             return ({
                 dataField: name,
@@ -124,25 +142,38 @@ class Sprav31Table extends Component {
                 headerAlign: 'center',
                 align: 'center',
                 formatter: countFormatter,
+                formatExtraData: {column: name, stancName:text},
                 headerFormatter: stancFormatter,
-                headerClasses:'sprav31-grid-header-font verticalTextMS ' + 'sprav31-grid-end-group1',
-                classes: (cell, row, rowIndex, colIndex) => {
+                headerClasses:'sprav31-grid-header-font sprav31-grid-end-group1',
+                classes: (cell) => {
                     if (cell  === 0) return '';
                     return 'sprav31-grid-cell ';
                 },
+                events: {
+                    onClick: (e, column, columnIndex, row) => {
+                        spravkaCellSelect({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME});
 
+                    },
+                }
             });
         }
+
+        const expandRow = {
+            renderer: row => (
+                <FindVagons findCriteria={ selectedStationAndTip} closeExpanded={closeFindVagons}/>
+            ),
+            onlyOneExpanding: true,
+            expandByColumnOnly: true,
+            expanded: spravSelectedCell=== null ? [] : [spravSelectedCell.id]
+        };
         return (
             <Row className="p-0 sprav31-header d-inline">
                 <Col >
-                    <div>
                         <Row>
                             <Col >
-                                <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}   condensed  rowStyle={ rowStyle2 } />
+                                <BootstrapTable id={'mapping_table'} keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}  striped condensed  rowStyle={ rowStyle2 }  expandRow={ expandRow } />
                             </Col>
                         </Row>
-                    </div>
                 </Col>
             </Row>
         );
@@ -151,7 +182,8 @@ class Sprav31Table extends Component {
 
 
 export default connect(state=>({
-    sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
-    stances: state[moduleName].entities
-}), { })(Sprav31Table)
+    spravSelectedCell: state[moduleName].spravSelectedCell,
+    stances: state[moduleName].entities,
+    selectedStationAndTip: selectedStationAndTipSelector(state)
+}), {spravkaCellSelect, closeFindVagons })(Sprav31Table)
 

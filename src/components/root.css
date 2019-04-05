@@ -4,3 +4,39 @@ body { padding-top: 60px; }
         padding-top: 0px;
     }
 }
+
+.gruz-bg-header-one {
+    background: #c5d9c6;
+}
+.gruz-bg-header-two {
+    background: #b7c092;
+}
+
+.gruz-bg-1 {
+    background: #dce6b0;
+}
+.gruz-bg-2 {
+    background: #eff8d4;
+}
+.gruz-bg-3 {
+    background: #b7c092;
+}
+.gruz-bg-4 {
+    background: #e9f3bc;
+}
+
+.gruz-font-normal {
+    font-weight: normal;
+}
+.gruz-font-bold {
+    font-weight: bold;
+}
+.gruz-font-70 {
+    font-size: 0.70rem;
+}
+.gruz-font-70 {
+    font-size: 0.80rem;
+}
+.gruz-font-90 {
+    font-size: 0.90rem;
+}

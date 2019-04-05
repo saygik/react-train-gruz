@@ -5,7 +5,8 @@ import spravka1Reducer, {moduleName as spravka1Module} from '../ducks/spravka1'
 import spravka31Reducer, {moduleName as spravka31Module} from '../ducks/spravka31'
 import spravka2Reducer, {moduleName as spravka2Module} from '../ducks/spravka2'
 import podhodReducer, {moduleName as podhodModule} from '../ducks/wagonapproach'
-
+import findvagonsReducer, {moduleName as findvagonsModule} from '../ducks/findvagons'
+import findvagonhistoryReducer, {moduleName as findvagonhistoryModule} from '../ducks/findvagonhistory'
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -13,4 +14,6 @@ export default (history) => combineReducers({
     [spravka2Module]: spravka2Reducer,
     [spravka31Module]: spravka31Reducer,
     [podhodModule]: podhodReducer,
+    [findvagonsModule]: findvagonsReducer,
+    [findvagonhistoryModule]: findvagonhistoryReducer,
 })

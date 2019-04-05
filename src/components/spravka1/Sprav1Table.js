@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
-import {moduleName, selectSprav1Cell} from '../../ducks/spravka1'
-import FindVagons from './FindVagons'
+import {moduleName, selectSprav1Cell, closeFindVagons, selectedStationAndTipSelector} from '../../ducks/spravka1'
+// import FindVagons from './FindVagons'
+import FindVagons from '../findvagons'
+import './spravka1.css'
 
 class Sprav1Table extends Component {
 
     render() {
-        const { stances, selectSprav1Cell, sprav1SelectedCell} = this.props;
+        const { stances, selectSprav1Cell, selectedStationAndTip,closeFindVagons} = this.props;
 
 
         const columns = [
@@ -42,21 +44,21 @@ class Sprav1Table extends Component {
 
             },
             simplyColumn('COLS','ВСЕГО','sprav1-grid-end-group1',true),
-            simplyColumn('COLS1','КЛ','sprav1-grid-end-group1',false),
+            simplyColumn('COLS1','КР','sprav1-grid-end-group1',false),
             simplyColumn('COLS2','ПЛ','sprav1-grid-end-group1',false),
             simplyColumn('COLS3','ПВ','sprav1-grid-end-group1',false),
             simplyColumn('COLS4','ЦС','sprav1-grid-end-group1',false),
             simplyColumn('COLS5','РЕФ','sprav1-grid-end-group1',false),
             simplyColumn('COLS6','ПР','sprav1-grid-end-group1',false),
             simplyColumn('COLP','ВСЕГО','sprav1-grid-end-group2',true),
-            simplyColumn('COLP1','КЛ','sprav1-grid-end-group2',false),
+            simplyColumn('COLP1','КР','sprav1-grid-end-group2',false),
             simplyColumn('COLP2','ПЛ','sprav1-grid-end-group2',false),
             simplyColumn('COLP3','ПВ','sprav1-grid-end-group2',false),
             simplyColumn('COLP4','ЦС','sprav1-grid-end-group2',false),
             simplyColumn('COLP5','РЕФ','sprav1-grid-end-group2',false),
             simplyColumn('COLP6','ПР','sprav1-grid-end-group2',false),
             simplyColumn('COLD','ВСЕГО','sprav1-grid-end-group3',true),
-            simplyColumn('COLD1','КЛ','sprav1-grid-end-group3',false),
+            simplyColumn('COLD1','КР','sprav1-grid-end-group3',false),
             simplyColumn('COLD2','ПЛ','sprav1-grid-end-group3',false),
             simplyColumn('COLD3','ПВ','sprav1-grid-end-group3',false),
             simplyColumn('COLD4','ЦС','sprav1-grid-end-group3',false),
@@ -86,11 +88,12 @@ class Sprav1Table extends Component {
 
         const expandRow = {
             renderer: row => (
-                    <FindVagons/>
+                <FindVagons findCriteria={ selectedStationAndTip} closeExpanded={closeFindVagons}/>
+
             ),
             onlyOneExpanding: true,
             expandByColumnOnly: true,
-            expanded: sprav1SelectedCell=== null ? [] : [sprav1SelectedCell.id]
+            expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
         };
         function countFormatter(cell, row) {
             if (cell===0) {
@@ -122,7 +125,7 @@ class Sprav1Table extends Component {
             });
         }
         return (
-                <Row className="p-0 sprav1-header d-inline">
+                <Row className="p-0 sprav1-header ">
                     <Col >
                         <div>
                             <Row>
@@ -138,7 +141,7 @@ class Sprav1Table extends Component {
                                     на дальнем подходе
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row >
                                 <Col >
                                     <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}   condensed expandRow={ expandRow } rowStyle={ rowStyle2 } />
                                 </Col>
@@ -152,7 +155,8 @@ class Sprav1Table extends Component {
 
 
 export default connect(state=>({
-    sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
+    // sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
+    selectedStationAndTip: selectedStationAndTipSelector(state),
     stances: state[moduleName].entities
-}), { selectSprav1Cell})(Sprav1Table)
+}), { selectSprav1Cell, closeFindVagons})(Sprav1Table)
 
