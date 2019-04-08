@@ -167,7 +167,7 @@ class Sprav31Table extends Component {
             expanded: spravSelectedCell=== null ? [] : [spravSelectedCell.id]
         };
         return (
-            <Row className="p-0 sprav31-header d-inline">
+            <Row className="p-0 sprav31-header d-inline no-gutters">
                 <Col >
                         <Row>
                             <Col >
