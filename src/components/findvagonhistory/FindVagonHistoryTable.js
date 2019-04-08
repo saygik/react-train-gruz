@@ -8,35 +8,49 @@ class FindVagonHistoryTable extends Component {
             {
                 dataField: 'Id',
                 text: '#',
-                headerAlign: 'center',
-                classes: 'gruz-font-70',
-                headerClasses: 'gruz-bg-header-two gruz-font-90 gruz-font-normal'
             },
             {
                 dataField: 'Namekodsfrom',
                 text: 'откуда',
-                headerAlign: 'center',
-                classes: 'gruz-font-70',
-                headerClasses: 'gruz-bg-header-two gruz-font-90 gruz-font-normal'
             },
             {
                 dataField: 'Namekods',
                 text: 'откуда',
-                headerAlign: 'center',
-                classes: 'gruz-font-70',
-                headerClasses: 'gruz-bg-header-two gruz-font-90 gruz-font-normal'
+            },
+            {
+                dataField: 'Ind',
+                text: 'индекс',
+            },
+            {
+                dataField: 'Oper',
+                text: 'операция',
+            },
+            {
+                dataField: 'Namekodslast',
+                text: 'станция',
+            },
+            {
+                dataField: 'Datelast',
+                text: 'дата',
+            },
+            {
+                dataField: 'Timelast',
+                text: 'время',
             },
             {
                 dataField: 'Kodgruz',
                 text: 'Груз',
-                headerAlign: 'center',
-                classes: 'gruz-font-70',
-                headerClasses: 'gruz-bg-header-two gruz-font-90 gruz-font-normal'
-
             }];
+        const recolumns=columns.map((elem)=>{
+            const el=elem
+                  el.classes= 'gruz-font-70'
+                  el.headerClasses= 'gruz-bg-header-two gruz-font-90 gruz-font-normal'
+                  el.headerAlign= 'center'
+            return el
+        })
         return (
             <div>
-                <BootstrapTable keyField='Id' data={ historyRecords } classes={'gruz-bg-1'} columns={ columns }   condensed  />
+                <BootstrapTable keyField='Id' data={ historyRecords } classes={'gruz-bg-1'} columns={ recolumns }   condensed  />
             </div>
         )
     }

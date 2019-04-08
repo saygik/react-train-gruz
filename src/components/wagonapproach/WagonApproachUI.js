@@ -9,16 +9,15 @@ class WagonApproachUI extends Component {
     render() {
         return (
             <div>
-                <Row className="justify-content-md-end m-0 p-2" >
-                    <Col md={1}/>
+                <Row className="justify-content-md-center m-0 p-2" >
+                    <Col md={7}>
+                        <SelectStantions/>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center m-0 p-2" >
                     <Col md={7}>
                         <SelectPodhod/>
                     </Col>
-
-                    <Col md={3}>
-                        <SelectStantions/>
-                    </Col>
-                    <Col md={1}/>
                 </Row>
 
                 <Row className="justify-content-md-begin m-2" >

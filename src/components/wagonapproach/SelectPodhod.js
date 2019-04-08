@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import { ButtonGroup, Button } from 'react-bootstrap'
+import { ButtonGroup, Button, Row, Col } from 'react-bootstrap'
 import {moduleName, selectCurrentPodhod, numPodhodsSelector} from "../../ducks/wagonapproach"
 
 
@@ -10,14 +10,18 @@ class SelectPodhod extends Component {
         const {selectedPodhod, numPodhods }= this.props
         return (
             <div>
-                   <ButtonGroup aria-label="Basic example">
-                       <Button className="mr-1 pl-5 pr-5" variant="secondary"
-                                onClick={this.handleSelectPodhodClick.bind(this, 2)}  active={selectedPodhod === 2}><span className={'pr-1'}>на станции</span> <span className={'badge badge-pill badge-light'}>{numPodhods[2]}</span></Button>
-                        <Button className="pl-4 pr-4" variant="secondary"
-                                onClick={this.handleSelectPodhodClick.bind(this, 1)}  active={selectedPodhod === 1}><span className={'pr-1'}>на ближнем подходе</span> <span className={'badge badge-pill badge-light'}>{numPodhods[1]}</span></Button>
-                        <Button className="ml-1 pl-4 pr-4" variant="secondary"
-                                onClick={this.handleSelectPodhodClick.bind(this, 0)}  active={selectedPodhod === 0}><span className={'pr-1'}>на дальнем подходе</span> <span className={'badge badge-pill badge-light'}>{numPodhods[0]}</span></Button>
-                   </ButtonGroup>
+                <Row className="justify-content-md-center m-0 p-2 gruz-button-row" >
+                    <Col md={3} className={`align-bottom gruz-button-col gruz-bg-header-one m-1 text-center  ${selectedPodhod === 2 ? 'gruz-bg-header-two':'' }`} onClick={this.handleSelectPodhodClick.bind(this, 2)}>
+                        <span className={'badge badge-pill badge-light mt-3'}>{numPodhods[2]}</span> <span className={'align-text-bottom d-block text-truncate gruz-font-90'}>на станции</span>
+                    </Col>
+                    <Col md={3}  className={`gruz-button-col gruz-bg-header-one m-1 p-1 text-center  ${selectedPodhod === 1 ? 'gruz-bg-header-two':'' }`} onClick={this.handleSelectPodhodClick.bind(this, 1)}>
+                        <span className={'badge badge-pill badge-light mt-3'}>{numPodhods[1]}</span> <span className={'align-text-bottom d-block text-truncate gruz-font-90'}>на ближнем подходе</span>
+                    </Col>
+                    <Col md={3} className={`gruz-button-col gruz-bg-header-one m-1 p-1 text-center  ${selectedPodhod === 0 ? 'gruz-bg-header-two':'' }`} onClick={this.handleSelectPodhodClick.bind(this, 0)}>
+                        <span className={'badge badge-pill badge-light mt-3'}>{numPodhods[0]}</span><span className={'align-text-bottom d-block text-truncate gruz-font-90'}>на дальнем подходе</span>
+                </Col>
+
+                </Row>
             </div>
         )
     }

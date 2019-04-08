@@ -14,7 +14,7 @@ class ReportTemplate extends Component {
 
         return (
             <div >
-                <Row className={'m-3'}>
+                <Row className={'m-1'}>
                     <Col>
                         <Row className={'border rounded-top report-template-header gruz-bg-header-one'}>
                             <Col>
@@ -34,7 +34,7 @@ class ReportTemplate extends Component {
                             </Col>
                         </Row>
                         <Row >
-                            <Col className='border p-1'>
+                            <Col className='p-1'>
                                 <Row className='p-0 sprav1-header d-inline'>
                                     <Col className='p-0'>
                                             {moduleBody}
