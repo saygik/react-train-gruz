@@ -5,6 +5,7 @@ import SelectStantions from './SelectStantions'
 import PodhodTable from './PodhodTable'
 import PodhodTableHeader from "./PodhodTableHeader"
 
+
 class WagonApproachUI extends Component {
     render() {
         return (
@@ -27,7 +28,7 @@ class WagonApproachUI extends Component {
                 </Row>
                 <Row className="justify-content-md-center m-2" >
                     <Col >
-                        <PodhodTable/>
+                        <PodhodTable columns={this.props.columns}/>
                     </Col>
                 </Row>
 

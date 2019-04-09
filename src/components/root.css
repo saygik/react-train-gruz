@@ -11,6 +11,9 @@ body { padding-top: 3.7rem; }
 .gruz-bg-header-two {
     background: #b7c092;
 }
+.gruz-bg-header-3 {
+    background: #c9e2a7;
+}
 
 .gruz-bg-1 {
     background: #dce6b0;
@@ -41,13 +44,16 @@ body { padding-top: 3.7rem; }
     font-size: 0.90rem;
 }
 .gruz-button-row {
-    height: 80px;
+    height: 3rem;
 }
 .gruz-button-col {
     height: 80px;
 }
+.gruz-header-height {
+     height: 2.4rem;
+ }
 .gruz-button-col:hover {
     cursor: pointer;
     background: #828b93;
-    color: #ffffff;;
+    color: #ffffff;
 }

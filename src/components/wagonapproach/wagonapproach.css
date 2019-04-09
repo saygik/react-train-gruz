@@ -20,7 +20,7 @@
     font-size: 1em;
     font-weight: normal;
     background: #b7c092;
-
+    padding: 3px 1px 3px 1px  !important;
 }
 .table-podhod-header-sm
 {
@@ -40,4 +40,7 @@
 }
 .table-podhod-header {
     height: 20px;
+}
+.podhod-table {
+    min-width: 730px;
 }

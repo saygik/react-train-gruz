@@ -68,6 +68,23 @@ export const fetchFindVagons = async (row) => {
         return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
     }
 };
+export const fetchPogrVygr = async (row) => {
+    try {
+        const response = await fetch(apiConfig.apiGruzUrl + `gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`);
+
+        if (response.status===200) {
+            const data = await response.json();
+            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
+        }
+        else {
+            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
+        }
+    } catch (e) {
+        console.log(e);
+        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
+    }
+};
+
 export const fetchVagonHistory = async (row) => {
     try {
         const response = await fetch(apiConfig.apiGruzUrl + `gruzFindVagonsOneHistory/${row.Kodv}`);
