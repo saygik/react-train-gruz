@@ -2,16 +2,16 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import { fetchFindVagons} from '../services/api'
+import { fetchPogrVygr} from '../services/api'
+import { declOfNum} from './utils'
 
-import stanc from '../services/stanc'
 
 
 /************************************************************************
  * Constants
  * */
-export const moduleName = 'findvagons'
-export const rusName = 'Поиск вагонов'
+export const moduleName = 'pogrvygr'
+export const rusName = 'Погрузка, выгрузка, поступление вагонов'
 const prefix = `${appName}/${moduleName}`
 
 
@@ -105,62 +105,29 @@ export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelect
 })
 
 export const findCriteriaSelector = createSelector(stateSelector, state=> state.findCriteria)
-export const findCriteriaSelectorUI = createSelector(stateSelector, state=> {
- if (state.findCriteria !==null) {
-     return state.findCriteria
- }
+export const findCriteriaSelectorUI = createSelector(stateSelector,vagonsSelector, (state, vagons)=> {
+    const operations={88 : 'Погружено', 89: `Выгружено`, 10: 'Поступило'}
+    const onStations={88 : 'станции', 89: `станции`, 10: 'станцию'}
+
+    if (state.findCriteria !==null) {
+        let criteria=state.findCriteria
+        if (vagons && vagons.length>0) {
+            criteria.caption=`${operations[criteria.oper]} ${vagons.length} <span class="text-primary">${criteria.tipName}</span>  ${declOfNum(vagons.length,['вагон','вагона','вагонов'])} на ${onStations[criteria.oper]} <span class="badge badge-secondary">${criteria.stanName}</span>`
+        } else {
+            criteria.caption=` `
+        }
+        return criteria
+    }
     return {stanName:'', onStation:0, onNod:0, tipName:''}
 })
 
-export const filtredStationPOSelector = createSelector(findCriteriaSelector, (criteria )=> {
-    if (stanc && criteria) {
-        const filterVagons=criteria.filter
-        console.log('------',filterVagons)
-        let filtradStanPO = []
-        if (filterVagons) {
-            filtradStanPO= stanc.filter(row => {
-               return row.Kod==filterVagons.stanPO
-            })
-            console.log('---',)
-            return filtradStanPO.length===1 ? filtradStanPO[0].Name : ''
-        }
-    }
-    return ''
-})
-
-export const filtredVagonsSelector = createSelector(findCriteriaSelector, vagonsSelector, (criteria,vagons )=> {
-    if (vagons !== null && criteria !== null) {
-        const filterVagons=criteria.filter
-        if (filterVagons) {
-            return vagons.filter(row => {
-                let res=true
-                if (filterVagons.stanPO){
-                    res= (row.Kodslast===filterVagons.stanPO)
-                }
-                return res
-            })
-        } else {
-            return vagons
-        }
-
-    } else {
-        return []
-    }
-})
-export const sumVesFindVagonsSelector = createSelector(filtredVagonsSelector, (vagons)=> {
+export const filtredNumeredVagonsSelector = createSelector(vagonsSelector, (vagons )=> {
     if (vagons && vagons.length>0) {
-        return vagons.reduce((sum,row) => sum + parseInt(row.Ves),0)
-    } else return 0
-})
-
-export const filtredNumeredVagonsSelector = createSelector(filtredVagonsSelector, (vagons )=> {
-    if (vagons !== null) {
         return vagons.map((elem, index)=>{
-                const el=elem
-                el.Idd=index+1
-                return el
-            })
-
+            const el=elem
+            el.Idd=index+1
+            return el
+        })
     } else {
         return vagons
     }
@@ -201,16 +168,16 @@ export const criteriaChangeFindVagonsSaga = function * (action) {
     try {
         const newCriteria=action.payload
         const oldCriteria = yield select(findCriteriaSelector)
-            if (newCriteria !== oldCriteria) {
-                yield put({
-                    type: EMPTY_FIND_VAGONS
-                })
-                yield put({
-                    type: DESELECT_ROW_FIND_VAGONS
-                })
-                yield put({
-                    type: FETCH_FIND_VAGONS_REQUEST
-                })
+        if (newCriteria !== oldCriteria) {
+            yield put({
+                type: EMPTY_FIND_VAGONS
+            })
+            yield put({
+                type: DESELECT_ROW_FIND_VAGONS
+            })
+            yield put({
+                type: FETCH_FIND_VAGONS_REQUEST
+            })
 
         }
     } catch (_) {
@@ -230,7 +197,7 @@ export const fetchFindVagonsSaga = function * () {
                 type: EMPTY_FIND_VAGONS
             })
         }else {
-            const res = yield call(fetchFindVagons, criteria);
+            const res = yield call(fetchPogrVygr, criteria);
             if (res.fetchOK) {
                 yield put({
                     type: FETCH_FIND_VAGONS_SUCCESS,
@@ -244,7 +211,7 @@ export const fetchFindVagonsSaga = function * () {
                 })
             }
         }
-        }
+    }
 }
 export const selectRowSaga = function * (action) {
 
@@ -253,17 +220,17 @@ export const selectRowSaga = function * (action) {
         console.log('-rowClicked-',rowClicked)
         const row = yield select(selectedVagonSelector)
         console.log('-row-',row)
-            if (row === null || row.id!==rowClicked.row.id) {
-                yield put({
-                    type: SELECT_ROW_FIND_VAGONS_SUCCESS,
-                    payload: {vagon: {id: rowClicked.row.id}}
-                })
-            } else {
-                yield put({
-                    type: SELECT_ROW_FIND_VAGONS_SUCCESS,
-                    payload: {vagon: null}
-                })
-            }
+        if (row === null || row.id!==rowClicked.row.id) {
+            yield put({
+                type: SELECT_ROW_FIND_VAGONS_SUCCESS,
+                payload: {vagon: {id: rowClicked.row.id}}
+            })
+        } else {
+            yield put({
+                type: SELECT_ROW_FIND_VAGONS_SUCCESS,
+                payload: {vagon: null}
+            })
+        }
     } catch (_) {
 
     }

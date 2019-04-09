@@ -3,7 +3,6 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
 import {moduleName, selectSprav1Cell, closeFindVagons, selectedStationAndTipSelector} from '../../ducks/spravka1'
-// import FindVagons from './FindVagons'
 import FindVagons from '../findvagons'
 import './spravka1.css'
 
@@ -41,7 +40,6 @@ class Sprav1Table extends Component {
                     return { width: '50px', textAlign: 'center' };
                 },
                 classes: 'sprav1-grid-cell-pad grid-font',
-
             },
             simplyColumn('COLS','ВСЕГО','sprav1-grid-end-group1',true),
             simplyColumn('COLS1','КР','sprav1-grid-end-group1',false),
@@ -73,7 +71,7 @@ class Sprav1Table extends Component {
 
 
             }];
-        const rowStyle2 = (row, rowIndex) => {
+        const rowStyle2 = (row) => {
             const style = {};
             if (row.KODS === 's001' || row.KODS === 's002') {
                 style.backgroundColor = '#dce6b0';

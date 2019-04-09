@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col, Badge} from 'react-bootstrap';
 
 class VagonHistoryHeader extends Component {
     render() {
@@ -10,25 +10,24 @@ class VagonHistoryHeader extends Component {
                     <Col >
                         <Row>
                             <Col >
-                                <span className="badge badge-secondary">Вагон:</span> <span className={'gruz-font-90'}>{criteria.Kodv}</span>
+                                <span className={'gruz-font-90'} >Вагон:</span> <Badge variant="success">{criteria.Kodv}</Badge>
                             </Col>
                         </Row>
                         <Row>
                             <Col >
-                                <span className="badge badge-secondary">Грузополучатель:</span> <span className={'gruz-font-80'}>{criteria.Nameklient}</span>
+                                <span className={'gruz-font-90'} >Грузополучатель: {criteria.Nameklient}</span>
                             </Col>
                         </Row>
                         <Row>
                             <Col >
-                                <span className="badge badge-secondary">Груз:</span> <span className={'gruz-font-90'}>{criteria.Namegruz}</span>
+                                <span className={'gruz-font-90'} >Груз: {criteria.Namegruz}</span>
                             </Col>
                         </Row>
                         <Row>
                             <Col >
-                                <span className="badge badge-secondary">Вес:</span> <span className={'gruz-font-90'}>{criteria.Ves}</span>
+                                <span className={'gruz-font-90'}  >Вес: {criteria.Ves}</span>
                             </Col>
                         </Row>
-
                     </Col>
                 </Row>
             </div>

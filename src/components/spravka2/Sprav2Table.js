@@ -3,13 +3,13 @@ import {Row, Col} from 'react-bootstrap';
 import {connect} from 'react-redux'
 import  './spravka2.css'
 import BootstrapTable from 'react-bootstrap-table-next';
-import {moduleName, selectSprav1Cell} from '../../ducks/spravka2'
-//import FindVagons from './FindVagons'
+import {moduleName, selectSprav1Cell, closeFindVagons, selectedStationAndTipSelector} from '../../ducks/spravka2'
+import PogrVygr from '../findvagons/PogrVygr'
 
 class Sprav2Table extends Component {
 
     render() {
-        const { stances, selectSprav1Cell, sprav1SelectedCell} = this.props;
+        const { stances, selectSprav1Cell, sprav1SelectedCell, selectedStationAndTip, closeFindVagons} = this.props;
 
 
         const columns = [
@@ -87,7 +87,7 @@ class Sprav2Table extends Component {
 
         const expandRow = {
             renderer: row => (
-                <div>пока пусто</div>
+                <PogrVygr findCriteria={ selectedStationAndTip} closeExpanded={closeFindVagons}/>
             ),
             onlyOneExpanding: true,
             expandByColumnOnly: true,
@@ -154,6 +154,7 @@ class Sprav2Table extends Component {
 
 export default connect(state=>({
     sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
+    selectedStationAndTip: selectedStationAndTipSelector(state),
     stances: state[moduleName].entities
-}), { selectSprav1Cell})(Sprav2Table)
+}), { selectSprav1Cell, closeFindVagons})(Sprav2Table)
 

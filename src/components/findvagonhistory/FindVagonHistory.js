@@ -1,59 +1,40 @@
 import React, { Component } from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
 import {connect} from 'react-redux'
 import {moduleName, findVagonInHistory, vagonRecordsSelector, findCriteriaSelectorUI} from '../../ducks/findvagonhistory'
-import LittleLoader from "../littleloader"
 import VagonHistoryHeader from "../headers/VagonHistoryHeader"
+import SpravkaHeader from '../headers/SpravkaHeader'
 import FindVagonHistoryTable from './FindVagonHistoryTable'
 import {Row, Col} from 'react-bootstrap';
+import tablesColumns from '../../services/tablesColumns'
+
+const columns =tablesColumns(moduleName)
 
 class FindVagonHistory extends Component {
 
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.findCriteria !== prevProps.findCriteria) {
-    //         console.log('-componentDidUpdate-',this.props.findCriteria)
-    //         this.props.findVagonsByCriteria(this.props.findCriteria)
-    //     }
-    // }
     componentDidMount() {
 
-        console.log('-componentDidMount-',this.props.vagon)
         this.props.findVagonInHistory(this.props.vagon)
-
     }
-    // componentWillUnmount() {
-    //     this.props.findVagonsByCriteria(null)
-    // }
+     componentWillUnmount() {
+         this.props.findVagonInHistory(null)
+     }
 
     render() {
-        const {  loading ,vagonRecords, criteria} = this.props;
+        const {  vagonRecords, criteria} = this.props;
 
-        const littleLoader= loading ? <LittleLoader/> : null;
-
-        console.log('-vagonHistory-',vagonRecords)
         return (
                <Row  className="p-1 m-1 gruz-bg-4">
                    <Col>
-                    <Row >
-                        <Col className="text-right">
-                            <button type="button" className="close" aria-label="Close" onClick={this.handleCloseFindVagons}>
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col >
+                       <SpravkaHeader loading={this.props.loading}  closeExpanded={this.props.closeExpanded} />
+                    <Row className='pt-1'>
+                        <Col  className='p-0'>
                             <VagonHistoryHeader criteria={criteria} />
-                            <FindVagonHistoryTable historyRecords={vagonRecords} />
+                            <FindVagonHistoryTable historyRecords={vagonRecords} columns={columns} />
                         </Col>
                     </Row>
                    </Col>
                </Row>
         );
-    }
-    handleCloseFindVagons=()=>{
-
-        this.props.closeExpanded()
     }
 }
 

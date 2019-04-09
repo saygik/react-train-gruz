@@ -50,7 +50,6 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .set('sprav1SelectedCell', payload.cell)
         case SPRAVKA1_CELL_UNCHECK:
             return state
-                .set('vagons', [])
                 .set('sprav1SelectedCell', null)
 
         case FETCH_SPRAVKA1_REQUEST:
@@ -81,7 +80,6 @@ export const selectedStationTipSelector = createSelector(stateSelector, state =>
 })
 
 export const entitiesSelector = createSelector(stateSelector, state=> state.entities)
-export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
 
 export const selectedStationSelector = createSelector(selectedStationTipSelector, entitiesSelector, (station,entities )=> {
     if (station !== null) {

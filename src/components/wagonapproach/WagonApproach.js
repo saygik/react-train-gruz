@@ -3,6 +3,9 @@ import {connect} from "react-redux"
 import {moduleName, rusName, fetchStantions} from "../../ducks/wagonapproach"
 import PageTemplate from '../reporttemplate/PageTemplate'
 import WagonApproachUI from './WagonApproachUI'
+import tablesColumns from '../../services/tablesColumns'
+
+const columns =tablesColumns(moduleName)
 
 class WagonApproach extends Component {
     componentDidMount() {
@@ -11,7 +14,7 @@ class WagonApproach extends Component {
     }
     render() {
         const { firstLoad, infoMsg, loading} = this.props
-        const moduleBody= !firstLoad ? <WagonApproachUI/> : null;
+        const moduleBody= !firstLoad ? <WagonApproachUI columns={columns}/> : null;
         return (
             <div >
                 <PageTemplate firstLoad={firstLoad} textHeader={rusName} infoMsg={infoMsg} loading={loading} moduleBody={moduleBody} />
