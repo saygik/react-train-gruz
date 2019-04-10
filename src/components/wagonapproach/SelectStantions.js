@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import {moduleName,  selectCurrentStantion, stantionsOptionsSelector } from "../../ducks/wagonapproach"
-import './wagonapproach.css'
+
 
 class SelectStantions extends Component {
     render() {

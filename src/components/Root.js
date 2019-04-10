@@ -15,14 +15,14 @@ class Root extends Component {
     render() {
         return (
             <div>
-                <Navbar fixed="top" bg="light" expand="lg">
+                <Navbar fixed="top" bg="light" collapseOnSelect='true' >
                     <Navbar.Brand as={Link} to='/'>
                         <img src={Logo} alt="Logo" />
+                        Грузовая работа
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link as={Link} to='/'>Домашняя</Nav.Link>
                             <NavDropdown title="Отчеты" id="basic-nav-dropdown">
                                 <NavDropdown.Item as={Link} to={'/disl'}>Дислокация вагонов</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/pogrvygr'}>Погрузка, выгрузка и поступление вагонов с местным грузом</NavDropdown.Item>

@@ -146,7 +146,7 @@ const tablesColumns= {
         },
         {
             dataField: 'Namegruz',
-            text: 'Груз',
+            text: 'груз',
         },
 
     ],

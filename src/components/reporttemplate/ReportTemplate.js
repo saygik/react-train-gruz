@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import './ReportTemplate.css'
-
 import { Row, Col} from 'react-bootstrap';
 import LittleLoader from "../littleloader"
 
@@ -14,25 +12,22 @@ class ReportTemplate extends Component {
 
         return (
             <div >
-                <Row className={'m-1'}>
+                <Row className={'ml-0 mr-0 '}>
                     <Col>
-                        <Row className={'border rounded-top report-template-header gruz-bg-header-one'}>
-                            <Col>
-                                <Row className="p-0 report-template-header-2">
+                        <Row className={'border gruz-bg-header-one m-0'}>
                                     <Col  className="pt-2 pl-4 pb-0">
-                                        <span className="report-template-header-font">{textHeader}</span>
+                                        <span className="gruz-font-110">{textHeader}</span>
                                     </Col>
                                     <Col  md={1}  className="d-flex flex-row-reverse p-0">
                                         {littleLoader}
                                     </Col>
-                                </Row>
-                                <Row className="p-0">
-                                    <Col  className="text-right pr-2">
-                                        <span  className="font-italic small">{infoMsg}</span>
-                                    </Col>
-                                </Row>
+                        </Row>
+                        <Row className="p-0 m-0">
+                            <Col  className="text-right pr-2">
+                                <span  className="font-italic gruz-font-70">{infoMsg}</span>
                             </Col>
                         </Row>
+
                         <Row >
                             <Col className='p-1'>
                                 <Row className='p-0 sprav1-header d-inline'>

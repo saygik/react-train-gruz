@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
-import {connect} from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next';
-import {moduleName, selectSprav1Cell, closeFindVagons, selectedStationAndTipSelector} from '../../ducks/spravka1'
 import FindVagons from '../findvagons'
 import './spravka1.css'
 
@@ -93,40 +91,33 @@ class Sprav1Table extends Component {
             expandByColumnOnly: true,
             expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
         };
-        function countFormatter(cell, row) {
-            if (cell===0) {
-                return (
-                    ''
-                );
-            }
-            return (<div style={{ cursor: "pointer"}}>{ cell }</div>);
-        }
         function simplyColumn(name, text, headerClass, isGroupSum) {
             return ({
                 dataField: name,
                 text: text,
                 headerAlign: 'center',
                 align: 'center',
-                formatter: countFormatter,
+                formatter: (cell)=> {
+                    if (cell===0) {return ''}
+                    return (<div style={{ cursor: "pointer"}}>{ cell }</div>)
+                },
                 headerClasses:'sprav1-grid-header-font ' + headerClass,
-                classes: (cell, row, rowIndex, colIndex) => {
+                classes: (cell ) => {
                     if (cell  === 0) return isGroupSum ? headerClass : '';
                     return 'sprav1-grid-cell ' +( isGroupSum ? headerClass : '');
                 },
                 events: {
-                    onClick: (e, column, columnIndex, row, rowIndex) => {
+                    onClick: (e, column, columnIndex, row) => {
                         selectSprav1Cell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME});
-
                     },
                 }
-
             });
         }
         return (
                 <Row className="p-0 sprav1-header ">
                     <Col >
                         <div>
-                            <Row>
+                            <Row id='spravka1-header' >
                                 <Col md={3}>
                                 </Col>
                                 <Col md={3} >
@@ -141,7 +132,7 @@ class Sprav1Table extends Component {
                             </Row>
                             <Row >
                                 <Col >
-                                    <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'sprav1-grid-cell-pad'}   condensed expandRow={ expandRow } rowStyle={ rowStyle2 } />
+                                    <BootstrapTable keyField='ID' data={ stances } columns={ columns } classes={'table-responsive-xl text-nowrap'}   condensed expandRow={ expandRow } rowStyle={ rowStyle2 } />
                                 </Col>
                             </Row>
                         </div>
@@ -152,9 +143,5 @@ class Sprav1Table extends Component {
 }
 
 
-export default connect(state=>({
-    // sprav1SelectedCell: state[moduleName].sprav1SelectedCell,
-    selectedStationAndTip: selectedStationAndTipSelector(state),
-    stances: state[moduleName].entities
-}), { selectSprav1Cell, closeFindVagons})(Sprav1Table)
+export default Sprav1Table
 

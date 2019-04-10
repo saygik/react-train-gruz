@@ -9,7 +9,7 @@ export function getCurrentDateTime() {
     return date + '.' + month + '.' + year + ' ' + hours + ':' + min + ':' + sec
 }
 export function getFindVagonTipFromCol(cell) {
-    let tipVagons=['всех','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
+    let tipVagons=['','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
     let tip= cell.col.length<5 ? 0 : parseInt(cell.col.charAt(4))
     tip = (tip!==tip) ? 0 : tip
 

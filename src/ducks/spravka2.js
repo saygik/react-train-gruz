@@ -3,7 +3,7 @@ import {appName} from '../config'
 import { getPogrVygrTipOperFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav2, fetchFindVagons} from '../services/api'
+import {fetchGruzSprav2} from '../services/api'
 
 
 /************************************************************************

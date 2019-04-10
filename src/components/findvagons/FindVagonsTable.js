@@ -25,7 +25,7 @@ class FindVagonsTable extends Component {
 
         return (
             <div>
-                <BootstrapTable keyField='Id' data={ vagonsOnStance } columns={ columns }  classes={'gruz-bg-1 mt-1'}   condensed expandRow={ expandRow } rowEvents={ rowEvents } />
+                <BootstrapTable keyField='Id' data={ vagonsOnStance } columns={ columns }  classes={'table-responsive-xl text-nowrap gruz-bg-1 mt-1'}   condensed expandRow={ expandRow } rowEvents={ rowEvents } />
             </div>
         )
     }

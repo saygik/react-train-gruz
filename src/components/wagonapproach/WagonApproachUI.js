@@ -3,32 +3,28 @@ import {  Row, Col } from 'react-bootstrap'
 import SelectPodhod from './SelectPodhod'
 import SelectStantions from './SelectStantions'
 import PodhodTable from './PodhodTable'
-import PodhodTableHeader from "./PodhodTableHeader"
+
 
 
 class WagonApproachUI extends Component {
     render() {
+        const { selectCurrentPodhod, selectedPodhod, numPodhods, columns} = this.props
         return (
             <div>
+                <Row className="justify-content-md-center m-0 p-0" >
+                    <Col md={7} lg={6}>
+                        <SelectPodhod selectedPodhod={selectedPodhod} numPodhods={numPodhods} selectCurrentPodhod={selectCurrentPodhod}/>
+                    </Col>
+                </Row>
                 <Row className="justify-content-md-center m-0 p-2" >
                     <Col md={7}>
                         <SelectStantions/>
                     </Col>
                 </Row>
-                <Row className="justify-content-md-center m-0 p-2" >
-                    <Col md={7}>
-                        <SelectPodhod/>
-                    </Col>
-                </Row>
 
-                <Row className="justify-content-md-begin m-2" >
-                    <Col className='p-3'>
-                        <PodhodTableHeader />
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center m-2" >
+                <Row className="justify-content-md-center m-0" >
                     <Col >
-                        <PodhodTable columns={this.props.columns}/>
+                        <PodhodTable columns={columns}/>
                     </Col>
                 </Row>
 

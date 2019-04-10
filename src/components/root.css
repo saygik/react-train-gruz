@@ -3,13 +3,16 @@ body { padding-top: 3.7rem; }
     body {
         padding-top: 3.7rem;
     }
+    #spravka1-header {
+        display: none;
+    }
 }
 
 .gruz-bg-header-one {
     background: #c5d9c6;
 }
 .gruz-bg-header-two {
-    background: #b7c092;
+    background: #d8e1b0;
 }
 .gruz-bg-header-3 {
     background: #c9e2a7;
@@ -34,6 +37,9 @@ body { padding-top: 3.7rem; }
 .gruz-font-bold {
     font-weight: bold;
 }
+.gruz-font-60 {
+    font-size: 0.60rem;
+}
 .gruz-font-70 {
     font-size: 0.70rem;
 }
@@ -43,12 +49,13 @@ body { padding-top: 3.7rem; }
 .gruz-font-90 {
     font-size: 0.90rem;
 }
+.gruz-font-110 {
+    font-size: 1.1rem;
+}
 .gruz-button-row {
     height: 3rem;
 }
-.gruz-button-col {
-    height: 80px;
-}
+
 .gruz-header-height {
      height: 2.4rem;
  }
@@ -56,4 +63,16 @@ body { padding-top: 3.7rem; }
     cursor: pointer;
     background: #828b93;
     color: #ffffff;
+}
+.gruz-button {
+    cursor: pointer;
+    color: #5c5c5c;
+}
+
+.gruz-button-selected {
+    cursor: pointer;
+    border-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: #c82333;
+    color: #000000;
 }
