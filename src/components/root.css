@@ -31,6 +31,16 @@ body { padding-top: 3.7rem; }
     background: #e9f3bc;
 }
 
+.gruz-bg-5 {
+    background: #ced6bb;
+}
+.gruz-bg-6 {
+    background: #97b08c;
+}
+.gruz-bg-7 {
+    background: #bfdbb0;
+}
+
 .gruz-font-normal {
     font-weight: normal;
 }
@@ -51,6 +61,9 @@ body { padding-top: 3.7rem; }
 }
 .gruz-font-110 {
     font-size: 1.1rem;
+}
+.gruz-text-ls {
+    letter-spacing: 2px;
 }
 .gruz-button-row {
     height: 3rem;
@@ -75,4 +88,18 @@ body { padding-top: 3.7rem; }
     border-bottom-style: solid;
     border-bottom-color: #c82333;
     color: #000000;
+}
+
+
+.gruz-grid-cell:hover {
+    font-weight: bold;
+    cursor: pointer;
+    background: #828b93;
+    color: #ffffff;;
+}
+
+.gruz-verticalText {
+    writing-mode: vertical-rl;
+    -webkit-writing-mode: vertical-rl;
+    -ms-writing-mode: bt-rl;
 }

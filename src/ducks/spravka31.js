@@ -3,6 +3,7 @@ import {appName} from '../config'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
 import {fetchGruzSprav31} from '../services/api'
+import {actions} from "./spravka1"
 
 /************************************************************************
  * Constants
@@ -196,3 +197,5 @@ export function* saga() {
 
     ])
 }
+
+export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

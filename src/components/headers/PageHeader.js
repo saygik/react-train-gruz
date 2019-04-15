@@ -9,10 +9,10 @@ class PageHeader extends Component {
         return (
             <div>
                 <Row className={'gruz-bg-header-3'} >
-                    <Col className=" p-2 pl-4 gruz-font-110" style={{width: '85%'}}>
+                    <Col className=" p-2 pl-4 gruz-text-ls" style={{width: '85%'}}>
                         <span className={'align-text-bottom d-block text-truncate'}>
                             {this.props.caption}
-                        </span>
+                      </span>
 
                     </Col>
                     <Col className="d-flex flex-row-reverse p-1">

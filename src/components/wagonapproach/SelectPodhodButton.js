@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Badge, Row, Col } from 'react-bootstrap'
+import { Badge,  Col } from 'react-bootstrap'
 
 class SelectPodhodButton extends Component {
     render() {

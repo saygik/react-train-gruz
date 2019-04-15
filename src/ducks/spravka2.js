@@ -4,6 +4,7 @@ import { getPogrVygrTipOperFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
 import {fetchGruzSprav2} from '../services/api'
+import {actions} from "./spravka1"
 
 
 /************************************************************************
@@ -194,3 +195,5 @@ export function* saga() {
         takeEvery(SPRAVKA2_CELL_CHANGE_REQUEST,cellChange)
     ])
 }
+
+export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

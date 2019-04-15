@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
 import WagonApproach from './wagonapproach'
-import Spravka1 from './spravka1'
+import Spravka1 from './spravka1/spravka11'
 import Spravka2 from './spravka2'
 import Spravka31 from './spravka31'
 import Home from './home'
@@ -15,10 +15,10 @@ class Root extends Component {
     render() {
         return (
             <div>
-                <Navbar fixed="top" bg="light" collapseOnSelect='true' >
+                <Navbar fixed="top" bg="light" collapseOnSelect='true'  expand="lg" >
                     <Navbar.Brand as={Link} to='/'>
                         <img src={Logo} alt="Logo" />
-                        Грузовая работа
+                        <span className={'gruz-text-ls'}>Грузовая работа</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">

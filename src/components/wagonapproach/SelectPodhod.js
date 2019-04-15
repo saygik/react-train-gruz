@@ -9,8 +9,8 @@ class SelectPodhod extends Component {
         const podhods= [{id:2, caption:'на станции'},{id:1, caption:'на ближнем'},{id:0, caption:'на дальнем'}]
         return (
             <Row className="justify-content-md-center m-0 p-2 ">
-                {podhods.map((item) => {
-                    return <SelectPodhodButton selected={selectedPodhod === item.id} num={numPodhods[item.id]} text={item.caption}
+                {podhods.map((item, index) => {
+                    return <SelectPodhodButton key={index} selected={selectedPodhod === item.id} num={numPodhods[item.id]} text={item.caption}
                                                selectCurrentPodhod={selectCurrentPodhod} podhodNumber={item.id}/>
 
                 })}

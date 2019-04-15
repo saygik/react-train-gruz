@@ -1,52 +1,56 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import {closeFindVagons,
-        fetchAll,
-        moduleName,
-        rusName,
-        selectedStationAndTipSelector,
-        selectSprav1Cell } from '../../ducks/spravka1'
+// import {moduleName,
+//         rusName,
+//         actions as moduleActions,
+//         selectedStationAndTipSelector,
+//          } from '../../ducks/spravka1'
+import spravka1Duck from  './sprav-duck'
 import Sprav1Table from "./Sprav1Table"
-import PageHeader from '../headers/PageHeader'
-import {Row, Col} from 'react-bootstrap'
-import BigLoader from "../bigloader"
+import ReportTemplate from '../spravkatemplate/ReportTemplate'
+import DataTemplate from '../spravkatemplate/DataTemplate'
+import BigLoaderTemplate from '../spravkatemplate/BigLoaderTemplate'
+import tablesColumns from '../../services/tablesColumns'
 
+const columns =tablesColumns(moduleName)
+const spravDuck = spravka1Duck
 class Spravka1 extends Component {
-    componentDidMount() {
-        this.props.fetchAll()
-        // this.timer = setInterval(() => this.props.fetchAll(), 10000);
-    }
-    componentWillUnmount() {
-        // this.timer = null;
-    }
-
     render() {
-        const { firstLoad, infoMsg, loading, stances, selectedStationAndTip, closeFindVagons, selectSprav1Cell} = this.props
-        const moduleBody =  firstLoad ? <BigLoader/>  :
-            <Row  className='m-1'>
-                <Col>
-                    <PageHeader loading={loading} infoMsg={infoMsg} caption={rusName}/>
-                    <Row className='pt-1'>
-                        <Col  className='p-0'>
-                            {!firstLoad ? <Sprav1Table selectSprav1Cell={selectSprav1Cell} closeFindVagons={closeFindVagons} selectedStationAndTip={selectedStationAndTip} stances={stances}/> : null}
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-
+        const { firstLoad,
+                infoMsg,
+                loading,
+                stances,
+                selectedStationAndTip,
+                closeExpanded,
+                selectCell,
+                fetchAll} = this.props
         return (
             <div>
-            { moduleBody }
+                <DataTemplate fetchAll={fetchAll} >
+                    <BigLoaderTemplate>
+                        <ReportTemplate
+                            firstLoad={firstLoad}
+                            loading={loading}
+                            infoMsg={infoMsg}
+                            caption={rusName} >
+                                <Sprav1Table selectCell={selectCell}
+                                             closeExpanded={closeExpanded}
+                                             selectedStationAndTip={selectedStationAndTip}
+                                             stances={stances}
+                                             columns={columns}
+                                />
+                        </ReportTemplate>
+                    </BigLoaderTemplate>
+                </DataTemplate>
             </div>
         )
     }
 }
 
 export default connect(state=>({
-    loading: state[moduleName].loading,
-    firstLoad: state[moduleName].firstLoad,
-    infoMsg: state[moduleName].infoMsg,
-    selectedStationAndTip: selectedStationAndTipSelector(state),
-    stances: state[moduleName].entities
-
-}), {fetchAll, selectSprav1Cell, closeFindVagons})(Spravka1)
+    loading: state[spravDuck.moduleName].loading,
+    firstLoad: state[spravDuck.moduleName].firstLoad,
+    infoMsg: state[spravDuck.moduleName].infoMsg,
+    selectedStationAndTip: spravDuck.selectedStationAndTipSelector(state),
+    stances: state[spravDuck.moduleName].entities
+}), spravDuck.moduleActions)(Spravka1)

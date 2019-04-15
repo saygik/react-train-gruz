@@ -3,7 +3,7 @@ import {appName} from '../config'
 import { getFindVagonTipFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav1, fetchFindVagons} from '../services/api'
+import {fetchGruzSprav1} from '../services/api'
 
 
 /************************************************************************
@@ -103,25 +103,14 @@ export const selectedStationAndTipSelector = createSelector( selectedStationSele
 /**********************************************************************
  * Action Creators
  * */
-
-export const fetchAll=() => {
-    return {
-        type: FETCH_SPRAVKA1_REQUEST
-    }
+export const actions = {
+    fetchAll: () => ({type: FETCH_SPRAVKA1_REQUEST}),
+    selectCell: (row)=> ({type: SPRAVKA1_CELL_CHANGE_REQUEST, payload: row}),
+    closeExpanded: () => ({type: SPRAVKA1_CELL_UNCHECK})
 }
-export const selectSprav1Cell=(row)=> {
-    return {
-        type: SPRAVKA1_CELL_CHANGE_REQUEST,
-        payload: row
-    }
-}
-
-export const closeFindVagons=() => {
-    return {
-        type: SPRAVKA1_CELL_UNCHECK
-    }
-}
-
+// export const fetchAll=() => ({type: FETCH_SPRAVKA1_REQUEST})
+// export const selectSprav1Cell=(row)=> ({type: SPRAVKA1_CELL_CHANGE_REQUEST, payload: row})
+// export const closeFindVagons=() => ({type: SPRAVKA1_CELL_UNCHECK})
 
 
 /***********************************************************************
@@ -198,3 +187,4 @@ export function* saga() {
         takeEvery(SPRAVKA1_CELL_CHANGE_REQUEST,cellChange)
     ])
 }
+export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

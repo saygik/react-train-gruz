@@ -2,28 +2,13 @@ import {apiConfig} from "../config";
 import {getCurrentDateTime } from '../ducks/utils'
 import stanc from '../services/stanc'
 
+const _apiBase = apiConfig.apiGruzUrl
 
-export const fetchGruzSprav1 = async () => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl+"gruzSprav1");
-
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-            }
-            else {
-            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
-        }
-    } catch (e) {
-        console.log(e);
+const getResource = async (url) => {
+    const response = await fetch(`${_apiBase}${url}`)
+    if (!response.ok) {
         return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-
-export const fetchGruzSprav2 = async () => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl+"gruzSprav2");
-
+    } else {
         if (response.status===200) {
             const data = await response.json();
             return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
@@ -31,103 +16,17 @@ export const fetchGruzSprav2 = async () => {
         else {
             return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
         }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
     }
 };
-export const fetchGruzSprav31 = async () => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl+"gruzSprav31");
+export const fetchGruzSprav1 = async () =>  await getResource(`gruzSprav1`)
+export const fetchGruzSprav2 = async () =>  await getResource(`gruzSprav2`)
+export const fetchGruzSprav31 = async () =>  await getResource(`gruzSprav31`)
 
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-        }
-        else {
-            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
-        }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-export const fetchFindVagons = async (row) => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl + `gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`);
+export const fetchPodhod = async (stantion) =>  await getResource(`gruzPodhod/${stantion}`)
+export const fetchFindVagons = async (row) =>  await getResource(`gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`)
+export const fetchPogrVygr = async (row) =>  await getResource(`gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`)
+export const fetchVagonHistory = async (row) =>  await getResource(`gruzFindVagonsOneHistory/${row.Kodv}`)
 
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-        }
-        else {
-            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
-        }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-export const fetchPogrVygr = async (row) => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl + `gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`);
-
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-        }
-        else {
-            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
-        }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-
-export const fetchVagonHistory = async (row) => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl + `gruzFindVagonsOneHistory/${row.Kodv}`);
-
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-        }
-        else {
-            return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
-        }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-
-export const fetchPodhod = async (stantion) => {
-    try {
-        const response = await fetch(apiConfig.apiGruzUrl + `gruzPodhod/${stantion}`);
-
-        if (response.status===200) {
-            const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-        }
-        else {
-            return {fetchOK: false,data: [], msg: 'По данной станции подходов не обнаружено'};
-        }
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
-
-export const fetchGruzStantions = () => {
-    try {
-
-        return {fetchOK: true,data: stanc, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
-
-    } catch (e) {
-        console.log(e);
-        return {fetchOK: true,data: [], msg: 'Критическая ошибка получения данных с сервера'};
-    }
-};
+export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные успешно обновлены ${getCurrentDateTime()}`})
 
 
