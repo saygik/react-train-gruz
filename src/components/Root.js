@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
-import WagonApproach from './wagonapproach'
+import VagonPodhod from './vagonpodhod'
 import Spravka1 from './spravka1'
 import Spravka2 from './spravka2'
 import Spravka31 from './spravka31'
@@ -15,14 +15,14 @@ class Root extends Component {
     render() {
         return (
             <div>
-                <Navbar fixed="top" bg="light" expand="lg">
+                <Navbar fixed="top" bg="light" collapseOnSelect='true'  expand="lg" >
                     <Navbar.Brand as={Link} to='/'>
                         <img src={Logo} alt="Logo" />
+                        <span className={'gruz-text-ls'}>Грузовая работа</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link as={Link} to='/'>Домашняя</Nav.Link>
                             <NavDropdown title="Отчеты" id="basic-nav-dropdown">
                                 <NavDropdown.Item as={Link} to={'/disl'}>Дислокация вагонов</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/pogrvygr'}>Погрузка, выгрузка и поступление вагонов с местным грузом</NavDropdown.Item>
@@ -37,7 +37,7 @@ class Root extends Component {
                 <Route path="/disl" component={Spravka1}/>
                 <Route path="/pogrvygr" component={Spravka2}/>
                 <Route path="/mesgruz" component={Spravka31}/>
-                <Route path="/podhod" component={WagonApproach}/>
+                <Route path="/podhod" component={VagonPodhod}/>
 
             </div>
         )

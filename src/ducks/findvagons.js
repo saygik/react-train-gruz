@@ -250,9 +250,7 @@ export const selectRowSaga = function * (action) {
 
     try {
         const rowClicked=action.payload
-        console.log('-rowClicked-',rowClicked)
         const row = yield select(selectedVagonSelector)
-        console.log('-row-',row)
             if (row === null || row.id!==rowClicked.row.id) {
                 yield put({
                     type: SELECT_ROW_FIND_VAGONS_SUCCESS,

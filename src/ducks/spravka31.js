@@ -4,6 +4,7 @@ import {Record} from 'immutable'
 import { createSelector } from 'reselect'
 import {fetchGruzSprav31} from '../services/api'
 
+
 /************************************************************************
  * Constants
  * */
@@ -11,14 +12,14 @@ export const moduleName = 'spravka31'
 export const rusName = 'Наличие вагонов с местным грузом'
 const prefix = `${appName}/${moduleName}`
 
-export const FETCH_SPRAVKA31_REQUEST = `${prefix}/FETCH_SPRAVKA31_REQUEST`
-export const FETCH_SPRAVKA31_SUCCESS = `${prefix}/FETCH_SPRAVKA31_SUCCESS`
-export const FETCH_SPRAVKA31_ERROR = `${prefix}/FETCH_SPRAVKA31_ERROR`
+export const FETCH_SPRAVKA_REQUEST = `${prefix}/FETCH_SPRAVKA_REQUEST`
+export const FETCH_SPRAVKA_SUCCESS = `${prefix}/FETCH_SPRAVKA_SUCCESS`
+export const FETCH_SPRAVKA_ERROR = `${prefix}/FETCH_SPRAVKA_ERROR`
 
 
 export const SPRAVKA_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA_CELL_CHANGE_REQUEST`
 export const SPRAVKA_CELL_UNCHECK = `${prefix}/SPRAVKA_CELL_UNCHECK`
-export const SELECT_SPRAVKA31_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA31_FIRSTLOAD`
+export const SELECT_SPRAVKA_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA_FIRSTLOAD`
 export const SPRAVKA_CELL_CHECK = `${prefix}/SPRAVKA_CELL_CHECK`
 
 /*************************************************************************
@@ -39,7 +40,7 @@ export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
 
     switch (type) {
-        case SELECT_SPRAVKA31_FIRSTLOAD:
+        case SELECT_SPRAVKA_FIRSTLOAD:
             return state
                 .set('firstLoad', false)
         case SPRAVKA_CELL_CHECK:
@@ -48,16 +49,16 @@ export default function reducer(state = new ReducerRecord(), action) {
         case SPRAVKA_CELL_UNCHECK:
             return state
                 .set('spravSelectedCell', null)
-        case FETCH_SPRAVKA31_REQUEST:
+        case FETCH_SPRAVKA_REQUEST:
             return state
                 .set('loading', true)
                 .set('infoMsg', "Обновление данных...")
-        case FETCH_SPRAVKA31_SUCCESS:
+        case FETCH_SPRAVKA_SUCCESS:
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
                 .set('entities', payload.data)
-        case FETCH_SPRAVKA31_ERROR:
+        case FETCH_SPRAVKA_ERROR:
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
@@ -104,24 +105,10 @@ export const selectedStationAndTipSelector = createSelector( selectedStationSele
  * Action Creators
  * */
 
-export const fetchAll=() => {
-    return {
-        type: FETCH_SPRAVKA31_REQUEST
-    }
-}
-
-export const spravkaCellSelect=(row)=> {
-    return {
-        type: SPRAVKA_CELL_CHANGE_REQUEST,
-        payload: row
-    }
-}
-
-export const closeFindVagons=() => {
-
-    return {
-        type: SPRAVKA_CELL_UNCHECK
-    }
+export const actions = {
+    fetchAll: () => ({type: FETCH_SPRAVKA_REQUEST}),
+    selectCell: (row)=> ({type: SPRAVKA_CELL_CHANGE_REQUEST, payload: row}),
+    closeExpanded: () => ({type: SPRAVKA_CELL_UNCHECK})
 }
 
 /***********************************************************************
@@ -131,24 +118,24 @@ export const closeFindVagons=() => {
 export const fetchAllSaga = function * () {
 
     while (true){
-        yield take(FETCH_SPRAVKA31_REQUEST)
+        yield take(FETCH_SPRAVKA_REQUEST)
         const state= yield select(stateSelector)
         const res = yield call(fetchGruzSprav31);
 
         if (res.fetchOK) {
             if (state.firstLoad ) {
                 yield put({
-                    type: SELECT_SPRAVKA31_FIRSTLOAD
+                    type: SELECT_SPRAVKA_FIRSTLOAD
                 })
             }
             yield put({
-                type: FETCH_SPRAVKA31_SUCCESS,
+                type: FETCH_SPRAVKA_SUCCESS,
                 payload: {data: res.data, msg: res.msg}
             })
 
         }else {
             yield put({
-                type: FETCH_SPRAVKA31_ERROR,
+                type: FETCH_SPRAVKA_ERROR,
                 payload: {msg: res.msg }
             })
         }
@@ -196,3 +183,5 @@ export function* saga() {
 
     ])
 }
+
+export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

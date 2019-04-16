@@ -3,7 +3,7 @@ import {appName} from '../config'
 import { getFindVagonTipFromCol} from './utils'
 import {Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav1, fetchFindVagons} from '../services/api'
+import {fetchGruzSprav1} from '../services/api'
 
 
 /************************************************************************
@@ -13,14 +13,12 @@ export const moduleName = 'spravka1'
 export const rusName = 'Дислокация вагонов'
 const prefix = `${appName}/${moduleName}`
 
+
 export const FETCH_SPRAVKA1_REQUEST = `${prefix}/FETCH_SPRAVKA1_REQUEST`
 export const FETCH_SPRAVKA1_SUCCESS = `${prefix}/FETCH_SPRAVKA1_SUCCESS`
 export const FETCH_SPRAVKA1_ERROR = `${prefix}/FETCH_SPRAVKA1_ERROR`
-
-
 export const SPRAVKA1_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA1_CELL_CHANGE_REQUEST`
 export const SPRAVKA1_CELL_UNCHECK = `${prefix}/SPRAVKA1_CELL_UNCHECK`
-
 export const SELECT_SPRAVKA1_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA1_FIRSTLOAD`
 export const SELECT_SPRAVKA1_CELL = `${prefix}/SELECT_SPRAVKA1_CELL`
 
@@ -103,26 +101,11 @@ export const selectedStationAndTipSelector = createSelector( selectedStationSele
 /**********************************************************************
  * Action Creators
  * */
-
-export const fetchAll=() => {
-    return {
-        type: FETCH_SPRAVKA1_REQUEST
-    }
+export const actions = {
+    fetchAll: () => ({type: FETCH_SPRAVKA1_REQUEST}),
+    selectCell: (row)=> ({type: SPRAVKA1_CELL_CHANGE_REQUEST, payload: row}),
+    closeExpanded: () => ({type: SPRAVKA1_CELL_UNCHECK})
 }
-export const selectSprav1Cell=(row)=> {
-    return {
-        type: SPRAVKA1_CELL_CHANGE_REQUEST,
-        payload: row
-    }
-}
-
-export const closeFindVagons=() => {
-    return {
-        type: SPRAVKA1_CELL_UNCHECK
-    }
-}
-
-
 
 /***********************************************************************
  * Sagas
@@ -198,3 +181,4 @@ export function* saga() {
         takeEvery(SPRAVKA1_CELL_CHANGE_REQUEST,cellChange)
     ])
 }
+export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

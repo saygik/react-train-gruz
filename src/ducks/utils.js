@@ -1,15 +1,10 @@
-export function getCurrentDateTime() {
-    const date = new Date().getDate(); //Current Date
-    const month = new Date().getMonth() + 1; //Current Month
-    const year = new Date().getFullYear(); //Current Year
-    const hours = new Date().getHours(); //Current Hours
-    const min = new Date().getMinutes(); //Current Minutes
-    const sec = new Date().getSeconds(); //Current Seconds
+import moment from 'moment'
 
-    return date + '.' + month + '.' + year + ' ' + hours + ':' + min + ':' + sec
+export function getCurrentDateTime() {
+    return moment().format("DD.MM.YYYY H:mm:ss")
 }
 export function getFindVagonTipFromCol(cell) {
-    let tipVagons=['всех','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
+    let tipVagons=['','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
     let tip= cell.col.length<5 ? 0 : parseInt(cell.col.charAt(4))
     tip = (tip!==tip) ? 0 : tip
 

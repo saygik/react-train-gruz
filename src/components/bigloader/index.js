@@ -1,3 +1,3 @@
-import BigLoader from './BigLoader';
+import BigLoader from './big-loader';
 
 export default BigLoader;
