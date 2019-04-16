@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PodhodTable from './podhod-table'
 import VagonPodhodSelectors from './vagon-podhod-selectors'
-import { ReportTemplate } from  '../spravkatemplates'
+import { ReportTemplate } from  '../containers'
 
 class VagonPodhodUI extends Component {
     render() {
