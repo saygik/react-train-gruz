@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './saga'
 import { createBrowserHistory } from 'history'
 import createRootReducer from './reducer'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 export const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware()
@@ -18,7 +19,7 @@ export default function configureStore(preloadedState) {
     const store = createStore(
         createRootReducer(history), // root reducer with router state
         preloadedState,
-        compose(
+        composeWithDevTools(
             applyMiddleware(
                 routerMiddleware(history), // for dispatching history actions
                 sagaMiddleware,
