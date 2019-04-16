@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col} from 'react-bootstrap';
-import PageHeader from '../headers/PageHeader'
+import PageHeader from '../headers/page-header'
 
 
 class ReportTemplate extends Component {

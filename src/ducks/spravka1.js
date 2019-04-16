@@ -13,14 +13,12 @@ export const moduleName = 'spravka1'
 export const rusName = 'Дислокация вагонов'
 const prefix = `${appName}/${moduleName}`
 
+
 export const FETCH_SPRAVKA1_REQUEST = `${prefix}/FETCH_SPRAVKA1_REQUEST`
 export const FETCH_SPRAVKA1_SUCCESS = `${prefix}/FETCH_SPRAVKA1_SUCCESS`
 export const FETCH_SPRAVKA1_ERROR = `${prefix}/FETCH_SPRAVKA1_ERROR`
-
-
 export const SPRAVKA1_CELL_CHANGE_REQUEST = `${prefix}/SPRAVKA1_CELL_CHANGE_REQUEST`
 export const SPRAVKA1_CELL_UNCHECK = `${prefix}/SPRAVKA1_CELL_UNCHECK`
-
 export const SELECT_SPRAVKA1_FIRSTLOAD = `${prefix}/SELECT_SPRAVKA1_FIRSTLOAD`
 export const SELECT_SPRAVKA1_CELL = `${prefix}/SELECT_SPRAVKA1_CELL`
 
@@ -108,10 +106,6 @@ export const actions = {
     selectCell: (row)=> ({type: SPRAVKA1_CELL_CHANGE_REQUEST, payload: row}),
     closeExpanded: () => ({type: SPRAVKA1_CELL_UNCHECK})
 }
-// export const fetchAll=() => ({type: FETCH_SPRAVKA1_REQUEST})
-// export const selectSprav1Cell=(row)=> ({type: SPRAVKA1_CELL_CHANGE_REQUEST, payload: row})
-// export const closeFindVagons=() => ({type: SPRAVKA1_CELL_UNCHECK})
-
 
 /***********************************************************************
  * Sagas

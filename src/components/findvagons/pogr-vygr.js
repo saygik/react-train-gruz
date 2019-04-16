@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {moduleName, findVagonsByCriteria, selectVagon, closeFindVagonsHistory ,filtredNumeredVagonsSelector, findCriteriaSelectorUI, selectedVagonSelector} from '../../ducks/pogrvygr'
-import FindVagonsTable from './FindVagonsTable'
+import FindVagonsTable from './find-vagons-table'
 import {Row, Col} from 'react-bootstrap'
-import SpravkaHeader from '../headers/SpravkaHeader'
-import PogrVygrHeader from '../headers/PogrVygrHeader'
+import SpravkaHeader from '../headers/spravka-header'
+import PogrVygrHeader from '../headers/pogr-vygr-header'
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)

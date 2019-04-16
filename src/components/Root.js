@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
-import WagonApproach from './wagonapproach'
-import Spravka1 from './spravka1/spravka11'
+import VagonPodhod from './vagonpodhod'
+import Spravka1 from './spravka1'
 import Spravka2 from './spravka2'
 import Spravka31 from './spravka31'
 import Home from './home'
@@ -37,7 +37,7 @@ class Root extends Component {
                 <Route path="/disl" component={Spravka1}/>
                 <Route path="/pogrvygr" component={Spravka2}/>
                 <Route path="/mesgruz" component={Spravka31}/>
-                <Route path="/podhod" component={WagonApproach}/>
+                <Route path="/podhod" component={VagonPodhod}/>
 
             </div>
         )

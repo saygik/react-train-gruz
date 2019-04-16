@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 export function getCurrentDateTime() {
-    return moment().format("DD.MM.YYYY h:mm:ss")
+    return moment().format("DD.MM.YYYY H:mm:ss")
 }
 export function getFindVagonTipFromCol(cell) {
     let tipVagons=['','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']

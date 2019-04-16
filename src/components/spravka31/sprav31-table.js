@@ -6,20 +6,22 @@ import FindVagons from '../findvagons'
 class Sprav31Table extends Component {
 
     render() {
-        const { stances, spravkaCellSelect, spravSelectedCell, selectedStationAndTip, closeFindVagons, columns} = this.props;
+        const { stances, selectCell, selectedStationAndTip,closeExpanded,columns} = this.props
+
         const tableColumns = columns.map((elem)=> {
             const el = elem
             el.events= {
-                onClick: (e, column, columnIndex, row) => {spravkaCellSelect({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME})},
+                onClick: (e, column, columnIndex, row) => {selectCell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME})},
             }
             return el
         })
         const rowStyle2 = (row) =>  (row.KODS === 's001' || row.KODS === 's002' || row.KODS === 's000') ? {backgroundColor: '#dce6b0'} : {}
         const expandRow = {
-            renderer: () => <FindVagons findCriteria={ selectedStationAndTip} closeExpanded={closeFindVagons}/>,
+            renderer: () => <FindVagons findCriteria={ selectedStationAndTip} closeExpanded={closeExpanded}/>,
             onlyOneExpanding: true,
             expandByColumnOnly: true,
-            expanded: spravSelectedCell=== null ? [] : [spravSelectedCell.id]
+            expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
+
         };
         return (
             <Row className="p-0 sprav31-header d-inline">

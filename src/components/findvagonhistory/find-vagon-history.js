@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {moduleName, findVagonInHistory, vagonRecordsSelector, findCriteriaSelectorUI} from '../../ducks/findvagonhistory'
-import VagonHistoryHeader from "../headers/VagonHistoryHeader"
-import SpravkaHeader from '../headers/SpravkaHeader'
-import FindVagonHistoryTable from './FindVagonHistoryTable'
+import VagonHistoryHeader from "../headers/vagon-history-header"
+import SpravkaHeader from '../headers/spravka-header'
+import FindVagonHistoryTable from './find-vagon-history-table'
 import {Row, Col} from 'react-bootstrap';
 import tablesColumns from '../../services/tablesColumns'
 

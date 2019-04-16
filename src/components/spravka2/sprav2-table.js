@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import PogrVygr from '../findvagons/PogrVygr'
-import Sprav2TableLegend from './Sprav2TableLegend'
+import PogrVygr from '../findvagons/pogr-vygr'
+import Sprav2TableLegend from './sprav2-table-legend'
 class Sprav2Table extends Component {
 
     render() {
-        const { stances, selectSprav1Cell, selectedStationAndTip,closeFindVagons,columns} = this.props
+        const { stances, selectCell, selectedStationAndTip,closeExpanded,columns} = this.props
         const tableColumns = columns.map((elem)=> {
             const el = elem
             el.events= {
-                onClick: (e, column, columnIndex, row) => {selectSprav1Cell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME})},
+                onClick: (e, column, columnIndex, row) => {selectCell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME})},
             }
             return el
         })
         const rowStyle2 = (row) =>  (row.KODS === 's001' || row.KODS === 's002') ? {backgroundColor: '#dce6b0'} : {}
         const expandRow = {
-            renderer: () => <PogrVygr findCriteria={ selectedStationAndTip} closeExpanded={closeFindVagons}/>,
+            renderer: () => <PogrVygr findCriteria={ selectedStationAndTip} closeExpanded={closeExpanded}/>,
             onlyOneExpanding: true,
             expandByColumnOnly: true,
             expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]

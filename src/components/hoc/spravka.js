@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
 import {Sprav1DuckProps, Sprav2DuckProps, Sprav31DuckProps} from  '../../ducks'
-import ReportTemplate from '../spravkatemplate/ReportTemplate'
-import DataTemplate from '../spravkatemplate/DataTemplate'
-import BigLoaderTemplate from '../spravkatemplate/BigLoaderTemplate'
+import { BigLoaderTemplate, DataTemplate, ReportTemplate } from  '../spravkatemplates'
 import ErrorIndicator from '../error-indicator'
 import tablesColumns from '../../services/tablesColumns'
 
@@ -24,13 +22,14 @@ const spravka = (spravkaName) => (SpravTable) =>  {
         }
     }
     const spravDuck = selectDuck(spravkaName)
+
     if (!spravDuck) return ErrorIndicator
     const columns =tablesColumns(spravDuck.moduleName)
+
 
     const sprav= class extends Component {
         render() {
             const { firstLoad,
-                rusName,
                 infoMsg,
                 loading,
                 stances,
@@ -46,7 +45,7 @@ const spravka = (spravkaName) => (SpravTable) =>  {
                                 firstLoad={firstLoad}
                                 loading={loading}
                                 infoMsg={infoMsg}
-                                caption={rusName} >
+                                caption={spravDuck.rusName} >
                                 <SpravTable selectCell={selectCell}
                                              closeExpanded={closeExpanded}
                                              selectedStationAndTip={selectedStationAndTip}

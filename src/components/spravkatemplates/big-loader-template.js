@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import ReportTemplate from './ReportTemplate'
 import BigLoader from "../bigloader"
 
 class BigLoaderTemplate extends Component {

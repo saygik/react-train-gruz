@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import FindVagons from '../findvagons'
-import Sprav1TableLegend from './Sprav1TableLegend'
+import Sprav1TableLegend from './sprav1-table-legend'
 
 
 class Sprav1Table extends Component {

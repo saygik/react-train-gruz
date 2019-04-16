@@ -1,3 +1,3 @@
-import LittleLoader from './LittleLoader';
+import LittleLoader from './little-loader';
 
 export default LittleLoader;

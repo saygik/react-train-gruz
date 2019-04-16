@@ -1,30 +1,27 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import Select from 'react-select'
-import {moduleName,  selectCurrentStantion, stantionsOptionsSelector } from "../../ducks/wagonapproach"
-
+import {Row, Col } from 'react-bootstrap'
 
 class SelectStantions extends Component {
     render() {
         const {stantionsOptions, selectedStantion }= this.props
 
         return (
-            <div>
+                <Row className="justify-content-md-center m-0 p-2" >
+                    <Col md={7}>
                         <Select
                             placeholder={'Выбирайте станцию...'}
                             value={selectedStantion}
                             onChange={this.handleChange}
                             options={stantionsOptions}
                         />
-            </div>
+                    </Col>
+                </Row>
         )
     }
     handleChange = (selectedOption) => {
         this.props.selectCurrentStantion(selectedOption);
     }
 }
-export default connect(state=>({
-    stantionsOptions: stantionsOptionsSelector(state),
-    selectedStantion: state[moduleName].selectedStantion
-}), {selectCurrentStantion})(SelectStantions)
+export default SelectStantions
 

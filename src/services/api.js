@@ -19,12 +19,17 @@ const getResource = async (url) => {
     }
 };
 export const fetchGruzSprav1 = async () =>  await getResource(`gruzSprav1`)
+
 export const fetchGruzSprav2 = async () =>  await getResource(`gruzSprav2`)
+
 export const fetchGruzSprav31 = async () =>  await getResource(`gruzSprav31`)
 
 export const fetchPodhod = async (stantion) =>  await getResource(`gruzPodhod/${stantion}`)
+
 export const fetchFindVagons = async (row) =>  await getResource(`gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`)
+
 export const fetchPogrVygr = async (row) =>  await getResource(`gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`)
+
 export const fetchVagonHistory = async (row) =>  await getResource(`gruzFindVagonsOneHistory/${row.Kodv}`)
 
 export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные успешно обновлены ${getCurrentDateTime()}`})

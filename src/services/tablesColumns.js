@@ -624,133 +624,129 @@ const tablesColumns= {
         },
     ],
 }
+const addFindVagonsClasses = tablesColumnsArray => tablesColumnsArray.map((elem)=>{
+        const el=elem
+        el.classes= 'gruz-font-70 p-1 m-0'
+        el.headerClasses= 'gruz-bg-header-two gruz-font-90 gruz-font-normal m-0 p-0'
+        el.headerAlign= 'center'
+        return el })
+
+const addSpravka1Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>{
+    const el=elem
+    el.align= 'center'
+    if (el.dataField.includes('COL')) {
+        el.formatter= (cell)=> (cell===0 ? '' : <div style={{ cursor: "pointer"}}>{ cell }</div>)
+        el.headerStyle= () => ({ textAlign: 'center' })
+    }
+    if (el.dataField.includes('NAME')) {
+        el.classes= 'p-0 m-0 gruz-font-80'
+        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.headerStyle= () => ({ width: '160px', textAlign: 'center' })
+    }
+    if (el.dataField.includes('KODS')) {
+        el.classes= 'p-0 m-0 gruz-font-80'
+        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.headerStyle= () => ({ width: '50px', textAlign: 'center' })
+    }
+    if (el.dataField.includes('COL')) {
+        el.classes= 'p-0 gruz-bg-4 gruz-font-90'
+        el.headerClasses= 'gruz-bg-4 gruz-font-70 pb-1 pt-2'
+    }
+    switch (el.dataField) {
+        case 'COLS':
+            el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1'
+            el.classes= 'gruz-font-90 p-0 gruz-bg-1 gruz-grid-cell'
+            return el
+        case 'COLP':
+            el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
+            el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-6 gruz-grid-cell'
+            return el
+        case 'COLD':
+            el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
+            el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-7 gruz-grid-cell'
+            return el
+        case 'COLS1':
+        case 'COLS2':
+        case 'COLS3':
+        case 'COLS4':
+        case 'COLS5':
+        case 'COLS6':
+            el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1 pt-2'
+            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            return el
+        case 'COLP1':
+        case 'COLP2':
+        case 'COLP3':
+        case 'COLP4':
+        case 'COLP5':
+        case 'COLP6':
+            el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
+            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            return el
+        case 'COLD1':
+        case 'COLD2':
+        case 'COLD3':
+        case 'COLD4':
+        case 'COLD5':
+        case 'COLD6':
+            el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
+            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            return el
+        default:
+            return el
+    }
+    })
+
+const addSpravka31Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>{
+    const el=elem
+    el.headerAlign= 'center'
+    if (el.dataField.includes('NAME')) {
+        el.classes= 'p-0 pl-2 m-0 gruz-font-80'
+        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.headerStyle= () => ({ width: '160px' })
+        return el
+    }
+    if (el.dataField.includes('KODS')) {
+        el.classes= 'p-0 m-0 gruz-font-80'
+        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.headerStyle= () => ({ width: '50px', textAlign: 'center' })
+        el.align= 'center'
+        return el
+    }
+    el.align= 'center'
+    el.headerFormatter = (column) => <span className="gruz-verticalText">{ column.text } </span>
+    el.headerClasses= 'gruz-font-70 gruz-bg-4  p-0 pt-2 m-0 text-nowrap align-top text-center gruz-text-ls'
+    el.formatExtraData= {column: el.dataField, stancName: el.text}
+    el.formatter= (cell, row, rowIndex, formatExtraData)=> (cell===0 ? '' :
+            <OverlayTrigger
+                key={`tooltip-${row.ID}-${formatExtraData.column}`}
+                placement={'top'}
+                overlay={
+                    <Tooltip id={`tooltip-${row.ID}-${formatExtraData.column}` } className={'tooltip-top'}>
+                        <span className={'gruz-font-70'}>На станции <strong>{formatExtraData.stancName}</strong> до станции <strong>{row.NAME}</strong></span>
+                    </Tooltip>
+                }
+            >
+                <div style={{ cursor: "pointer"}}>{ cell }</div>
+            </OverlayTrigger>
+    )
+    el.classes= 'p-0 m-0 gruz-font-80'
+    return el })
+
 
 export default (moduleName)=> {
-    console.log('-TABLE-',moduleName)
-
     switch (moduleName) {
         case 'podhod':
         case 'pogrvygr':
         case 'findvagons':
-            return tablesColumns[moduleName].map((elem)=>{
-                const el=elem
-                el.classes= 'gruz-font-70 p-1 m-0'
-                el.headerClasses= 'gruz-bg-header-two gruz-font-90 gruz-font-normal m-0 p-0'
-                el.headerAlign= 'center'
-                return el
-            })
+            return addFindVagonsClasses(tablesColumns[moduleName])
         case 'spravka31':
-            return tablesColumns[moduleName].map((elem)=>{
-                const el=elem
-                el.headerAlign= 'center'
-                if (el.dataField.includes('NAME')) {
-                    el.classes= 'p-0 pl-2 m-0 gruz-font-80'
-                    el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
-                    el.headerStyle= () => ({ width: '160px' })
-                    return el
-                }
-                if (el.dataField.includes('KODS')) {
-                    el.classes= 'p-0 m-0 gruz-font-80'
-                    el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
-                    el.headerStyle= () => ({ width: '50px', textAlign: 'center' })
-                    el.align= 'center'
-                    return el
-                }
-                el.align= 'center'
-                el.headerFormatter = (column) => <span className="gruz-verticalText">{ column.text } </span>
-                el.headerClasses= 'gruz-font-70 gruz-bg-4  p-0 pt-2 m-0 text-nowrap align-top text-center gruz-text-ls'
-                el.formatExtraData= {column: el.dataField, stancName: el.text}
-                el.formatter= (cell, row, rowIndex, formatExtraData)=> (cell===0 ? '' :
-                        <OverlayTrigger
-                            key={`tooltip-${row.ID}-${formatExtraData.column}`}
-                            placement={'top'}
-                            overlay={
-                                <Tooltip id={`tooltip-${row.ID}-${formatExtraData.column}` } className={'tooltip-top'}>
-                                    <span className={'gruz-font-70'}>На станции <strong>{formatExtraData.stancName}</strong> до станции <strong>{row.NAME}</strong></span>
-                                </Tooltip>
-                            }
-                        >
-                            <div style={{ cursor: "pointer"}}>{ cell }</div>
-                        </OverlayTrigger>
-                )
-                el.classes= 'p-0 m-0 gruz-font-80'
-                return el
-            })
+            return addSpravka31Classes(tablesColumns[moduleName])
         case 'spravka1':
         case 'spravka2':
-            return tablesColumns['spravka1'].map((elem)=>{
-                const el=elem
-                el.align= 'center'
-                if (el.dataField.includes('COL')) {
-                    el.formatter= (cell)=> (cell===0 ? '' : <div style={{ cursor: "pointer"}}>{ cell }</div>)
-                    el.headerStyle= () => ({ textAlign: 'center' })
-                }
-                if (el.dataField.includes('NAME')) {
-                    el.classes= 'p-0 m-0 gruz-font-80'
-                    el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
-                    el.headerStyle= () => ({ width: '160px', textAlign: 'center' })
-                }
-                if (el.dataField.includes('KODS')) {
-                    el.classes= 'p-0 m-0 gruz-font-80'
-                    el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
-                    el.headerStyle= () => ({ width: '50px', textAlign: 'center' })
-                }
-                if (el.dataField.includes('COL')) {
-                    el.classes= 'p-0 gruz-bg-4 gruz-font-90'
-                    el.headerClasses= 'gruz-bg-4 gruz-font-70 pb-1 pt-2'
-                }
-                 switch (el.dataField) {
-                     case 'COLS':
-                         el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1'
-                         el.classes= 'gruz-font-90 p-0 gruz-bg-1 gruz-grid-cell'
-                         return el
-                     case 'COLP':
-                         el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
-                         el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-6 gruz-grid-cell'
-                         return el
-                     case 'COLD':
-                         el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
-                         el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-7 gruz-grid-cell'
-                         return el
-                     case 'COLS1':
-                     case 'COLS2':
-                     case 'COLS3':
-                     case 'COLS4':
-                     case 'COLS5':
-                     case 'COLS6':
-                         el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1 pt-2'
-                         el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
-                         return el
-                     case 'COLP1':
-                     case 'COLP2':
-                     case 'COLP3':
-                     case 'COLP4':
-                     case 'COLP5':
-                     case 'COLP6':
-                         el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
-                         el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
-                         return el
-                     case 'COLD1':
-                     case 'COLD2':
-                     case 'COLD3':
-                     case 'COLD4':
-                     case 'COLD5':
-                     case 'COLD6':
-                         el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
-                         el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
-                         return el
-
-                   }
-                return el
-            })
+            return addSpravka1Classes(tablesColumns['spravka1'])
         case 'findvagonhistory':
-            return tablesColumns[moduleName].map((elem)=>{
-                const el=elem
-                el.classes= 'gruz-font-70 p-1 m-0'
-                el.headerClasses= 'gruz-bg-header-two gruz-font-90 gruz-font-normal m-0 p-0'
-                el.headerAlign= 'center'
-                return el
-            })
+            return addFindVagonsClasses(tablesColumns[moduleName])
         default:
             return tablesColumns[moduleName]
     }

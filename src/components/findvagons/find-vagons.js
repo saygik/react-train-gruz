@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {moduleName, findVagonsByCriteria, selectVagon, closeFindVagonsHistory ,filtredNumeredVagonsSelector, findCriteriaSelectorUI, sumVesFindVagonsSelector, filtredStationPOSelector, selectedVagonSelector} from '../../ducks/findvagons'
-import StantionsHeader from "../headers/StantionsHeader"
-import FindVagonsTable from './FindVagonsTable'
+import StantionsHeader from "../headers/stantions-header"
+import FindVagonsTable from './find-vagons-table'
 import parse from 'html-react-parser'
 import {Row, Col} from 'react-bootstrap'
-import SpravkaHeader from '../headers/SpravkaHeader'
+import SpravkaHeader from '../headers/spravka-header'
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)

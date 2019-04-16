@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import {Component} from 'react'
 
 class DataTemplate extends Component {
     componentDidMount() {
@@ -8,10 +8,8 @@ class DataTemplate extends Component {
     componentWillUnmount() {
         // this.timer = null;
     }
-
     render() {
         return this.props.children
             }
 }
-
 export default DataTemplate
