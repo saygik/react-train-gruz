@@ -30,7 +30,7 @@ class PodhodTable extends Component {
                                 data={ stantionsPodhod }
                                 classes={'table-responsive-xl text-nowrap'}
                                 columns={ columns }
-                                condensed e
+                                condensed 
                                 expandRow={ expandRow }
                                 rowEvents={ rowEvents } />
                 : null
