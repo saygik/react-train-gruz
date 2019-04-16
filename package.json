@@ -50,6 +50,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-plugin-transform-async-to-generator": "^6.24.1"
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "redux-devtools-extension": "^2.13.8"
   }
 }
