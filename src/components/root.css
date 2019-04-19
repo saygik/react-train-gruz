@@ -1,25 +1,31 @@
-body { padding-top: 3.7rem; }
+body { padding-top: 5.2rem; }
 @media screen and (max-width: 768px) {
     body {
-        padding-top: 3.7rem;
+        padding-top: 5.8rem;
     }
     #spravka1-header {
         display: none;
     }
+}
+#Intro {
+    top: 2.6rem;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
 }
 
 .gruz-bg-header-one {
     background: #c5d9c6;
 }
 .gruz-bg-header-two {
-    background: #d8e1b0;
+    background: #d4d3d2;
 }
 .gruz-bg-header-3 {
-    background: #c9e2a7;
+    background: #f8f9fa;
 }
 
 .gruz-bg-1 {
-    background: #dce6b0;
+    background: #e3e6da;
 }
 .gruz-bg-2 {
     background: #eff8d4;
@@ -28,7 +34,7 @@ body { padding-top: 3.7rem; }
     background: #b7c092;
 }
 .gruz-bg-4 {
-    background: #e9f3bc;
+    background: #f3f3ed;
 }
 
 .gruz-bg-5 {

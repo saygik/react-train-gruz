@@ -112,7 +112,10 @@ export const findCriteriaSelectorUI = createSelector(stateSelector,vagonsSelecto
     if (state.findCriteria !==null) {
         let criteria=state.findCriteria
         if (vagons && vagons.length>0) {
-            criteria.caption=`${operations[criteria.oper]} ${vagons.length} <span class="text-primary">${criteria.tipName}</span>  ${declOfNum(vagons.length,['вагон','вагона','вагонов'])} на ${onStations[criteria.oper]} <span class="badge badge-secondary">${criteria.stanName}</span>`
+            criteria.caption=`${operations[criteria.oper]} ${vagons.length} 
+                               <span class="text-primary">${criteria.tipName}</span>
+                               ${declOfNum(vagons.length,['вагон','вагона','вагонов'])} на ${onStations[criteria.oper]} 
+                                <span class="badge badge-secondary">${criteria.stanName}</span>`
         } else {
             criteria.caption=` `
         }

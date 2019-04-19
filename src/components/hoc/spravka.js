@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux"
-import {Sprav1DuckProps, Sprav2DuckProps, Sprav31DuckProps} from  '../../ducks'
+import {Sprav1DuckProps, Sprav2DuckProps, Sprav31DuckProps} from  '../../ducks/spravka-ducks-props'
 import { BigLoaderTemplate, DataTemplate, ReportTemplate } from  '../containers'
 import ErrorIndicator from '../error-indicator'
 import tablesColumns from '../../services/tablesColumns'

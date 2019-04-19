@@ -25,7 +25,7 @@ class PodhodTable extends Component {
             }
         }
         const table=
-            (stantionsPodhod.length>0)
+            stantionsPodhod.length>0
                 ?  <BootstrapTable keyField='Id'
                                 data={ stantionsPodhod }
                                 classes={'table-responsive-xl text-nowrap'}

@@ -66,29 +66,19 @@ export default function reducer(state = new ReducerRecord(), action) {
 export const stateSelector = state => state[moduleName];
 export const vagonRecordsSelector = createSelector(stateSelector, state=> state.entities)
 export const findCriteriaSelector = createSelector(stateSelector, state=> state.findCriteria)
-export const findCriteriaSelectorUI = createSelector(stateSelector, state=> {
-    if (state.findCriteria !==null) {
-        return state.findCriteria
-    }
-    return {stanName:'', onStation:0, onNod:0, tipName:''}
+export const findVagonCaptionSelector = createSelector(findCriteriaSelector, (findCriteria)=> {
+    return findCriteria
+        ? `<p className="gruz-font-90 p-0 m-0">Вагон № <span class="text-success  font-weight-bold">${findCriteria.Kodv}</span></p>
+           <p className="gruz-font-90 p-0 m-0">Грузополучатель: <span class="text-primary small font-weight-bold">${findCriteria.Nameklient}</span>,
+           Груз: <span class="text-primary small font-weight-bold">${findCriteria.Namegruz}</span>,
+           Вес: <span class="text-primary small font-weight-bold">${findCriteria.Ves}</span></p>`
+        : ' '
 })
-
-
 
 /**********************************************************************
  * Action Creators
  * */
-
-export const findVagonInHistory=(criteria) => {
-    return {
-        type: CRITERIA_CHANGE_FIND_VAGON,
-        payload: {criteria}
-
-    }
-}
-
-
-
+export const findVagonInHistory=(criteria) => ({type: CRITERIA_CHANGE_FIND_VAGON,payload: {criteria}})
 
 /***********************************************************************
  * Sagas

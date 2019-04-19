@@ -2,6 +2,129 @@ import React from 'react'
 import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 
 const tablesColumns= {
+    findpoezdvagons: [
+        {
+            dataField: 'Id',
+            text: '#',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+
+        },
+        {
+            dataField: 'Kodv',
+            text: 'вагон',
+            align: 'center',
+            headerStyle: {
+                width: '60px'
+            }
+
+        },
+        {
+            dataField: 'Namekods',
+            text: 'стан по',
+            headerStyle: {
+                width: '130px'
+            }
+        },
+        {
+            dataField: 'Nameklient',
+            text: 'клиент',
+        },
+        {
+            dataField: 'Ves',
+            text: 'вес',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+        {
+            dataField: 'Namegruz',
+            text: 'груз',
+
+        },
+        {
+            dataField: 'Nametip',
+            text: 'тип',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+
+    ],
+    naturki: [
+        {
+            dataField: 'Idd',
+            text: '#',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+        {
+            dataField: 'Namekodsfrom',
+            text: 'откуда',
+        },
+        {
+            dataField: 'Namekods',
+            text: 'куда',
+        },
+        {
+            dataField: 'Number',
+            text: 'номер',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
+            }
+        },
+        {
+            dataField: 'Ind',
+            text: 'индекс',
+            align: 'center',
+            headerStyle: {
+                width: '90px'
+            }
+        },
+        {
+            dataField: 'Nameoper',
+            text: 'опер',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
+            }
+        },
+        {
+            dataField: 'Datelast',
+            text: 'дата',
+            align: 'center',
+            headerStyle: {
+                width: '70px'
+            }
+        },
+        {
+            dataField: 'Timelast',
+            text: 'время',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
+            }
+        },
+        {
+            dataField: 'Namekodslast',
+            text: 'станция',
+        },
+        {
+            dataField: 'Colvag',
+            text: 'ваг.',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+    ],
     findvagons: [
         {
             dataField: 'Idd',
@@ -736,6 +859,8 @@ const addSpravka31Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=
 
 export default (moduleName)=> {
     switch (moduleName) {
+        case 'findpoezdvagons':
+        case 'naturki':
         case 'podhod':
         case 'pogrvygr':
         case 'findvagons':

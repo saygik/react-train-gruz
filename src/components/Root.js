@@ -5,6 +5,7 @@ import VagonPodhod from './vagonpodhod'
 import Spravka1 from './spravka1'
 import Spravka2 from './spravka2'
 import Spravka31 from './spravka31'
+import Naturki from './naturki'
 import Home from './home'
 import Logo from '../img/train.png'
 import "./root.css"
@@ -15,10 +16,10 @@ class Root extends Component {
     render() {
         return (
             <div>
-                <Navbar fixed="top" bg="light" collapseOnSelect='true'  expand="lg" >
+                <Navbar fixed="top" bg="light" collapseOnSelect='true'  expand="lg" className="p-0 m-0">
                     <Navbar.Brand as={Link} to='/'>
                         <img src={Logo} alt="Logo" />
-                        <span className={'gruz-text-ls'}>Грузовая работа</span>
+                        <span className={'gruz-text-ls gruz-font-110 pl-2'}>Грузовая работа</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -27,6 +28,7 @@ class Root extends Component {
                                 <NavDropdown.Item as={Link} to={'/disl'}>Дислокация вагонов</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/pogrvygr'}>Погрузка, выгрузка и поступление вагонов с местным грузом</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/mesgruz'}>Наличие вагонов с местным грузом</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={'/naturki'}>Натурки мест</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item as={Link} to={'/podhod'}>Подход вагонов</NavDropdown.Item>
                             </NavDropdown>
@@ -38,6 +40,7 @@ class Root extends Component {
                 <Route path="/pogrvygr" component={Spravka2}/>
                 <Route path="/mesgruz" component={Spravka31}/>
                 <Route path="/podhod" component={VagonPodhod}/>
+                <Route path="/naturki" component={Naturki}/>
 
             </div>
         )
