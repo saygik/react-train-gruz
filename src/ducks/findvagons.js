@@ -7,6 +7,7 @@ import { fetchFindVagons} from '../services/api'
 import stanc from '../services/stanc'
 
 
+
 /************************************************************************
  * Constants
  * */
@@ -170,27 +171,11 @@ export const filtredNumeredVagonsSelector = createSelector(filtredVagonsSelector
 /**********************************************************************
  * Action Creators
  * */
+export const actions = {
+    findVagonsByCriteria: (criteria)=> ({type: CRITERIA_CHANGE_FIND_VAGONS, payload: {criteria}}),
+    selectVagon: (row)=> ({type: SELECT_ROW_FIND_VAGONS_REQUEST, payload: {row}}),
+    closeFindVagonsHistory: () => ({type: DESELECT_ROW_FIND_VAGONS})
 
-export const findVagonsByCriteria=(criteria) => {
-    return {
-        type: CRITERIA_CHANGE_FIND_VAGONS,
-        payload: {criteria}
-
-    }
-}
-export const selectVagon=(row) => {
-    return {
-        type: SELECT_ROW_FIND_VAGONS_REQUEST,
-        payload: {row}
-
-    }
-}
-
-export const closeFindVagonsHistory=() => {
-    return {
-        type: DESELECT_ROW_FIND_VAGONS
-
-    }
 }
 
 /***********************************************************************

@@ -7,24 +7,25 @@ class PageHeader extends Component {
          const littleLoader= this.props.loading ? <LittleLoader/> : null;
 
         return (
-            <div>
-                <Row className={'gruz-bg-header-3'} >
-                    <Col className=" p-2 pl-4 gruz-text-ls" style={{width: '85%'}}>
-                        <span className={'align-text-bottom d-block text-truncate'}>
-                            {this.props.caption}
+            <div  id='Intro'  className={'shadow'}>
+                <div className={'pr-2'}>
+                <Row className={'gruz-bg-header-3 '} >
+                    <Col className="pl-5 pt-0 pb-2 gruz-text-ls " style={{width: '67%'}}>
+                        <span className={'align-text-bottom d-block text-truncate '} >
+                            {`>${this.props.caption}`}
                       </span>
-
                     </Col>
                     <Col className="d-flex flex-row-reverse p-1">
-                       {littleLoader}
-                    </Col>
-                </Row>
-                <Row >
-                    <Col  className='text-right pr-2 font-italic gruz-font-70'  style={{color: '#999999'}}>
+                    <span  className='text-right text-nowrap pr-4 pt-2 font-italic gruz-font-70 position-absolute'  style={{color: '#686868'}}>
                         {this.props.infoMsg ? this.props.infoMsg :'Данные отсустсвуют'}
+                    </span>
+                        <span  className='text-right text-nowrap pr-1 pt-2 font-italic gruz-font-70 position-absolute'  style={{color: '#686868'}}>
+                         {littleLoader}
+                    </span>
+
                     </Col>
                 </Row>
-
+                </div>
             </div>
         )
     }

@@ -11,7 +11,7 @@ const getResource = async (url) => {
     } else {
         if (response.status===200) {
             const data = await response.json();
-            return {fetchOK: true,data: data.data, msg: `Данные успешно обновлены ${getCurrentDateTime()}`};
+            return {fetchOK: true,data: data.data, msg: `Данные обновлены в ${getCurrentDateTime()}`};
         }
         else {
             return {fetchOK: false,data: [], msg: 'Ошибка получения данных с сервера'};
@@ -24,6 +24,8 @@ export const fetchGruzSprav2 = async () =>  await getResource(`gruzSprav2`)
 
 export const fetchGruzSprav31 = async () =>  await getResource(`gruzSprav31`)
 
+export const fetchGruzNaturki = async () =>  await getResource(`gruzNaturki`)
+
 export const fetchPodhod = async (stantion) =>  await getResource(`gruzPodhod/${stantion}`)
 
 export const fetchFindVagons = async (row) =>  await getResource(`gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`)
@@ -32,6 +34,8 @@ export const fetchPogrVygr = async (row) =>  await getResource(`gruzFindPogrVygr
 
 export const fetchVagonHistory = async (row) =>  await getResource(`gruzFindVagonsOneHistory/${row.Kodv}`)
 
-export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные успешно обновлены ${getCurrentDateTime()}`})
+export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные обновлены в ${getCurrentDateTime()}`})
+
+export const fetchPoezdVagons = async (row) =>  await getResource(`gruzPoezdVagons/${row.kodp}/${row.fullnatur}`)
 
 

@@ -23,7 +23,7 @@ class Sprav1Table extends Component {
             expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
         }
         return (
-            <div className={'pt-2'}>
+            <div >
                 <Sprav1TableLegend />
                 <div className={'pt-2'}>
                     <BootstrapTable keyField='ID'

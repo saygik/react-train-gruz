@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {moduleName, findVagonsByCriteria, selectVagon, closeFindVagonsHistory ,filtredNumeredVagonsSelector, findCriteriaSelectorUI, sumVesFindVagonsSelector, filtredStationPOSelector, selectedVagonSelector} from '../../ducks/findvagons'
-import StantionsHeader from "../headers/stantions-header"
-import FindVagonsTable from './find-vagons-table'
-import parse from 'html-react-parser'
-import {Row, Col} from 'react-bootstrap'
-import SpravkaHeader from '../headers/spravka-header'
+import {moduleName, actions ,filtredNumeredVagonsSelector, findCriteriaSelectorUI, sumVesFindVagonsSelector, filtredStationPOSelector, selectedVagonSelector} from '../../ducks/findvagons'
+import FindVagonsUI from './find-vagons-ui'
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)
@@ -23,29 +19,12 @@ class FindVagons extends Component {
     componentWillUnmount() {
         this.props.findVagonsByCriteria(null)
     }
-
     render() {
-        const {  vagonsOnStance, criteria, sumVes, stanPOName, selectVagon, selectedVagon,closeFindVagonsHistory } = this.props;
-
-
         return (
-                <Row  className="p-1 m-1 gruz-bg-4">
-                    <Col>
-                        <SpravkaHeader loading={this.props.loading}  closeExpanded={this.props.closeExpanded} />
-                        <Row className='pt-1'>
-                            <Col  className='p-0'>
-                                <StantionsHeader stanName={criteria.stanName} onStation={criteria.onStation+criteria.onNod} stanPOName={stanPOName} tipVagons={criteria.tipName} numVagons={vagonsOnStance.length} />
-                                {parse(sumVes===0 ? `Суммарный вес не определен` : `Суммарный вес: <span class="badge badge-pill badge-success">${sumVes}</span> т.`)}
-                                <FindVagonsTable vagonsOnStance={vagonsOnStance} selectVagon={selectVagon} selectedVagon={selectedVagon} closeFindVagonsHistory={closeFindVagonsHistory} columns={columns} />
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-        );
+                <FindVagonsUI {...this.props} columns={columns} />
+        )
     }
-
 }
-
 
 export default connect(state=>({
     criteria: findCriteriaSelectorUI(state),
@@ -54,5 +33,5 @@ export default connect(state=>({
     selectedVagon: selectedVagonSelector(state),
     loading: state[moduleName].loading,
     vagonsOnStance: filtredNumeredVagonsSelector(state),
-}), {findVagonsByCriteria, selectVagon, closeFindVagonsHistory })(FindVagons)
+}), actions)(FindVagons)
 

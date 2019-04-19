@@ -8,12 +8,12 @@ class SpravkaHeader extends Component {
 
         return (
             <div>
-                <Row className={'gruz-header-height gruz-bg-header-3'} >
-                    <Col className="text-left p-1">
+                <Row className={'gruz-bg-header-2'} >
+                    <Col className="text-left p-0">
                        {littleLoader}
                     </Col>
                     <Col className="text-right">
-                        <button type="button" className="close" aria-label="Close" onClick={this.handleCloseFindVagons}>
+                        <button type="button" className="close" aria-label="Close" onClick={this.props.closeExpanded}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </Col>
@@ -22,10 +22,6 @@ class SpravkaHeader extends Component {
             </div>
         )
     }
-    handleCloseFindVagons=()=>{
-        this.props.closeExpanded()
-    }
-
 }
 
 

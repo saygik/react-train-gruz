@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {moduleName, findVagonInHistory, vagonRecordsSelector, findCriteriaSelectorUI} from '../../ducks/findvagonhistory'
-import VagonHistoryHeader from "../headers/vagon-history-header"
-import SpravkaHeader from '../headers/spravka-header'
+import {moduleName, findVagonInHistory, vagonRecordsSelector, findVagonCaptionSelector} from '../../ducks/findvagonhistory'
+import {SpravkaHeader, SpravkaHeaderCaption} from '../headers'
+
 import FindVagonHistoryTable from './find-vagon-history-table'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap'
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)
@@ -20,7 +20,7 @@ class FindVagonHistory extends Component {
      }
 
     render() {
-        const {  vagonRecords, criteria} = this.props;
+        const {  vagonRecords,  caption} = this.props;
 
         return (
                <Row  className="p-1 m-1 gruz-bg-4">
@@ -28,7 +28,7 @@ class FindVagonHistory extends Component {
                        <SpravkaHeader loading={this.props.loading}  closeExpanded={this.props.closeExpanded} />
                     <Row className='pt-1'>
                         <Col  className='p-0'>
-                            <VagonHistoryHeader criteria={criteria} />
+                            <SpravkaHeaderCaption caption={caption}/>
                             <FindVagonHistoryTable historyRecords={vagonRecords} columns={columns} />
                         </Col>
                     </Row>
@@ -40,8 +40,8 @@ class FindVagonHistory extends Component {
 
 
 export default connect(state=>({
-    criteria: findCriteriaSelectorUI(state),
     vagonRecords: vagonRecordsSelector(state),
+    caption: findVagonCaptionSelector(state),
     loading: state[moduleName].loading,
 }), {findVagonInHistory,  })(FindVagonHistory)
 
