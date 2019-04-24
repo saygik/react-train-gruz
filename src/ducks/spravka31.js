@@ -27,6 +27,7 @@ export const SPRAVKA_CELL_CHECK = `${prefix}/SPRAVKA_CELL_CHECK`
  * */
 export const ReducerRecord = Record({
     entities: [],
+    autoUpdateTime:0,
     loading: false,
     loadingVagons: false,
     firstLoad: true,
@@ -184,4 +185,3 @@ export function* saga() {
     ])
 }
 
-export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

@@ -1,47 +1,31 @@
 import React, {Component} from 'react'
-import {Link, Route} from 'react-router-dom'
-import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
+
 import VagonPodhod from './vagonpodhod'
+import GruzStatistics from './gruz-statistics'
 import Spravka1 from './spravka1'
 import Spravka2 from './spravka2'
 import Spravka31 from './spravka31'
 import Naturki from './naturki'
-import Home from './home'
+import Navbar from './navbar'
 import Logo from '../img/train.png'
+
 import "./root.css"
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
+
 
 class Root extends Component {
     render() {
+        const brand = { name: "Грузовая работа", to: "/", component: GruzStatistics, logo: Logo }
+        const navlinks = [
+            { name: "Дислокация вагонов", to: "/disl", component: Spravka1 },
+            { name: "Погрузка, выгрузка и поступление вагонов с местным грузом", to: "/pogrvygr", component: Spravka2 },
+            { name: "Наличие вагонов с местным грузом", to: "/mesgruz", component: Spravka31 },
+            { name: "Натурки мест", to: "/naturki", component: Naturki },
+            { name: "Подход вагонов", to: "/podhod", component: VagonPodhod },
+        ];
         return (
             <div>
-                <Navbar fixed="top" bg="light" collapseOnSelect='true'  expand="lg" className="p-0 m-0">
-                    <Navbar.Brand as={Link} to='/'>
-                        <img src={Logo} alt="Logo" />
-                        <span className={'gruz-text-ls gruz-font-110 pl-2'}>Грузовая работа</span>
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <NavDropdown title="Отчеты" id="basic-nav-dropdown">
-                                <NavDropdown.Item as={Link} to={'/disl'}>Дислокация вагонов</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/pogrvygr'}>Погрузка, выгрузка и поступление вагонов с местным грузом</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/mesgruz'}>Наличие вагонов с местным грузом</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/naturki'}>Натурки мест</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item as={Link} to={'/podhod'}>Подход вагонов</NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
-                <Route path="/" exact component={Home} />
-                <Route path="/disl" component={Spravka1}/>
-                <Route path="/pogrvygr" component={Spravka2}/>
-                <Route path="/mesgruz" component={Spravka31}/>
-                <Route path="/podhod" component={VagonPodhod}/>
-                <Route path="/naturki" component={Naturki}/>
-
+                <Navbar navlinks={navlinks} brand={brand}  />
             </div>
         )
     }
