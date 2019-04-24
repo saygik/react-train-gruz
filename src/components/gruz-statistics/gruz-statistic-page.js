@@ -6,10 +6,6 @@ import {  push } from 'react-router-redux'
 
 
 class GruzStatisticPage extends Component {
-    handleClick=(e)=>{
-        console.log('---',e.target.name1)
-        // this.props.push('/disl')
-    }
     render() {
         return (
             <div>
