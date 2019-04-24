@@ -8,7 +8,7 @@ class ReportTemplate extends Component {
         const { firstLoad, caption,  infoMsg, loading, children} = this.props;
         return (
             <div >
-                <PageHeader loading={loading} infoMsg={infoMsg} caption={caption}/>
+                <PageHeader loading={loading} infoMsg={infoMsg} caption={caption} />
                 <Row  className='m-1'>
                     <Col>
                         <Row >

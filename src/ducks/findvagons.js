@@ -116,19 +116,14 @@ export const findCriteriaSelectorUI = createSelector(stateSelector, state=> {
 export const filtredStationPOSelector = createSelector(findCriteriaSelector, (criteria )=> {
     if (stanc && criteria) {
         const filterVagons=criteria.filter
-        console.log('------',filterVagons)
         let filtradStanPO = []
         if (filterVagons) {
-            filtradStanPO= stanc.filter(row => {
-               return row.Kod==filterVagons.stanPO
-            })
-            console.log('---',)
+            filtradStanPO= stanc.filter(row => row.Kod===filterVagons.stanPO)
             return filtradStanPO.length===1 ? filtradStanPO[0].Name : ''
         }
     }
     return ''
 })
-
 export const filtredVagonsSelector = createSelector(findCriteriaSelector, vagonsSelector, (criteria,vagons )=> {
     if (vagons !== null && criteria !== null) {
         const filterVagons=criteria.filter

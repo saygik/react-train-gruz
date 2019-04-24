@@ -80,6 +80,7 @@ export default function reducer(state = new ReducerRecord(), action) {
         case FETCH_SPRAVKA_ERROR:
             return state
                 .set('loading', false)
+                .set('firstLoad', false)
                 .set('infoMsg', payload.msg)
 
         default:
@@ -200,6 +201,7 @@ export const fetchAllSaga = function * () {
         yield take(FETCH_SPRAVKA_REQUEST)
         const state= yield select(stateSelector)
         const res = yield call(fetchGruzNaturki);
+
         if (res.fetchOK) {
             if (state.firstLoad ) {
                 yield put({
@@ -217,6 +219,7 @@ export const fetchAllSaga = function * () {
                 payload: {msg: res.msg }
             })
         }
+
     }
 }
 
@@ -224,9 +227,7 @@ export const selectRowSaga = function * (action) {
 
     try {
         const rowClicked=action.payload
-        console.log('-1-',rowClicked)
         const row = yield select(selectedRowIdSelector)
-        console.log('-2-',row)
         if (row === null || row.id!==rowClicked.id) {
             yield put({
                 type: SELECT_ROW_SUCCESS,
@@ -238,8 +239,8 @@ export const selectRowSaga = function * (action) {
                 payload: null
             })
         }
-    } catch (_) {
-
+    } catch (err) {
+        console.log('---',err)
     }
 }
 

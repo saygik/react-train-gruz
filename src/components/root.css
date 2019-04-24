@@ -8,10 +8,22 @@ body { padding-top: 5.2rem; }
     }
 }
 #Intro {
-    top: 2.6rem;
     position: fixed;
     width: 100%;
     z-index: 10;
+}
+.pageHeaderNavBarVisible {
+    top: 2.5rem;
+}
+.pageHeaderNavBarNonVisible {
+    top: 0rem;
+}
+
+.active {
+    visibility: visible;
+}
+.hidden {
+    visibility: hidden;
 }
 
 .gruz-bg-header-one {
@@ -69,7 +81,10 @@ body { padding-top: 5.2rem; }
     font-size: 1.1rem;
 }
 .gruz-text-ls {
-    letter-spacing: 2px;
+    letter-spacing: 0.1rem;
+}
+.gruz-text-ls-sm {
+    letter-spacing: 0.07rem;
 }
 .gruz-button-row {
     height: 3rem;
@@ -108,4 +123,11 @@ body { padding-top: 5.2rem; }
     writing-mode: vertical-rl;
     -webkit-writing-mode: vertical-rl;
     -ms-writing-mode: bt-rl;
+}
+.clip {
+    width:27px;
+    white-space: nowrap; /* Запрещаем перенос строк */
+    overflow: hidden; /* Обрезаем все, что не помещается в область */
+    padding: 0px; /* Поля вокруг текста */
+    text-overflow: clip; /* Добавляем многоточие */
 }

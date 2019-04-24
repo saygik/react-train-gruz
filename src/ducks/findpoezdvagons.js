@@ -133,14 +133,12 @@ export const criteriaChangeFindDataSaga = function * (action) {
             yield put({
                 type: FETCH_DATA_REQUEST
             })
-
         }
     } catch (_) {
 
     }
 
 }
-
 export const fetchFindDataSaga = function * () {
     while (true) {
         yield take(FETCH_DATA_REQUEST)

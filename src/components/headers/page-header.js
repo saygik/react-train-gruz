@@ -1,38 +1,28 @@
 import React, {Component} from 'react'
 import LittleLoader from "../littleloader"
-import {Row, Col} from 'react-bootstrap';
+import {connect} from "react-redux"
+import {showNavbarSelector} from "../../ducks/global"
 
 class PageHeader extends Component {
     render() {
          const littleLoader= this.props.loading ? <LittleLoader/> : null;
-
+         const onTop=this.props.showNavbar
         return (
-            <div  id='Intro'  className={'shadow'}>
+            <div  id='Intro'  className={`gruz-bg-header-3 shadow ${onTop ? 'pageHeaderNavBarVisible' : 'pageHeaderNavBarNonVisible'}`}>
                 <div className={'pr-2'}>
-                <Row className={'gruz-bg-header-3 '} >
-                    <Col className="pl-5 pt-0 pb-2 gruz-text-ls " style={{width: '67%'}}>
-                        <span className={'align-text-bottom d-block text-truncate '} >
+                       <span className={'pl-4 gruz-text-ls align-text-bottom d-block text-truncate pb-0'} >
                             {`>${this.props.caption}`}
                       </span>
-                    </Col>
-                    <Col className="d-flex flex-row-reverse p-1">
-                    <span  className='text-right text-nowrap pr-4 pt-2 font-italic gruz-font-70 position-absolute'  style={{color: '#686868'}}>
+                        <span  className='pl-0 gruz-font-70'  style={{width: '1.3rem',float: 'right', color: '#686868' }}>
+                        {littleLoader}
+                        </span>
+                        <div className=' gruz-text-ls-sm text-right text-nowrap pr-4 font-italic gruz-font-70 pt-0 pb-0'>
                         {this.props.infoMsg ? this.props.infoMsg :'Данные отсустсвуют'}
-                    </span>
-                        <span  className='text-right text-nowrap pr-1 pt-2 font-italic gruz-font-70 position-absolute'  style={{color: '#686868'}}>
-                         {littleLoader}
-                    </span>
-
-                    </Col>
-                </Row>
+                        </div>
                 </div>
             </div>
         )
     }
-    handleCloseFindVagons=()=>{
-        this.props.closeExpanded()
-    }
 
 }
-
-export default PageHeader
+export default connect(state=>({showNavbar: showNavbarSelector(state)}))(PageHeader)

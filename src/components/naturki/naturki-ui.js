@@ -5,7 +5,8 @@ import NaturkiSelectors from "./naturki-selectors"
 
 class NaturkiUI extends Component {
     render() {
-        const { caption,
+        const {
+            caption,
                 firstLoad,
                 infoMsg,
                 loading,
@@ -27,7 +28,6 @@ class NaturkiUI extends Component {
             closeExpanded,
                columns
               } = this.props
-
         return (
                     <PageTemplate
                         fetchAll={fetchAll}

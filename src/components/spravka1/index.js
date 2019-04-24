@@ -1,3 +1,3 @@
-import Spravka1 from './spravka1';
+import Spravka from './spravka';
 
-export default Spravka1;
+export default Spravka;

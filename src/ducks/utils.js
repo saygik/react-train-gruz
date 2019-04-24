@@ -7,6 +7,8 @@ export function getCurrentDateTime() {
 export function getFindVagonTipFromCol(cell) {
     let tipVagons=['','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
     let tip= cell.col.length<5 ? 0 : parseInt(cell.col.charAt(4))
+    /*eslint-disable no-self-compare */
+
     tip = (tip!==tip) ? 0 : tip
 
     let onStation =cell.col.charAt(3)==='S' ? 1:0
@@ -17,6 +19,7 @@ export function getFindVagonTipFromCol(cell) {
 export function getPogrVygrTipOperFromCol(cell) {
     const tipVagons=['','КЛ','ПЛ','ПВ','ЦС','РЕФ','ПР']
     let tip= cell.col.length<5 ? 0 : parseInt(cell.col.charAt(4))
+    /*eslint-disable no-self-compare */
     tip = (tip!==tip) ? 0 : tip
 
     const oper =cell.col.charAt(3)==='S' ? 88:cell.col.charAt(3)==='P'? 89:10

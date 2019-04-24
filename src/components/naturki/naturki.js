@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import NaturkiUi from "./naturki-ui"
 import {connect} from "react-redux"
 import {moduleName, rusName, selectors, actions} from "../../ducks/naturki"
+
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)
@@ -9,7 +10,6 @@ const columns =tablesColumns(moduleName)
 
 class Naturki extends Component {
     render() {
-
         return (
             <NaturkiUi {...this.props} caption={rusName} columns={columns}/>
         )

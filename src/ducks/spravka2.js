@@ -28,6 +28,7 @@ export const SELECT_SPRAVKA_CELL = `${prefix}/SELECT_SPRAVKA_CELL`
  * */
 export const ReducerRecord = Record({
     entities: [],
+    autoUpdateTime:0,
     loading: false,
     firstLoad: true,
     infoMsg: '',
@@ -171,4 +172,3 @@ export function* saga() {
     ])
 }
 
-export const duckProps = {moduleName, rusName, actions , selectedStationAndTipSelector }

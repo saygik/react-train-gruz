@@ -2,9 +2,10 @@ import {Component} from 'react'
 
 class DataTemplate extends Component {
     componentDidMount() {
-        this.props.fetchAll()
-        if (this.props.autoUpdateTime && this.props.autoUpdateTime>0) {
-            this.timer = setInterval(() => this.props.fetchAll(), 60000);
+        const {autoUpdateTime, fetchAll}=this.props
+        fetchAll()
+        if (autoUpdateTime && autoUpdateTime>0) {
+            this.timer = setInterval(() => fetchAll(), autoUpdateTime);
         }
     }
     componentWillUnmount() {

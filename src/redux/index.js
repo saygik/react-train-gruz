@@ -1,4 +1,5 @@
-import { applyMiddleware, compose, createStore } from 'redux'
+// import { compose } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
