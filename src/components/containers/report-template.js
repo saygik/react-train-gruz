@@ -13,7 +13,7 @@ class ReportTemplate extends Component {
                     <Col>
                         <Row >
                             <Col className={'p-0'}>
-                                {!firstLoad ? children : null}
+                                {!firstLoad && children}
                             </Col>
                         </Row>
                     </Col>

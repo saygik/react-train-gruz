@@ -3,7 +3,7 @@ import {getCurrentDateTime } from '../ducks/utils'
 import stanc from '../services/stanc'
 import axios from 'axios'
 
-axios.defaults.timeout = 1000 * 10
+axios.defaults.timeout = 1000 * 30
 
 const _apiBase = apiConfig.apiGruzUrl
 
@@ -55,14 +55,14 @@ export const fetchPoezdVagons = async (row) => await getResource(`gruzPoezdVagon
 
 const _transformStatistics = (stat) => {
     return [
-        {id: 1,value: stat.AllVagons, name: 'Вагонов на отделении всего', url: '/disl'},
-        {id: 2,value: stat.OnStantionsVagons, name:'Вагонов на станциях', url: '/disl'},
-        {id: 3,value: stat.InNearApproachVagons, name:'Вагонов на ближних подходах', url: '/disl'},
-        {id: 4,value: stat.InFarApproachVagons, name:'Вагонов на дальних подходах', url: '/disl'},
-        {id: 5,value: stat.LoadedVagons, name:'Вагонов погружено', url: '/pogrvygr'},
-        {id: 6,value: stat.LoadedVesVagons, name:'Вес погруженных вагонов', url: '/pogrvygr'},
-        {id: 7,value: stat.UnloadedVagons, name:'Вагонов выгружено', url: '/pogrvygr'},
-        {id: 8,value: stat.ArrivedVagons, name:'Поступило вагонов', url: '/pogrvygr'}
+        {id: 1,value: stat.AllVagons, name: 'Вагонов всего', url: '/disl', caption:'Вагонов на всех станциях и подходах к ним  на Барановичском отделении'},
+        {id: 2,value: stat.OnStantionsVagons, name:'Вагонов на станциях', url: '/disl', caption:'Вагонов на всех станциях Барановичского отделения'},
+        {id: 3,value: stat.InNearApproachVagons, name:'Вагонов на ближних подходах', url: '/disl', caption:'Вагонов на ближнем подходе к станциям Барановичского отделения'},
+        {id: 4,value: stat.InFarApproachVagons, name:'Вагонов на дальних подходах', url: '/disl', caption:'Вагонов на дальнем подходе к станциям Барановичского отделения'},
+        {id: 5,value: stat.LoadedVagons, name:'Вагонов погружено', url: '/pogrvygr', caption:'Вагонов погружено на всех станциях Барановичского отделения'},
+        {id: 6,value: stat.LoadedVesVagons, name:'Вес погруженных вагонов', url: '/pogrvygr', caption:'Вес погруженных вагонов на всех станциях Барановичского отделения'},
+        {id: 7,value: stat.UnloadedVagons, name:'Вагонов выгружено', url: '/pogrvygr', caption:'Вагонов выгружено на всех станциях Барановичского отделения'},
+        {id: 8,value: stat.ArrivedVagons, name:'Поступило вагонов', url: '/pogrvygr', caption:'Вагонов поступило на Барановичское отделение'},
     ]
 }
 
