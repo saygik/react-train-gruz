@@ -7,7 +7,7 @@ class GruzOneStatistic extends Component {
         const {value} = this.props
         return (
             <div>
-            <span style={{fontSize: '1.9rem', color: 'grey' }}>
+            <span style={{fontSize: '2.4rem', color: 'grey' }}>
                 <AnimatedNumber
                     value={value}
                     formatValue={this.formatValue}
