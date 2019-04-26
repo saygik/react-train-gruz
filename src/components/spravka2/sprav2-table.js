@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import PogrVygr from '../findvagons/pogr-vygr'
-import Sprav2TableLegend from './sprav2-table-legend'
+import SpravTableLegend from './sprav-table-legend'
 class Sprav2Table extends Component {
 
     render() {
@@ -21,8 +21,8 @@ class Sprav2Table extends Component {
             expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
         }
         return (
-            <div >
-                <Sprav2TableLegend />
+            <>
+                <SpravTableLegend />
                 <div className={'pt-2'}>
                     <BootstrapTable keyField='ID'
                                     data={ stances }
@@ -32,7 +32,7 @@ class Sprav2Table extends Component {
                                     expandRow={ expandRow }
                                     rowStyle={ rowStyle2 } />
                 </div>
-            </div>
+            </>
         );
     }
 

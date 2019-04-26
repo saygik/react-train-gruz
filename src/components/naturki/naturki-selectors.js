@@ -1,29 +1,24 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {ToggleSwitch, Select} from '../form-components'
 
-class NaturkiSelectors extends Component {
-    render() {
-        return (
+const NaturkiSelectors = (props) =>
                 <div   className={'d-flex gruz-font-80 pt-1'} >
-                    <ToggleSwitch  caption={'Полные натурки'} checked={this.props.bAllNaturki} onChange={this.props.allNaturkiCheck} />
-                    <ToggleSwitch  caption={'На отделении'} checked={this.props.bNod} onChange={this.props.nodCheck} />
+                    <ToggleSwitch  caption={'Полные натурки'} checked={props.bAllNaturki} onChange={props.allNaturkiCheck} />
+                    <ToggleSwitch  caption={'На отделении'} checked={props.bNod} onChange={props.nodCheck} />
                     <Select
                             placeholder={'Выбирайте станцию формирования...'}
-                            options={this.props.optionsStantionFrom}
-                            value={this.props.selectedStantionFromValue}
-                            onChange={this.props.selectStantionFrom}
+                            options={props.optionsStantionFrom}
+                            value={props.selectedStantionFromValue}
+                            onChange={props.selectStantionFrom}
                             isMulti={true}
                     />
                     <Select
                             placeholder={'Выбирайте станцию назначения...'}
-                            options={this.props.optionsStantionTo}
-                            value={this.props.selectedStantionToValue}
-                            onChange={this.props.selectStantionTo}
+                            options={props.optionsStantionTo}
+                            value={props.selectedStantionToValue}
+                            onChange={props.selectStantionTo}
                             isMulti={true}
                     />
                 </div>
-        )
-    }
-}
 
 export default NaturkiSelectors

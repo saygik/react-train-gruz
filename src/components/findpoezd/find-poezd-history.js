@@ -1,11 +1,8 @@
-import React, {Component} from 'react'
+import React from 'react'
 
-class FindPoezdHistory extends Component {
-    render() {
-        return (
-            <div></div>
-        )
-    }
-}
+const FindPoezdHistory = () =>
+            <div>
+
+            </div>
 
 export default FindPoezdHistory

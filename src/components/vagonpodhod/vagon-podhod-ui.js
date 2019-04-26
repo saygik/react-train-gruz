@@ -1,27 +1,24 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PodhodTable from './podhod-table'
 import VagonPodhodSelectors from './vagon-podhod-selectors'
 import { ReportTemplate } from  '../containers'
 
-class VagonPodhodUI extends Component {
-    render() {
-        const { caption,
-                loading,
-                infoMsg,
-                firstLoad,
-                stantionsOptions,
-                selectedStantion,
-                selectCurrentStantion,
-                selectedPodhod,
-                numPodhods,
-                selectCurrentPodhod,
-                selectVagon,
-                stantionsPodhod,
-                closeExpanded,
-                selectedVagon ,
-                columns
-              } = this.props
-        return (
+const  VagonPodhodUI = ({ caption,
+                            loading,
+                            infoMsg,
+                            firstLoad,
+                            stantionsOptions,
+                            selectedStantion,
+                            selectCurrentStantion,
+                            selectedPodhod,
+                            numPodhods,
+                            selectCurrentPodhod,
+                            selectVagon,
+                            stantionsPodhod,
+                            closeExpanded,
+                            selectedVagon ,
+                            columns
+                        }) =>
             <div>
                 <ReportTemplate
                     firstLoad={firstLoad}
@@ -42,7 +39,5 @@ class VagonPodhodUI extends Component {
                     </VagonPodhodSelectors>
                 </ReportTemplate>
             </div>
-        )
-    }
-}
+
 export default VagonPodhodUI

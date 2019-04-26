@@ -69,7 +69,7 @@ export const stateSelector = state => state[moduleName];
 export const statisticsSelector = createSelector(stateSelector, state=> state.statistics)
 export const loadingSelector = createSelector(stateSelector, state=> state.loading)
 export const autoUpdateTimeSelector = createSelector(stateSelector, state=> state.autoUpdateTime)
-export const infoMsgSelector = createSelector(stateSelector, state=> state.infoMsg)
+export const infoMsgSelector = createSelector(stateSelector, state=> state.get('infoMsg'))
 
 /**********************************************************************
  * Action Creators

@@ -1,15 +1,10 @@
-import React, {Component} from 'react'
+import React from 'react'
 import parse from 'html-react-parser'
 
-class PogrVygrHeader extends Component {
-    render() {
-        const headerCaption =(typeof this.props.caption)==='string' ? this.props.caption : ''
-        return (
+const PogrVygrHeader = ({caption})=>
             <div className='p-2'>
-                {parse(headerCaption)}
+                {parse((typeof caption)==='string' ? caption : '')}
             </div>
-        )
-    }
-}
+
 export default PogrVygrHeader
 

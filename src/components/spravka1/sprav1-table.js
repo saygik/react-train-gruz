@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import FindVagons from '../findvagons'
-import Sprav1TableLegend from './sprav1-table-legend'
+import SpravTableLegend from './sprav-table-legend'
 
 
 class Sprav1Table extends Component {
@@ -23,8 +23,8 @@ class Sprav1Table extends Component {
             expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
         }
         return (
-            <div >
-                <Sprav1TableLegend />
+            <>
+                <SpravTableLegend />
                 <div className={'pt-2'}>
                     <BootstrapTable keyField='ID'
                                 data={ stances }
@@ -34,7 +34,7 @@ class Sprav1Table extends Component {
                                 expandRow={ expandRow }
                                 rowStyle={ rowStyle2 } />
                     </div>
-            </div>
+            </>
         );
     }
 }

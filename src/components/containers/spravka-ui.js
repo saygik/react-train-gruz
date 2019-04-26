@@ -1,21 +1,18 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { PageTemplate } from './index'
 
-class SpravkaUi extends Component {
-    render() {
-        const { SpravkaTable,
-            firstLoad,
-            infoMsg,
-            loading,
-            stances,
-            selectedStationAndTip,
-            closeExpanded,
-            selectCell,
-            caption,
-            columns,
-            autoUpdateTime,
-            fetchAll} = this.props
-        return (
+const SpravkaUi = ({ SpravkaTable,
+                           firstLoad,
+                           infoMsg,
+                           loading,
+                           stances,
+                           selectedStationAndTip,
+                           closeExpanded,
+                           selectCell,
+                           caption,
+                           columns,
+                           autoUpdateTime,
+                           fetchAll}) =>
             <div>
                 <PageTemplate
                     fetchAll={fetchAll}
@@ -33,9 +30,5 @@ class SpravkaUi extends Component {
                 </PageTemplate>
 
             </div>
-        )
-    }
-}
-
 
 export default SpravkaUi

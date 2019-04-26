@@ -1,21 +1,14 @@
-import React, {Component} from 'react'
-// import AnimatedNumber from 'react-animated-number'
- import AnimatedNumber from "animated-number-react"
-class GruzOneStatistic extends Component {
-    formatValue = value => value.toFixed(0);
-    render() {
-        const {value} = this.props
-        return (
+import React from 'react'
+import AnimatedNumber from "animated-number-react"
+
+const GruzOneStatistic =({value})=>(
             <div>
             <span style={{fontSize: '2.4rem', color: 'grey' }}>
                 <AnimatedNumber
                     value={value}
-                    formatValue={this.formatValue}
+                    formatValue={value => value.toFixed(0)}
                 />
             </span>
             </div>
         )
-    }
-}
-
 export default GruzOneStatistic

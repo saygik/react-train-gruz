@@ -1,20 +1,15 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { PageTemplate } from  '../containers'
 import GruzStatisticPage from './gruz-statistic-page'
 
-class GruzStatisticsUI extends Component {
-    render() {
-        const {
-            caption,
-            firstLoad,
-            infoMsg,
-            loading,
-            fetchAll,
-            autoUpdateTime,
-            data,
-        } = this.props
-
-        return (
+const GruzStatisticsUI =({  caption,
+                            firstLoad,
+                            infoMsg,
+                            loading,
+                            fetchAll,
+                            autoUpdateTime,
+                            data,
+                        }) =>(
                 <PageTemplate
                     fetchAll={fetchAll}
                     firstLoad={firstLoad}
@@ -25,8 +20,6 @@ class GruzStatisticsUI extends Component {
                       <GruzStatisticPage data={data}/>
                 </PageTemplate>
         )
-    }
-}
 
 
 export default GruzStatisticsUI

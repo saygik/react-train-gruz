@@ -1,18 +1,15 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { BigLoaderTemplate, DataTemplate, ReportTemplate } from  './'
 
-class PageTemplate extends Component {
-    render() {
-        const { caption,
-            firstLoad,
-            infoMsg,
-            loading,
-            fetchAll,
-            autoUpdateTime,
-            children
-        } = this.props
-        return (
-            <DataTemplate fetchAll={fetchAll} autoUpdateTime={autoUpdateTime ? autoUpdateTime : null}>
+const PageTemplate = ({ caption,
+                          firstLoad,
+                          infoMsg,
+                          loading,
+                          fetchAll,
+                          autoUpdateTime,
+                          children
+                      }) =>
+            <DataTemplate fetchAll={fetchAll} autoUpdateTime={autoUpdateTime}>
                 <BigLoaderTemplate>
                     <ReportTemplate
                         firstLoad={firstLoad}
@@ -24,9 +21,7 @@ class PageTemplate extends Component {
                 </BigLoaderTemplate>
             </DataTemplate>
 
-        )
-    }
-}
-
 
 export default PageTemplate
+
+

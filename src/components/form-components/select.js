@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Select from 'react-select'
 
 const customStyles = {
@@ -7,10 +7,7 @@ const customStyles = {
         padding: '0.3rem',
     }),
 }
-class select extends Component {
-    render() {
-        const {value, onChange, options, placeholder, isMulti }=this.props
-        return (
+const select =({value, onChange, options, placeholder, isMulti })=>
             <div className={'pl-1 gruz-font-70'} style={{width: '18rem'}}>
                 <Select
                     placeholder={placeholder}
@@ -21,8 +18,5 @@ class select extends Component {
                     isMulti={isMulti}
                 />
             </div>
-        )
-    }
-}
 
 export default select

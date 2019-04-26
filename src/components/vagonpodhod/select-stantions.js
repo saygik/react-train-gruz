@@ -1,27 +1,18 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Select from 'react-select'
 import {Row, Col } from 'react-bootstrap'
 
-class SelectStantions extends Component {
-    render() {
-        const {stantionsOptions, selectedStantion }= this.props
-
-        return (
+const SelectStantions = ({stantionsOptions, selectedStantion , selectCurrentStantion}) =>
                 <Row className="justify-content-md-center m-0 p-2" >
                     <Col md={7}>
                         <Select
                             placeholder={'Выбирайте станцию...'}
                             value={selectedStantion}
-                            onChange={this.handleChange}
+                            onChange={(selectedOption) => selectCurrentStantion(selectedOption)}
                             options={stantionsOptions}
                         />
                     </Col>
                 </Row>
-        )
-    }
-    handleChange = (selectedOption) => {
-        this.props.selectCurrentStantion(selectedOption);
-    }
-}
+
 export default SelectStantions
 
