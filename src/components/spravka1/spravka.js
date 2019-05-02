@@ -1,7 +1,7 @@
 import React from 'react'
 import SpravkaUi from "../containers/spravka-ui"
 import {connect} from "react-redux"
-import {moduleName, rusName, selectedStationAndTipSelector, actions} from "../../ducks/spravka1"
+import {moduleName, rusName, selectedStationAndTipSelector, dataSelector, actions} from "../../ducks/spravka1"
 import SpravTable from "../spravka1/sprav1-table"
 import tablesColumns from '../../services/tablesColumns'
 
@@ -15,5 +15,5 @@ export default connect(state=>({
     infoMsg: state[moduleName].infoMsg,
     autoUpdateTime: state[moduleName].autoUpdateTime,
     selectedStationAndTip: selectedStationAndTipSelector(state),
-    stances: state[moduleName].entities
+    stances: dataSelector(state)
 }), actions)(Spravka)

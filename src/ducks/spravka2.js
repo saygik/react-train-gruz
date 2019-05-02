@@ -1,9 +1,9 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import { getPogrVygrTipOperFromCol} from './utils'
-import {Record} from 'immutable'
+import {getPogrVygrTipOperFromColImm} from './utils'
+import {OrderedMap, Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav2} from '../services/api'
+import {arrToEntities, fetchGruzSprav2} from '../services/api'
 
 
 /************************************************************************
@@ -27,7 +27,7 @@ export const SELECT_SPRAVKA_CELL = `${prefix}/SELECT_SPRAVKA_CELL`
  * Reducer
  * */
 export const ReducerRecord = Record({
-    entities: [],
+    entities: new OrderedMap({}),
     autoUpdateTime:0,
     loading: false,
     firstLoad: true,
@@ -35,7 +35,34 @@ export const ReducerRecord = Record({
     sprav1SelectedCell: null
 })
 
-
+export const SpravRecord = Record({
+    ID: null,
+    NAME: null,
+    KODS: null,
+    TIPZAP: null,
+    COLS:  null,
+    COLS1:  null,
+    COLS2:  null,
+    COLS3:  null,
+    COLS4:  null,
+    COLS5:  null,
+    COLS6:  null,
+    COLP:  null,
+    COLP1:  null,
+    COLP2:  null,
+    COLP3: null,
+    COLP4: null,
+    COLP5: null,
+    COLP6: null,
+    COLD: null,
+    COLD1: null,
+    COLD2: null,
+    COLD3: null,
+    COLD4: null,
+    COLD5: null,
+    COLD6: null,
+    COL: null
+})
 
 export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
@@ -60,7 +87,7 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
-                .set('entities', payload.data)
+                .set('entities', arrToEntities(payload.data, SpravRecord))
         case FETCH_SPRAVKA_ERROR:
             return state
                 .set('loading', false)
@@ -75,26 +102,17 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 export const stateSelector = state => state[moduleName];
-export const selectedStationTipSelector = createSelector(stateSelector, state => {
-    return state.sprav1SelectedCell
-})
+export const selectedStationTipSelector = createSelector(stateSelector, state => state.sprav1SelectedCell)
+
+export const dataSelector = createSelector(stateSelector, state=> state.entities.valueSeq().toArray())
+
 export const entitiesSelector = createSelector(stateSelector, state=> state.entities)
+
 export const selectedStationSelector = createSelector(selectedStationTipSelector, entitiesSelector, (station,entities )=> {
-    if (station !== null) {
-        return entities.filter(row => row.ID===station.id)
-    } else {
-        return []
-    }
+    return station && OrderedMap(entities.get(station.id)).set('col', station.col)
 })
-export const selectedStationAndTipSelector = createSelector( selectedStationSelector,selectedStationTipSelector, (rows, station) => {
-    if (rows.length>0) {
-        let selectedStationWithTipAndPlace = getPogrVygrTipOperFromCol(station);
-        selectedStationWithTipAndPlace.stan=rows[0].KODS;
-        selectedStationWithTipAndPlace.stanName=rows[0].NAME;
-        return selectedStationWithTipAndPlace
-    } else {
-        return null
-    }
+export const selectedStationAndTipSelector = createSelector( selectedStationSelector, (station) => {
+    return station && getPogrVygrTipOperFromColImm(station)
 })
 
 /**********************************************************************

@@ -3,15 +3,25 @@ import {getCurrentDateTime } from '../ducks/utils'
 import stanc from '../services/stanc'
 import axios from 'axios'
 
+import {OrderedMap, Map} from 'immutable'
+
+
+
 axios.defaults.timeout = 1000 * 30
 
 const _apiBase = apiConfig.apiGruzUrl
 
 const getResource =  (url) => {
+
+
     const errMsg='Ошибка получения данных'
     return axios.get(`${_apiBase}${url}`)
         .then (response =>  {
             if (response.status===200) {
+                // const ss=apiDatatoEntities(response.data.data,SpravRecord)
+                // console.log('---',ss.get(2))
+                // console.log('-2-',mapToArr(ss))
+
                 return {fetchOK: true,data: response.data.data, msg: `Данные обновлены в ${getCurrentDateTime()}`};
             }
             else {
@@ -23,6 +33,20 @@ const getResource =  (url) => {
             return {fetchOK: false, msg: errMsg}
         })
 }
+
+export const  arrToEntities=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.ID, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}
+export const  arrToMap=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.Id, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}
+
+
+
 export const fetchGruzSprav1 = async () => await getResource(`gruzSprav1`)
 
 export const fetchGruzSprav2 = async () => await getResource(`gruzSprav2`)

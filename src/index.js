@@ -6,7 +6,7 @@ import {Provider} from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 
 const store = configureStore(/* provide initial state if any */)
-
+window.store = store
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>

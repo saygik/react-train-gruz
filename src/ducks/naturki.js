@@ -1,8 +1,8 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import {Record} from 'immutable'
+import {OrderedMap, Record, List} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzNaturki} from '../services/api'
+import { arrToMap, fetchGruzNaturki} from '../services/api'
 
 
 /************************************************************************
@@ -29,18 +29,41 @@ export const DESELECT_ROW = `${prefix}/DESELECT_ROW`
  * Reducer
  * */
 export const ReducerRecord = Record({
-    entities: [],
+    entities: new OrderedMap({}),
     loading: false,
     autoUpdateTime: 60000,
     firstLoad: true,
     bAllNaturki: false,
     bNod: true,
     infoMsg: '',
-    selectedStantionTo: [],
-    selectedStantionFrom: [],
+    selectedStantionTo: new List([]),
+    selectedStantionFrom: new List([]),
     selectedRowId: null
 })
 
+// export const SpravOptionsRecord = Record({
+//     value: null,
+//     label: null,
+// })
+
+export const SpravRecord = Record({
+    Id: null,
+    Namekodsfrom: null,
+    Namekods: null,
+    Number: null,
+    Ind: null,
+    Nameoper: null,
+    Datelast: null,
+    Timelast: null,
+    Namekodslast: null,
+    Kodp: null,
+    Colvag: null,
+    Ves: null,
+    Nod: null,
+    Kodso: null,
+    Kodsp: null,
+    Fullnatur: null,
+})
 
 export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
@@ -55,10 +78,10 @@ export default function reducer(state = new ReducerRecord(), action) {
 
         case SELECT_STANTION_FROM:
             return state
-                .set('selectedStantionFrom', payload)
+                .set('selectedStantionFrom', List(payload))
         case SELECT_STANTION_TO:
             return state
-                .set('selectedStantionTo', payload)
+                .set('selectedStantionTo', List(payload))
         case CHECK_ALL_NATURKI:
             return state
                 .set('bAllNaturki', payload)
@@ -76,7 +99,8 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
-                .set('entities', payload.data)
+                .set('entities', arrToMap(payload.data, SpravRecord))
+
         case FETCH_SPRAVKA_ERROR:
             return state
                 .set('loading', false)
@@ -92,14 +116,14 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 const stateSelector = state => state[moduleName]
-const entitiesSelector = createSelector(stateSelector, state=> state.entities)
+const entitiesSelector = createSelector(stateSelector, state=> state.entities.valueSeq().toArray())
 const bAllNaturkiSelector = createSelector(stateSelector, state => state.bAllNaturki)
 const selectedRowIdSelector = createSelector(stateSelector, state => state.selectedRowId)
 
 const bNodSelector = createSelector(stateSelector, state => state.bNod)
 const autoUpdateTimeSelector = createSelector(stateSelector, state => state.autoUpdateTime)
-const selectedStantionFromValueSelector = createSelector(stateSelector, state => state.selectedStantionFrom)
-const selectedStantionToValueSelector = createSelector(stateSelector, state => state.selectedStantionTo)
+const selectedStantionFromValueSelector = createSelector(stateSelector, state => state.selectedStantionFrom.valueSeq().toArray())
+const selectedStantionToValueSelector = createSelector(stateSelector, state => state.selectedStantionTo.valueSeq().toArray())
 
 // export const selectedCellSelector = createSelector(stateSelector, state => state.spravSelectedCell)
 

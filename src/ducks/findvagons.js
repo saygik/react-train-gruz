@@ -204,7 +204,7 @@ export const fetchFindVagonsSaga = function * () {
         yield take(FETCH_FIND_VAGONS_REQUEST)
         const criteria = yield select(findCriteriaSelector)
 
-        // console.log('-criteria-',criteria)
+         // console.log('-criteria-',criteria)
         if (criteria === null) {
             yield put({
                 type: EMPTY_FIND_VAGONS
