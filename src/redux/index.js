@@ -1,12 +1,12 @@
 // import { compose } from 'redux'
 import { applyMiddleware, createStore } from 'redux'
 import { routerMiddleware } from 'connected-react-router'
- // import logger from 'redux-logger'
-import createSagaMiddleware from 'redux-saga'
+ import createSagaMiddleware from 'redux-saga'
 import rootSaga from './saga'
 import { createBrowserHistory } from 'history'
 import createRootReducer from './reducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
+// import logger from 'redux-logger'
 
 export const history = createBrowserHistory()
 const sagaMiddleware = createSagaMiddleware()
