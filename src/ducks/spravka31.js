@@ -1,8 +1,8 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import {Record} from 'immutable'
+import {OrderedMap, Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav31} from '../services/api'
+import {arrToEntities, fetchGruzSprav31} from '../services/api'
 
 
 /************************************************************************
@@ -26,7 +26,7 @@ export const SPRAVKA_CELL_CHECK = `${prefix}/SPRAVKA_CELL_CHECK`
  * Reducer
  * */
 export const ReducerRecord = Record({
-    entities: [],
+    entities: new OrderedMap({}),
     autoUpdateTime:0,
     loading: false,
     loadingVagons: false,
@@ -35,6 +35,56 @@ export const ReducerRecord = Record({
     spravSelectedCell: null
 })
 
+export const SpravRecord = Record({
+    ID: null,
+    NAME: null,
+    KODS: null,
+    TIPZAP: null,
+    S1387:0,
+    S1386:0,
+    S1391:0,
+    S1390:0,
+    S1389:0,
+    S1385:6,
+    S1399:0,
+    S1398:0,
+    S1396:0,
+    S1395:0,
+    S1393:0,
+    S1392:0,
+    S1394:0,
+    S1520:0,
+    S1521:0,
+    S1369:0,
+    S1371:0,
+    S1370:0,
+    S1368:0,
+    S1367:0,
+    S1362:0,
+    S1356:0,
+    S1373:0,
+    S1372:0,
+    S1354:0,
+    S1345:0,
+    S1353:0,
+    S1352:0,
+    S1347:0,
+    S1351:0,
+    S1375:0,
+    S1374:0,
+    S1380:0,
+    S1623:0,
+    S1624:0,
+    S1377:0,
+    S1378:0,
+    S1376:0,
+    S1382:0,
+    S1384:0,
+    S1348:0,
+    S1357:0,
+    S1358:0,
+    S1363:0
+})
 
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -58,7 +108,7 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
-                .set('entities', payload.data)
+                .set('entities', arrToEntities(payload.data, SpravRecord))
         case FETCH_SPRAVKA_ERROR:
             return state
                 .set('loading', false)
@@ -74,31 +124,25 @@ export default function reducer(state = new ReducerRecord(), action) {
  * */
 export const stateSelector = state => state[moduleName];
 export const entitiesSelector = createSelector(stateSelector, state=> state.entities)
-export const selectedStationTipSelector = createSelector(stateSelector, state => {
-    return state.spravSelectedCell
-})
+export const selectedStationTipSelector = createSelector(stateSelector, state => state.spravSelectedCell)
+export const dataSelector = createSelector(stateSelector, state=> state.entities.valueSeq().toArray())
 
 export const selectedStationSelector = createSelector(selectedStationTipSelector, entitiesSelector, (station,entities )=> {
-    if (station !== null) {
-        return entities.filter(row => row.ID===station.id)
-    } else {
-        return []
-    }
+    return station && OrderedMap(entities.get(station.id)).set('col', station.col)
 })
-export const selectedStationAndTipSelector = createSelector( selectedStationSelector,selectedStationTipSelector, (rows, station) => {
-    if (rows.length>0) {
-        const stanpo=station.col.substring(1)
-        let selectedStationWithTipAndPlace = {id: station.id, tip: 0,tipName:'' ,onStation: 0, onNod: 1, col: station.col};
-        if (stanpo===rows[0].KODS) {
-            selectedStationWithTipAndPlace.onStation=1
+export const selectedStationAndTipSelector = createSelector( selectedStationSelector, ( station) => {
+    return station && {
+            id: station.get('ID'),
+            tip: 0,
+            tipName: '' ,
+            onNod: 1,
+            col: station.get('col'),
+            stan: station.get('KODS'),
+            stanName: station.get('NAME'),
+            filter: {stanPO: station.get('col').substring(1)},
+            onStation: station.get('col').substring(1)===station.get('KODS') ? 1 : 0
         }
-        selectedStationWithTipAndPlace.stan=rows[0].KODS;
-        selectedStationWithTipAndPlace.stanName=rows[0].NAME;
-        selectedStationWithTipAndPlace.filter={stanPO: stanpo};
-        return selectedStationWithTipAndPlace
-    } else {
-        return null
-    }
+
 })
 
 

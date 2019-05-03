@@ -5,7 +5,6 @@ import FindVagonsHistory from '../findvagonhistory'
 class FindVagonsTable extends Component {
     render() {
         const { vagonsOnStance, selectVagon, selectedVagon, closeFindVagonsHistory, columns} = this.props;
-
         const expandRow = {
             renderer: row => (
                 <div className={'p-0 m-0'}>

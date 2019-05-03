@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col} from 'react-bootstrap';
 import PageHeader from '../headers/page-header'
 
 
-class ReportTemplate extends Component {
-    render() {
-        const { firstLoad, caption,  infoMsg, loading, children} = this.props;
-        return (
-            <div >
+const ReportTemplate = ({ firstLoad, caption,  infoMsg, loading, children}) =>
+            <>
                 <PageHeader loading={loading} infoMsg={infoMsg} caption={caption} />
                 <Row  className='m-1'>
                     <Col>
@@ -18,9 +15,7 @@ class ReportTemplate extends Component {
                         </Row>
                     </Col>
                 </Row>
-            </div>
-        );
-    }
-}
+            </>
+
 export default ReportTemplate
 

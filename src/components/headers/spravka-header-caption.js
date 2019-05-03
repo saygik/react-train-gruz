@@ -1,15 +1,9 @@
-import React, {Component} from 'react'
+import React from 'react'
 import parse from 'html-react-parser'
 
-class SpravkaHeaderCaption extends Component {
-    render() {
-        const headerCaption =(typeof this.props.caption)==='string' ? this.props.caption : ''
-        return (
+const SpravkaHeaderCaption = ({caption})=>
             <div className='p-0'>
-                {parse(headerCaption)}
+                {parse((typeof caption)==='string' ? caption : '')}
             </div>
-        )
-    }
-}
 
 export default SpravkaHeaderCaption

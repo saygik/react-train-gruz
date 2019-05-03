@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Row, Col } from 'react-bootstrap'
 import SelectPodhodButton from './select-podhod-button'
 
-class SelectPodhod extends Component {
+const podhods= [{id:2, caption:'на станции'},{id:1, caption:'на ближнем'},{id:0, caption:'на дальнем'}]
 
-    render() {
-        const {selectedPodhod, numPodhods, selectCurrentPodhod }= this.props
-        const podhods= [{id:2, caption:'на станции'},{id:1, caption:'на ближнем'},{id:0, caption:'на дальнем'}]
-        return (
+const SelectPodhod = ({selectedPodhod, numPodhods, selectCurrentPodhod }) =>
+
             <Row className="justify-content-md-center m-0 p-0" >
                 <Col md={7} lg={6}>
                     <Row className="justify-content-md-center m-0 p-2 ">
@@ -19,10 +17,6 @@ class SelectPodhod extends Component {
                     </Row>
                 </Col>
             </Row>
-
-        )
-    }
-}
 
 export default SelectPodhod
 

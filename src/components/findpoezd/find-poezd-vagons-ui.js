@@ -1,21 +1,18 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Row, Col} from 'react-bootstrap'
 import FindPoezdVagonsTable from './find-poezd-vagons-table'
 import {SpravkaHeader, SpravkaHeaderCaption} from '../headers'
 
-class FindPoezdVagonsUI extends Component {
-    render() {
-        const {
-            loading,
-            closeExpanded,
-            caption,
-            data,
-            columns,
-            selectedRow,
-            selectRow,
-            closeExpandedVagon
-        } =this.props
-        return (
+const FindPoezdVagonsUI = ({
+                               loading,
+                               closeExpanded,
+                               caption,
+                               data,
+                               columns,
+                               selectedRow,
+                               selectRow,
+                               closeExpandedVagon
+                           }) =>
             <Row  className="p-1 m-1 gruz-bg-4">
                 <Col>
                     <SpravkaHeader loading={loading}  closeExpanded={closeExpanded} />
@@ -32,10 +29,5 @@ class FindPoezdVagonsUI extends Component {
                     </Row>
                 </Col>
             </Row>
-
-        )
-    }
-}
-
 
 export default FindPoezdVagonsUI

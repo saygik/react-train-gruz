@@ -1,29 +1,13 @@
-import React, {Component} from 'react'
-import {connect} from "react-redux"
+import React from 'react'
 import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
-import {setScrollPos, showNavbarSelector} from "../../ducks/global"
+import withViewScroll from "../hoc/with-view-scroll"
+import {brand, navlinks} from "./nav-bar-links"
 
 
-class NavbarGruz extends Component {
-    constructor(props) {
-        super(props);
-        this.handleScroll = this.handleScroll.bind(this);
-    }
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll);
-    }
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
-    handleScroll() {
-        this.props.setScrollPos(document.body.getBoundingClientRect().top)
-    }
-    render() {
-        const {brand, navlinks, show}=this.props
-        return (
-            <div>
-                <div className={show ? "active" : "hidden"} >
+const NavbarGruz = ({showNavBar}) =>
+            <>
+                <div className={showNavBar ? "active" : "hidden"} >
                 <Navbar fixed="top" bg="light" collapseOnSelect expand="sm" className="p-0 m-0">
                     <Navbar.Brand as={Link} to={brand.to} >
                         <img src={brand.logo} alt="Logo" />
@@ -38,11 +22,6 @@ class NavbarGruz extends Component {
                 </div>
                 <Route path="/" exact component={brand.component}/>
                 {navlinks.map((link, index) => <Route key={index} path={link.to} component={link.component}/>)}
-            </div>
-        )
-    }
-}
+            </>
 
-export default connect(state=>({
-    show: showNavbarSelector(state)
-}), {setScrollPos })(NavbarGruz)
+export default  withViewScroll()(NavbarGruz)

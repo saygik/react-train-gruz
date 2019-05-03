@@ -1,8 +1,8 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import {Record} from 'immutable'
+import {OrderedMap, Record} from 'immutable'
 import { createSelector } from 'reselect'
-import { fetchPogrVygr} from '../services/api'
+import {arrToMap, fetchPogrVygr} from '../services/api'
 import { declOfNum} from './utils'
 
 
@@ -34,14 +34,27 @@ export const DESELECT_ROW_FIND_VAGONS = `${prefix}/DESELECT_ROW_FIND_VAGONS`
  *              }
  * */
 export const ReducerRecord = Record({
-    vagons: [],
-    loading: false,
-    firstLoad: true,
-    infoMsg: '',
-    selectedVagon: null,
-    findCriteria: null
+     vagons:  new OrderedMap({}),
+     loading: false,
+     firstLoad: true,
+     infoMsg: '',
+     selectedVagon: null,
+     findCriteria: null
+} )
+export const SpravRecord = Record({
+    Id: null,
+    Kodv: null,
+    Nameoper: null,
+    Datelast:  null,
+    Timelast:  null,
+    Namekods:  null,
+    Nameklient:  null,
+    Namegruz:  null,
+    Ves:  null,
+    Nametip:  null,
+    Namelast:  null,
+    Oper:  null,
 })
-
 
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -63,10 +76,11 @@ export default function reducer(state = new ReducerRecord(), action) {
         case FETCH_FIND_VAGONS_SUCCESS:
             return state
                 .set('loading', false)
-                .set('vagons', payload.data)
+                .set('vagons', arrToMap(payload.data, SpravRecord))
+
         case EMPTY_FIND_VAGONS:
             return state
-                .set('vagons', [])
+                .set('vagons', new OrderedMap({}))
         case FETCH_FIND_VAGONS_ERROR:
             return state
                 .set('loadingVagons', false)
@@ -81,26 +95,22 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 export const stateSelector = state => state[moduleName];
-export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
+export const vagonsSelector = createSelector(stateSelector, state=> {
+    return state.vagons
+})
+export const dataSelector = createSelector(stateSelector, state=> state.vagons.valueSeq().toArray())
 export const sVagonSelector = createSelector(stateSelector, state=> state.selectedVagon)
 export const filtredSelectedvagonsSelector = createSelector(sVagonSelector, vagonsSelector, (selectedVagon,vagons )=> {
-    if (selectedVagon !== null ) {
-        return vagons.filter(row => row.Id===selectedVagon.id)
-    } else {
-        return []
-    }
+    return selectedVagon && OrderedMap(vagons.get(selectedVagon.id)).set('col', selectedVagon.col)
 })
 
-export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelector, sVagonSelector, (filtredVagons, vagon) => {
-    if (vagon && filtredVagons.length>0) {
-        let selectedVagon=vagon
-        selectedVagon.Kodv=filtredVagons[0].Kodv
-        selectedVagon.Ves=filtredVagons[0].Ves
-        selectedVagon.Namegruz=filtredVagons[0].Namegruz
-        selectedVagon.Nameklient=filtredVagons[0].Nameklient
-        return selectedVagon
-    } else {
-        return null
+export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelector, (filtredVagons) => {
+    return filtredVagons && {
+        id: filtredVagons.get('Id'),
+        Kodv: filtredVagons.get('Kodv'),
+        Ves: filtredVagons.get('Ves'),
+        Namegruz: filtredVagons.get('Namegruz'),
+        Nameklient: filtredVagons.get('Nameklient'),
     }
 })
 
@@ -108,11 +118,10 @@ export const findCriteriaSelector = createSelector(stateSelector, state=> state.
 export const findCriteriaSelectorUI = createSelector(stateSelector,vagonsSelector, (state, vagons)=> {
     const operations={88 : 'Погружено', 89: `Выгружено`, 10: 'Поступило'}
     const onStations={88 : 'станции', 89: `станции`, 10: 'станцию'}
-
     if (state.findCriteria !==null) {
         let criteria=state.findCriteria
-        if (vagons && vagons.length>0) {
-            criteria.caption=`${operations[criteria.oper]} ${vagons.length} 
+        if (vagons && vagons.size>0) {
+            criteria.caption=`${operations[criteria.oper]} ${vagons.size} 
                                <span class="text-primary">${criteria.tipName}</span>
                                ${declOfNum(vagons.length,['вагон','вагона','вагонов'])} на ${onStations[criteria.oper]} 
                                 <span class="badge badge-secondary">${criteria.stanName}</span>`
@@ -124,7 +133,7 @@ export const findCriteriaSelectorUI = createSelector(stateSelector,vagonsSelecto
     return {stanName:'', onStation:0, onNod:0, tipName:''}
 })
 
-export const filtredNumeredVagonsSelector = createSelector(vagonsSelector, (vagons )=> {
+export const filtredNumeredVagonsSelector = createSelector(dataSelector, (vagons )=> {
     if (vagons && vagons.length>0) {
         return vagons.map((elem, index)=>{
             const el=elem
@@ -136,11 +145,9 @@ export const filtredNumeredVagonsSelector = createSelector(vagonsSelector, (vago
     }
 })
 
-
 /**********************************************************************
  * Action Creators
  * */
-
 export const findVagonsByCriteria=(criteria) => {
     return {
         type: CRITERIA_CHANGE_FIND_VAGONS,
@@ -194,7 +201,7 @@ export const fetchFindVagonsSaga = function * () {
         yield take(FETCH_FIND_VAGONS_REQUEST)
         const criteria = yield select(findCriteriaSelector)
 
-        // console.log('-criteria-',criteria)
+//         console.log('-criteria-',criteria)
         if (criteria === null) {
             yield put({
                 type: EMPTY_FIND_VAGONS
@@ -220,9 +227,9 @@ export const selectRowSaga = function * (action) {
 
     try {
         const rowClicked=action.payload
-        console.log('-rowClicked-',rowClicked)
+//        console.log('-rowClicked-',rowClicked)
         const row = yield select(selectedVagonSelector)
-        console.log('-row-',row)
+//        console.log('-row-',row)
         if (row === null || row.id!==rowClicked.row.id) {
             yield put({
                 type: SELECT_ROW_FIND_VAGONS_SUCCESS,

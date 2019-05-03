@@ -16,7 +16,7 @@ body { padding-top: 5.2rem; }
     top: 2.5rem;
 }
 .pageHeaderNavBarNonVisible {
-    top: 0rem;
+    top: 0;
 }
 
 .active {
@@ -128,6 +128,6 @@ body { padding-top: 5.2rem; }
     width:27px;
     white-space: nowrap; /* Запрещаем перенос строк */
     overflow: hidden; /* Обрезаем все, что не помещается в область */
-    padding: 0px; /* Поля вокруг текста */
+    padding: 0; /* Поля вокруг текста */
     text-overflow: clip; /* Добавляем многоточие */
 }

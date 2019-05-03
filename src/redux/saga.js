@@ -1,4 +1,3 @@
-import {saga as globalSaga} from '../ducks/global'
 import {saga as gruzStatisticsSaga} from '../ducks/gruz-statistics'
 import {saga as spravka1Saga} from '../ducks/spravka1'
 import {saga as spravka2Saga} from '../ducks/spravka2'
@@ -14,7 +13,6 @@ import {all} from 'redux-saga/effects'
 
 export default function * rootSaga() {
     yield all([
-        globalSaga(),
         gruzStatisticsSaga(),
         spravka1Saga(),
         spravka2Saga(),

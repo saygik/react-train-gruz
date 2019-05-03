@@ -1,9 +1,9 @@
 import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import { getFindVagonTipFromCol} from './utils'
-import {Record} from 'immutable'
+import { getFindVagonTipFromColImm} from './utils'
+import {OrderedMap, Record} from 'immutable'
 import { createSelector } from 'reselect'
-import {fetchGruzSprav1} from '../services/api'
+import {fetchGruzSprav1,arrToEntities} from '../services/api'
 
 
 /************************************************************************
@@ -26,12 +26,40 @@ export const SELECT_SPRAVKA1_CELL = `${prefix}/SELECT_SPRAVKA1_CELL`
  * Reducer
  * */
 export const ReducerRecord = Record({
-    entities: [],
+    entities: new OrderedMap({}),
     autoUpdateTime:0,
     loading: false,
     firstLoad: true,
     infoMsg: '',
     sprav1SelectedCell: null
+})
+export const SpravRecord = Record({
+    ID: null,
+    NAME: null,
+    KODS: null,
+    TIPZAP: null,
+    COLS:  null,
+    COLS1:  null,
+    COLS2:  null,
+    COLS3:  null,
+    COLS4:  null,
+    COLS5:  null,
+    COLS6:  null,
+    COLP:  null,
+    COLP1:  null,
+    COLP2:  null,
+    COLP3: null,
+    COLP4: null,
+    COLP5: null,
+    COLP6: null,
+    COLD: null,
+    COLD1: null,
+    COLD2: null,
+    COLD3: null,
+    COLD4: null,
+    COLD5: null,
+    COLD6: null,
+    COL: null
 })
 
 
@@ -42,7 +70,6 @@ export default function reducer(state = new ReducerRecord(), action) {
         case SELECT_SPRAVKA1_FIRSTLOAD:
             return state
                 .set('firstLoad', false)
-
         case SELECT_SPRAVKA1_CELL:
             return state
                 .set('sprav1SelectedCell', payload.cell)
@@ -58,7 +85,7 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loading', false)
                 .set('infoMsg', payload.msg)
-                .set('entities', payload.data)
+                .set('entities', arrToEntities(payload.data, SpravRecord))
         case FETCH_SPRAVKA1_ERROR:
             return state
                 .set('loading', false)
@@ -77,24 +104,16 @@ export const selectedStationTipSelector = createSelector(stateSelector, state =>
     return state.sprav1SelectedCell
 })
 
+export const dataSelector = createSelector(stateSelector, state=> state.entities.valueSeq().toArray())
+
 export const entitiesSelector = createSelector(stateSelector, state=> state.entities)
 
+
 export const selectedStationSelector = createSelector(selectedStationTipSelector, entitiesSelector, (station,entities )=> {
-    if (station !== null) {
-        return entities.filter(row => row.ID===station.id)
-    } else {
-        return []
-    }
+    return station && OrderedMap(entities.get(station.id)).set('col', station.col)
 })
-export const selectedStationAndTipSelector = createSelector( selectedStationSelector,selectedStationTipSelector, (rows, station) => {
-    if (rows.length>0) {
-        let selectedStationWithTipAndPlace = getFindVagonTipFromCol(station);
-        selectedStationWithTipAndPlace.stan=rows[0].KODS;
-        selectedStationWithTipAndPlace.stanName=rows[0].NAME;
-        return selectedStationWithTipAndPlace
-    } else {
-        return null
-    }
+export const selectedStationAndTipSelector = createSelector( selectedStationSelector, (station) => {
+    return station && getFindVagonTipFromColImm(station)
 })
 
 

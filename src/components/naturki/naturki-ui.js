@@ -1,34 +1,30 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { PageTemplate } from  '../containers'
 import NaturkiTable from "./naturki-table"
 import NaturkiSelectors from "./naturki-selectors"
 
-class NaturkiUI extends Component {
-    render() {
-        const {
-            caption,
-                firstLoad,
-                infoMsg,
-                loading,
-                fetchAll,
-                data,
-                bNod,
-                bAllNaturki,
-                allNaturkiCheck,
-                nodCheck,
-                autoUpdateTime,
-            optionsStantionFrom,
-            optionsStantionTo,
-            selectedStantionFromValue,
-            selectedStantionToValue,
-            selectStantionFrom,
-            selectStantionTo,
-            selectedRow,
-            selectRow,
-            closeExpanded,
-               columns
-              } = this.props
-        return (
+const NaturkiUI = ({   caption,
+                       firstLoad,
+                       infoMsg,
+                       loading,
+                       fetchAll,
+                       data,
+                       bNod,
+                       bAllNaturki,
+                       allNaturkiCheck,
+                       nodCheck,
+                       autoUpdateTime,
+                       optionsStantionFrom,
+                       optionsStantionTo,
+                       selectedStantionFromValue,
+                       selectedStantionToValue,
+                       selectStantionFrom,
+                       selectStantionTo,
+                       selectedRow,
+                       selectRow,
+                       closeExpanded,
+                       columns
+                   }) =>
                     <PageTemplate
                         fetchAll={fetchAll}
                         firstLoad={firstLoad}
@@ -53,9 +49,5 @@ class NaturkiUI extends Component {
                                       closeExpanded={closeExpanded}
                         />
                     </PageTemplate>
-        )
-    }
-}
-
 
 export default NaturkiUI

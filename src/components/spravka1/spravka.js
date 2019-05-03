@@ -1,24 +1,19 @@
-import React, {Component} from 'react'
+import React from 'react'
 import SpravkaUi from "../containers/spravka-ui"
 import {connect} from "react-redux"
-import {moduleName, rusName, selectedStationAndTipSelector, actions} from "../../ducks/spravka1"
+import {moduleName, rusName, selectedStationAndTipSelector, dataSelector, actions} from "../../ducks/spravka1"
 import SpravTable from "../spravka1/sprav1-table"
 import tablesColumns from '../../services/tablesColumns'
 
 const columns =tablesColumns(moduleName)
-class Spravka extends Component {
 
-   render() {
-          return (
-                <SpravkaUi {...this.props} caption={rusName} columns={columns} SpravkaTable={SpravTable}/>
-          )
-    }
-}
+const Spravka = (props) => <SpravkaUi {...props} caption={rusName} columns={columns} SpravkaTable={SpravTable}/>
+
 export default connect(state=>({
     loading: state[moduleName].loading,
     firstLoad: state[moduleName].firstLoad,
     infoMsg: state[moduleName].infoMsg,
     autoUpdateTime: state[moduleName].autoUpdateTime,
     selectedStationAndTip: selectedStationAndTipSelector(state),
-    stances: state[moduleName].entities
+    stances: dataSelector(state)
 }), actions)(Spravka)

@@ -1,24 +1,20 @@
-import React, {Component} from 'react'
+import React from 'react'
 import FindVagonsTable from './find-vagons-table'
 import parse from 'html-react-parser'
 import {Row, Col} from 'react-bootstrap'
 import {SpravkaHeader, StantionsHeader} from '../headers'
 
-
-class FindVagonsUI extends Component {
-    render() {
-        const { loading,
-                closeExpanded,
-                vagonsOnStance,
-                criteria,
-                sumVes,
-                stanPOName,
-                selectVagon,
-                selectedVagon,
-                closeFindVagonsHistory,
-                columns
-               } = this.props;
-        return (
+const FindVagonsUI = ({ loading,
+                          closeExpanded,
+                          vagonsOnStance,
+                          criteria,
+                          sumVes,
+                          stanPOName,
+                          selectVagon,
+                          selectedVagon,
+                          closeFindVagonsHistory,
+                          columns
+                      }) =>
             <Row  className="p-1 m-1 gruz-bg-4">
                 <Col>
                     <SpravkaHeader loading={loading}  closeExpanded={closeExpanded} />
@@ -31,7 +27,5 @@ class FindVagonsUI extends Component {
                     </Row>
                 </Col>
             </Row>
-        )
-    }
-}
+
 export default FindVagonsUI

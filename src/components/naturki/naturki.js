@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import NaturkiUi from "./naturki-ui"
 import {connect} from "react-redux"
 import {moduleName, rusName, selectors, actions} from "../../ducks/naturki"
@@ -8,13 +8,7 @@ import tablesColumns from '../../services/tablesColumns'
 const columns =tablesColumns(moduleName)
 
 
-class Naturki extends Component {
-    render() {
-        return (
-            <NaturkiUi {...this.props} caption={rusName} columns={columns}/>
-        )
-    }
-}
+const Naturki = (props) => <NaturkiUi {...props} caption={rusName} columns={columns}/>
 
 export default connect(state=>({
     loading: state[moduleName].loading,
