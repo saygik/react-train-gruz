@@ -4,7 +4,6 @@ import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
 import withViewScroll from "../hoc/with-view-scroll"
 import {brand, navlinks} from "./nav-bar-links"
 
-
 const NavbarGruz = ({showNavBar}) =>
             <>
                 <div className={showNavBar ? "active" : "hidden"} >
@@ -21,7 +20,14 @@ const NavbarGruz = ({showNavBar}) =>
                 </Navbar>
                 </div>
                 <Route path="/" exact component={brand.component}/>
-                {navlinks.map((link, index) => <Route key={index} path={link.to} component={link.component}/>)}
+                {navlinks.map((link, index) => !link.render ?  <Route key={index} path={link.to} component={link.component}/> :
+                                                               <Route key={index}
+                                                                      path={link.to}
+                                                                      render={(routeProps)=>(
+                                                                          React.cloneElement(link.component, {...routeProps})
+                                                                      )}
+                                                               />)}
             </>
+
 
 export default  withViewScroll()(NavbarGruz)
