@@ -8,7 +8,7 @@ const customStyles = {
     }),
 }
 const select =({value, onChange, options, placeholder, isMulti, isClearable, isSearchable, isLoading })=>
-            <div className={'pl-1 gruz-font-70'} style={{width: '18rem'}}>
+            <div className={'pl-1 gruz-font-70'} >
                 <Select
                     placeholder={placeholder}
                     options={options}

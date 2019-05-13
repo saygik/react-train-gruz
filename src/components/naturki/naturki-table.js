@@ -3,7 +3,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import {FindPoezdVagons} from '../findpoezd'
 
 const NaturkiTable = ({data, columns, selectedRow, selectRow, closeExpanded}) =>
-            <>
+            <div className={'pt-1'}>
                 <BootstrapTable keyField='Id'
                                 data={ data }
                                 classes={'table-responsive-xl text-nowrap'}
@@ -21,6 +21,6 @@ const NaturkiTable = ({data, columns, selectedRow, selectRow, closeExpanded}) =>
                                 } }
                                 rowEvents={ { onClick: (e, row ) => selectRow({id: row.Id})} }
                 />
-            </>
+            </div>
 
 export default NaturkiTable

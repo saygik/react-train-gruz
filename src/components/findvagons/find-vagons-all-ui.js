@@ -30,6 +30,7 @@ const FindVagonsAllUI = ({   caption,
                              selectedVagonKod,
                              selectVagonKod,
                              clearVagonKod,
+                             clearVagonsFilter,
                        columns
                    }) =>
     <PageTemplate
@@ -55,6 +56,7 @@ const FindVagonsAllUI = ({   caption,
                            selectedVagonKod={selectedVagonKod}
                            selectVagonKod={selectVagonKod}
                            clearVagonKod={clearVagonKod}
+                           clearVagonsFilter={clearVagonsFilter}
                            findVagons={findVagons}/>
         <FindVagonsTable data={data}
                          selectVagon={selectVagon}
