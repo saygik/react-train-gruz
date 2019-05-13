@@ -2,6 +2,7 @@ import Spravka31 from "../spravka31"
 import Naturki from "../naturki"
 import Spravka1 from "../spravka1"
 import Spravka2 from "../spravka2"
+import {FindVagonsAll} from "../findvagons"
 import VagonPodhod from "../vagonpodhod"
 import GruzStatistics from "../gruz-statistics"
 import Logo from '../../img/train.png'
@@ -13,6 +14,7 @@ const navlinks = [
     { name: "Наличие вагонов с местным грузом", to: "/mesgruz", component: Spravka31 },
     { name: "Натурки мест", to: "/naturki", component: Naturki },
     { name: "Подход вагонов", to: "/podhod", component: VagonPodhod },
+    { name: "Поиск вагонов", to: "/findvagons", component: FindVagonsAll },
 ]
 export {
     brand,

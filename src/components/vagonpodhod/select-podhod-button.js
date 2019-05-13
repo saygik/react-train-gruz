@@ -5,7 +5,7 @@ const SelectPodhodButton = ({selected, num, text, selectCurrentPodhod, podhodNum
                 <Col style={{width: '30%'}}
                      className={`m-1 text-center  ${selected ? 'gruz-button-selected':'gruz-button' }`}
                      onClick={()=> num>0 && selectCurrentPodhod(podhodNumber)}>
-                       <Badge pill variant={selected ? 'success':'secondary'}>{num}</Badge>
+                    {num && <Badge pill variant={selected ? 'success':'secondary'}>{num}</Badge>}
                        <span className={'d-block text-truncate gruz-font-90'}>{text}</span>
                 </Col>
 

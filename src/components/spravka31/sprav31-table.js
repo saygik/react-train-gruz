@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col} from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
-import FindVagons from '../findvagons'
+import {FindVagons} from '../findvagons'
 
 class Sprav31Table extends Component {
 

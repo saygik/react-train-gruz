@@ -7,7 +7,7 @@ import {OrderedMap, Map} from 'immutable'
 
 
 
-axios.defaults.timeout = 1000 * 30
+axios.defaults.timeout = 1000 * 45
 
 const _apiBase = apiConfig.apiGruzUrl
 
@@ -54,6 +54,9 @@ export const fetchGruzSprav2 = async () => await getResource(`gruzSprav2`)
 export const fetchGruzSprav31 = async () => await getResource(`gruzSprav31`)
 
 export const fetchGruzNaturki = async () => await getResource(`gruzNaturki`)
+export const fetchGruzClients = async () => await getResource(`gruzClients/nod`)
+export const fetchGruzGruz = async () => await getResource(`gruzGruz`)
+
 
 export const fetchStatistics =  async () => {
     const res= await getResource(`gruz`)
@@ -67,6 +70,8 @@ export const fetchStatistics =  async () => {
 export const fetchPodhod = async (stantion) =>  await getResource(`gruzPodhod/${stantion}`)
 
 export const fetchFindVagons = async (row) => await  getResource(`gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`)
+export const fetchFindVagonsAll = async (row) => await  getResource(`gruzFindVagonsAll/${row.stan}/${row.client}/${row.gruz}/${row.vagon}`)
+
 
 export const fetchPogrVygr = async (row) =>  await getResource(`gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`)
 

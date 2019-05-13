@@ -7,7 +7,7 @@ const customStyles = {
         padding: '0.3rem',
     }),
 }
-const select =({value, onChange, options, placeholder, isMulti })=>
+const select =({value, onChange, options, placeholder, isMulti, isClearable, isSearchable, isLoading })=>
             <div className={'pl-1 gruz-font-70'} style={{width: '18rem'}}>
                 <Select
                     placeholder={placeholder}
@@ -16,6 +16,9 @@ const select =({value, onChange, options, placeholder, isMulti })=>
                     onChange={onChange}
                     styles={customStyles}
                     isMulti={isMulti}
+                    isClearable={isClearable}
+                    isLoading={isLoading}
+                    isSearchable={isSearchable}
                 />
             </div>
 
