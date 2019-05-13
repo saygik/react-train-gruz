@@ -210,6 +210,91 @@ const tablesColumns= {
 
         }
     ],
+    findvagonsall: [
+        {
+            dataField: 'Idd',
+            text: '#',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+
+        },
+        {
+            dataField: 'Kodv',
+            text: 'вагон',
+            align: 'center',
+            headerStyle: {
+                width: '60px'
+            }
+
+        },
+        {
+            dataField: 'Nametip',
+            text: 'тип',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+        {
+            dataField: 'Ind',
+            text: 'инд',
+            align: 'center',
+            headerStyle: {
+                width: '90px'
+            }
+        },
+        {
+            dataField: 'Nameoper',
+            text: 'опер',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+        {
+            dataField: 'Datelast',
+            text: 'дата',
+            align: 'center',
+            headerStyle: {
+                width: '80px'
+            }
+
+        },
+        {
+            dataField: 'Timelast',
+            text: 'время',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
+            }
+        },
+        {
+            dataField: 'Namekodslast',
+            text: 'стан по',
+            headerStyle: {
+                width: '130px'
+            }
+        },
+        {
+            dataField: 'Nameklient',
+            text: 'клиент',
+        },
+        {
+            dataField: 'Ves',
+            text: 'вес',
+            align: 'center',
+            headerStyle: {
+                width: '40px'
+            }
+        },
+        {
+            dataField: 'Namegruz',
+            text: 'груз',
+
+        }
+    ],
     podhod: [
         {
             dataField: 'Idd',
@@ -864,6 +949,7 @@ export default (moduleName)=> {
         case 'podhod':
         case 'pogrvygr':
         case 'findvagons':
+        case 'findvagonsall':
             return addFindVagonsClasses(tablesColumns[moduleName])
         case 'spravka31':
             return addSpravka31Classes(tablesColumns[moduleName])

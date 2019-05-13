@@ -4,6 +4,7 @@ import {saga as spravka2Saga} from '../ducks/spravka2'
 import {saga as spravka31Saga} from '../ducks/spravka31'
 import {saga as wagonapproachSaga} from '../ducks/vagonpodhod'
 import {saga as findvagonsSaga} from '../ducks/findvagons'
+import {saga as findvagonsAllSaga} from '../ducks/findvagonsall'
 import {saga as pogrvygrSaga} from '../ducks/pogrvygr'
 import {saga as findvagonhistorySaga} from '../ducks/findvagonhistory'
 import {saga as findpoezdvagonsSaga} from '../ducks/findpoezdvagons'
@@ -19,6 +20,7 @@ export default function * rootSaga() {
         spravka31Saga(),
         wagonapproachSaga(),
         findvagonsSaga(),
+        findvagonsAllSaga(),
         pogrvygrSaga(),
         findpoezdvagonsSaga(),
         findvagonhistorySaga(),

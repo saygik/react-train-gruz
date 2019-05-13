@@ -6,13 +6,14 @@ import {SpravkaHeader, StantionsHeader} from '../headers'
 
 const FindVagonsUI = ({ loading,
                           closeExpanded,
-                          vagonsOnStance,
+                          data,
                           criteria,
                           sumVes,
                           stanPOName,
                           selectVagon,
                           selectedVagon,
                           closeFindVagonsHistory,
+                          selectedStantionTo,
                           columns
                       }) =>
             <Row  className="p-1 m-1 gruz-bg-4">
@@ -20,9 +21,9 @@ const FindVagonsUI = ({ loading,
                     <SpravkaHeader loading={loading}  closeExpanded={closeExpanded} />
                     <Row className='pt-1'>
                         <Col  className='p-0'>
-                            <StantionsHeader stanName={criteria.stanName} onStation={criteria.onStation+criteria.onNod} stanPOName={stanPOName} tipVagons={criteria.tipName} numVagons={vagonsOnStance.length} />
+                            <StantionsHeader stanName={criteria.stanName} onStation={criteria.onStation+criteria.onNod} stanPOName={stanPOName} tipVagons={criteria.tipName} numVagons={data.length} />
                             {parse(sumVes===0 ? `Суммарный вес не определен` : `Суммарный вес: <span class="badge badge-pill badge-success">${sumVes}</span> т.`)}
-                            <FindVagonsTable vagonsOnStance={vagonsOnStance} selectVagon={selectVagon} selectedVagon={selectedVagon} closeFindVagonsHistory={closeFindVagonsHistory} columns={columns} />
+                            <FindVagonsTable data={data} selectVagon={selectVagon} selectedVagon={selectedVagon} closeFindVagonsHistory={closeFindVagonsHistory} columns={columns} />
                         </Col>
                     </Row>
                 </Col>

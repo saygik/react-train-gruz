@@ -4,7 +4,7 @@ import FindVagonsHistory from '../findvagonhistory'
 
 class FindVagonsTable extends Component {
     render() {
-        const { vagonsOnStance, selectVagon, selectedVagon, closeFindVagonsHistory, columns} = this.props;
+        const { data, selectVagon, selectedVagon, closeFindVagonsHistory, columns} = this.props;
         const expandRow = {
             renderer: row => (
                 <div className={'p-0 m-0'}>
@@ -24,7 +24,7 @@ class FindVagonsTable extends Component {
 
         return (
             <div>
-                <BootstrapTable keyField='Id' data={ vagonsOnStance } columns={ columns }  classes={'table-responsive-xl text-nowrap gruz-bg-1 mt-1'}   condensed expandRow={ expandRow } rowEvents={ rowEvents } />
+                <BootstrapTable keyField='Id' data={ data } columns={ columns }  classes={'table-responsive-xl text-nowrap gruz-bg-1 mt-1'}   condensed expandRow={ expandRow } rowEvents={ rowEvents } />
             </div>
         )
     }
