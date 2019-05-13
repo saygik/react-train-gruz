@@ -12,7 +12,7 @@ const PageHeader =(props)=> (
                         {props.loading && <LittleLoader/>}
                         </span>
                         <div className=' gruz-text-ls-sm text-right text-nowrap pr-4 font-italic gruz-font-70 pt-0 pb-0'>
-                        {props.infoMsg ? props.infoMsg :'Данные отсустсвуют'}
+                        {props.infoMsg  ? props.infoMsg :'Данные отсустсвуют'}
                         </div>
                 </div>
             </div>

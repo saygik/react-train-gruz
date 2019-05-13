@@ -4,6 +4,7 @@ import "isomorphic-fetch";
 import React from 'react'
 import {ViewScroll} from './containers/index'
 import Navbar from './navbar'
+import GruzIframe from "./ext-report-iframe/ext-report-iframe"
 
 import "./app.css"
 import 'bootstrap/dist/css/bootstrap.min.css'
