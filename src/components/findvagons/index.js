@@ -1,2 +1,6 @@
 import FindVagons from './find-vagons'
-export default FindVagons
+import FindVagonsAll from './find-vagons-all'
+export {
+    FindVagons,
+    FindVagonsAll
+}

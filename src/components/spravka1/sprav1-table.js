@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import FindVagons from '../findvagons'
+import {FindVagons} from '../findvagons'
 import SpravTableLegend from './sprav-table-legend'
 
 

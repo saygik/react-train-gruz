@@ -5,6 +5,7 @@ import spravka2Reducer, {moduleName as spravka2Module} from './spravka2'
 import podhodReducer, {moduleName as podhodModule} from './vagonpodhod'
 import pogrvygrReducer, {moduleName as pogrVygrModule} from './pogrvygr'
 import findvagonsReducer, {moduleName as findvagonsModule} from './findvagons'
+import findvagonsAllReducer, {moduleName as findvagonsAllModule} from './findvagonsall'
 import naturkiReducer, {moduleName as naturkiModule} from './naturki'
 import findvagonhistoryReducer, {moduleName as findvagonhistoryModule} from './findvagonhistory'
 import findpoezdvagonsReducer, {moduleName as findpoezdvagonsModule} from './findpoezdvagons'
@@ -21,6 +22,7 @@ export  default  {
     [spravka31Module]: spravka31Reducer,
     [podhodModule]: podhodReducer,
     [findvagonsModule]: findvagonsReducer,
+    [findvagonsAllModule]: findvagonsAllReducer,
     [pogrVygrModule]: pogrvygrReducer,
     [findvagonhistoryModule]: findvagonhistoryReducer,
     [naturkiModule]: naturkiReducer,

@@ -32,6 +32,6 @@ export default connect(state=>({
     stanPOName: filtredStationPOSelector(state),
     selectedVagon: selectedVagonSelector(state),
     loading: state[moduleName].loading,
-    vagonsOnStance: filtredNumeredVagonsSelector(state),
+    data: filtredNumeredVagonsSelector(state),
 }), actions)(FindVagons)
 

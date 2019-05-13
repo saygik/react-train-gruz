@@ -100,12 +100,14 @@ body { padding-top: 5.2rem; }
 }
 .gruz-button {
     cursor: pointer;
-    color: #5c5c5c;
+    color: #9b9b9b;
+
 }
 
 .gruz-button-selected {
     cursor: pointer;
-    border-width: 2px;
+    font-weight: bold;
+    border-width: .1rem;
     border-bottom-style: solid;
     border-bottom-color: #c82333;
     color: #000000;
