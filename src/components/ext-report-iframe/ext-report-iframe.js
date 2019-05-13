@@ -2,7 +2,7 @@ import React from 'react'
 import Iframe from 'react-iframe'
 import { PageTemplate } from  '../containers'
 
-import PropTypes from 'prop-types'
+
 
 const ExtReportIframe = ({url}) => {
     console.log(url)
@@ -28,7 +28,5 @@ const ExtReportIframe = ({url}) => {
     )
 }
 
-ExtReportIframe.propTypes = {}
-ExtReportIframe.defaultProps = {}
 
 export default ExtReportIframe

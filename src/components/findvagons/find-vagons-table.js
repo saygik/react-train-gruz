@@ -23,8 +23,8 @@ class FindVagonsTable extends Component {
         };
 
         return (
-            <div>
-                <BootstrapTable keyField='Id' data={ data } columns={ columns }  classes={'table-responsive-xl text-nowrap gruz-bg-1 mt-1'}   condensed expandRow={ expandRow } rowEvents={ rowEvents } />
+            <div style={{display:data.length>0 ? '': 'none' }}>
+                <BootstrapTable keyField='Id' data={ data } columns={ columns }  classes={'table-responsive-xl text-nowrap gruz-bg-1 mt-1'}  condensed expandRow={ expandRow } rowEvents={ rowEvents } />
             </div>
         )
     }

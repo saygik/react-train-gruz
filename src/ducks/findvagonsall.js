@@ -1,11 +1,8 @@
-import {all, take, call, put, select,takeEvery, putResolve} from 'redux-saga/effects'
+import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
-import {List, OrderedMap, Record, Map} from 'immutable'
+import {List,  Record} from 'immutable'
 import { createSelector } from 'reselect'
 import { fetchFindVagonsAll, fetchGruzStantions, fetchGruzClients, fetchGruzGruz} from '../services/api'
-
-import stanc from '../services/stanc'
-
 
 
 /************************************************************************
@@ -22,7 +19,7 @@ export const FETCH_FIND_VAGONS_REQUEST = `${prefix}/FETCH_FIND_VAGONS_REQUEST`
 export const FETCH_FIND_VAGONS_SUCCESS = `${prefix}/FETCH_FIND_VAGONS_SUCCESS`
 export const FETCH_FIND_VAGONS_ERROR = `${prefix}/FETCH_FIND_VAGONS_ERROR`
 export const EMPTY_FIND_VAGONS = `${prefix}/EMPTY_FIND_VAGONS`
-export const CRITERIA_CHANGE_FIND_VAGONS = `${prefix}/CRITERIA_CHANGE_FIND_VAGONS`
+//export const CRITERIA_CHANGE_FIND_VAGONS = `${prefix}/CRITERIA_CHANGE_FIND_VAGONS`
 export const SELECT_ROW_FIND_VAGONS_REQUEST = `${prefix}/SELECT_ROW_FIND_VAGONS_REQUEST`
 export const SELECT_ROW_FIND_VAGONS_SUCCESS = `${prefix}/SELECT_ROW_FIND_VAGONS_SUCCESS`
 export const DESELECT_ROW_FIND_VAGONS = `${prefix}/DESELECT_ROW_FIND_VAGONS`
@@ -37,6 +34,8 @@ export const SELECT_TIP_VAGONS = `${prefix}/SELECT_TIP_VAGONS`
 export const SELECT_GRUZ = `${prefix}/SELECT_GRUZ`
 export const SELECT_GRUZ_VALUES = `${prefix}/SELECT_GRUZ_VALUES`
 export const SELECT_VAGON_KOD = `${prefix}/SELECT_VAGON_KOD`
+export const CLEAR_VAGON_FILTER = `${prefix}/CLEAR_VAGON_FILTER`
+
 
 /*************************************************************************
  * Reducer
@@ -47,6 +46,15 @@ export const SELECT_VAGON_KOD = `${prefix}/SELECT_VAGON_KOD`
  *               onNod: 1
  *              }
  * */
+export const VagonsFilterRecord = Record({
+    selectedPodhod:1,
+    selectedStantionToValues:  null,
+    selectedClientValues:  null,
+    selectedGruzValues:  null,
+    selectedVagonKod:  '',
+    selectedTipVagons:0,
+})
+
 export const ReducerRecord = Record({
     vagons: [],
     loading: false,
@@ -55,14 +63,9 @@ export const ReducerRecord = Record({
     autoUpdateTime:0,
     selectedVagon: null,
     selectedStantionTo: new List([]),
-    selectedStantionToValues:  null,
     selectedClient: new List([]),
     selectedGruz: new List([]),
-    selectedClientValues:  null,
-    selectedGruzValues:  null,
-    selectedVagonKod:  '',
-    selectedPodhod:1,
-    selectedTipVagons:0,
+    vagonsFilter: new VagonsFilterRecord({}),
    findCriteria: null
 })
 
@@ -72,55 +75,55 @@ export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
 
     switch (type) {
+        case CLEAR_VAGON_FILTER:
+            return state
+                .set('vagonsFilter', new VagonsFilterRecord({}))
+                .set('selectedVagon', null)
+                .set('vagons', [])
+                .set('infoMsg', "Данные отсутствуют.")
         case FIRST_LOAD_CHANGE:
             return state
                 .set('firstLoad', payload)
         case SELECT_PODHOD:
             return state
-                .set('selectedPodhod', payload)
+                .setIn(['vagonsFilter','selectedPodhod'], payload)
         case SELECT_VAGON_KOD:
             return state
-                .set('selectedVagonKod', payload)
+                .setIn(['vagonsFilter','selectedVagonKod'], payload)
         case SELECT_TIP_VAGONS:
             return state
-                .set('selectedTipVagons', payload)
+                .setIn(['vagonsFilter','selectedTipVagons'], payload)
         case SELECT_STANTION_TO:
             return state
                 .set('selectedStantionTo', List(payload))
         case SELECT_STANTION_TO_VALUES:
             return state
-                .set('selectedStantionToValues', payload)
+                .setIn(['vagonsFilter','selectedStantionToValues'], payload)
         case SELECT_CLIENT_VALUES:
             return state
-                .set('selectedClientValues', payload)
+                .setIn(['vagonsFilter','selectedClientValues'], payload)
         case SELECT_GRUZ_VALUES:
             return state
-                .set('selectedGruzValues', payload)
+                .setIn(['vagonsFilter','selectedGruzValues'], payload)
         case SELECT_CLIENT:
             return state
                 .set('selectedClient', List(payload))
         case SELECT_GRUZ:
             return state
                 .set('selectedGruz', List(payload))
-        // case FETCH_FIND_ALL_VAGONS_REQUEST:
-        //     return state
-        //         .set('loading', true)
-        //         .set('infoMsg', 'Загрузка данных')
-        // case FETCH_FIND_ALL_VAGONS_SUCCESS:
-        //     return state
-        //         .set('loading', false)
         case SELECT_ROW_FIND_VAGONS_SUCCESS:
             return state
                 .set('selectedVagon', payload.vagon)
         case DESELECT_ROW_FIND_VAGONS:
             return state
                 .set('selectedVagon', null)
-        case CRITERIA_CHANGE_FIND_VAGONS:
-            return state
-                .set('findCriteria', payload.criteria)
+        // case CRITERIA_CHANGE_FIND_VAGONS:
+        //     return state
+        //         .set('findCriteria', payload.criteria)
         case FETCH_FIND_VAGONS_REQUEST:
             return state
                 .set('loading', true)
+                .set('infoMsg', "Обновление данных...")
         case FETCH_FIND_VAGONS_SUCCESS:
                 return state
                 .set('loading', false)
@@ -148,15 +151,16 @@ export const stateSelector = state => state[moduleName];
 export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
 export const sVagonSelector = createSelector(stateSelector, state=> state.selectedVagon)
 export const autoUpdateTimeSelector = createSelector(stateSelector, state=> state.autoUpdateTime)
-export const selectedPodhodSelector = createSelector(stateSelector, state=> state.selectedPodhod)
-export const selectedTipVagonsSelector = createSelector(stateSelector, state=> state.selectedTipVagons)
-export const selectedVagonKodSelector = createSelector(stateSelector, state=> state.selectedVagonKod)
+
+export const selectedTipVagonsSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedTipVagons']))
+export const selectedPodhodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedPodhod']))
+export const selectedVagonKodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedVagonKod']))
+export const selectedGruzValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedGruzValues']))
+export const selectedClientValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedClientValues']))
+export const selectedStantionToValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedStantionToValues']))
 
 export const selectedStantionToSelector= createSelector(stateSelector, state=> state.selectedStantionTo.valueSeq().toArray())
-export const selectedStantionToValuesSelector= createSelector(stateSelector, state=> state.selectedStantionToValues )
-export const selectedClientValuesSelector= createSelector(stateSelector, state=> state.selectedClientValues )
 export const selectedClientSelector= createSelector(stateSelector, state=> state.selectedClient.valueSeq().toArray())
-export const selectedGruzValuesSelector= createSelector(stateSelector, state=> state.selectedGruzValues )
 export const selectedGruzSelector= createSelector(stateSelector, state=> state.selectedGruz.valueSeq().toArray())
 
 export const filtredSelectedvagonsSelector = createSelector(sVagonSelector, vagonsSelector, (selectedVagon,vagons )=> {
@@ -232,6 +236,9 @@ export const actions = {
     selectVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: payload.target.value}),
     clearVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: ''}),
     findVagons: () => ({type: FETCH_FIND_VAGONS_REQUEST}),
+    clearVagonsFilter: () => ({type: CLEAR_VAGON_FILTER}),
+
+
 
 }
 
@@ -324,8 +331,6 @@ export const fetchFiltersDataSaga = function * () {
         }
 }
 
-
-
 export const selectRowSaga = function * (action) {
 
     try {
@@ -347,31 +352,6 @@ export const selectRowSaga = function * (action) {
     }
 }
 
-// export const fetchFindAllVagonsSaga = function * () {
-//
-//     try {
-//         yield put({
-//             type: FIRST_LOAD_CHANGE, payload: true
-//         })
-//         yield put({
-//             type: CRITERIA_CHANGE_FIND_VAGONS, payload: {criteria:{stan:'1385',tip:0,onStation:0,onNod:0} }
-//         })
-//         yield put({
-//             type: EMPTY_FIND_VAGONS
-//         })
-//         yield put({
-//             type: DESELECT_ROW_FIND_VAGONS
-//         })
-//         yield put({
-//             type: FETCH_FIND_VAGONS_REQUEST
-//         })
-//
-//
-//     } catch (_) {
-//
-//     }
-// }
-//
 export function* saga() {
     yield all([
         fetchFindVagonsSaga(),
