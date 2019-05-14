@@ -2,7 +2,7 @@ import "@babel/polyfill";
 import "isomorphic-fetch";
 
 import React from 'react'
-import {ViewScroll} from './containers/index'
+import {ViewScroll} from './shared/containers/index'
 import Navbar from './navbar'
 
 

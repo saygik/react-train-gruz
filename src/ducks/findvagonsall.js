@@ -2,7 +2,7 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {List,  Record} from 'immutable'
 import { createSelector } from 'reselect'
-import { fetchFindVagonsAll, fetchGruzStantions, fetchGruzClients, fetchGruzGruz} from '../services/api'
+import { fetchFindVagonsAll, fetchGruzStantions, fetchGruzClients, fetchGruzGruz, fetchGruzAllClients} from '../services/api'
 
 
 /************************************************************************
@@ -13,8 +13,10 @@ export const rusName = 'Поиск вагонов'
 const prefix = `${appName}/${moduleName}`
 
 
-// export const FETCH_FIND_ALL_VAGONS_REQUEST = `${prefix}/FETCH_FIND_ALL_VAGONS_REQUEST`
-// export const FETCH_FIND_ALL_VAGONS_SUCCESS = `${prefix}/FETCH_FIND_ALL_VAGONS_SUCCESS`
+
+export const FETCH_ALL_CLIENTS_REQUEST = `${prefix}/FETCH_ALL_CLIENTS_REQUEST`
+export const FETCH_ALL_CLIENTS_SUCCESS = `${prefix}/FETCH_ALL_CLIENTS_SUCCESS`
+export const FETCH_ALL_CLIENTS_ERROR = `${prefix}/FETCH_ALL_CLIENTS_ERROR`
 export const FETCH_FIND_VAGONS_REQUEST = `${prefix}/FETCH_FIND_VAGONS_REQUEST`
 export const FETCH_FIND_VAGONS_SUCCESS = `${prefix}/FETCH_FIND_VAGONS_SUCCESS`
 export const FETCH_FIND_VAGONS_ERROR = `${prefix}/FETCH_FIND_VAGONS_ERROR`
@@ -35,6 +37,7 @@ export const SELECT_GRUZ = `${prefix}/SELECT_GRUZ`
 export const SELECT_GRUZ_VALUES = `${prefix}/SELECT_GRUZ_VALUES`
 export const SELECT_VAGON_KOD = `${prefix}/SELECT_VAGON_KOD`
 export const CLEAR_VAGON_FILTER = `${prefix}/CLEAR_VAGON_FILTER`
+export const SELECT_CLIENT_KOD = `${prefix}/SELECT_CLIENT_KOD`
 
 
 /*************************************************************************
@@ -53,6 +56,7 @@ export const VagonsFilterRecord = Record({
     selectedGruzValues:  null,
     selectedVagonKod:  '',
     selectedTipVagons:0,
+    selectedClientKod:  '',
 })
 
 export const ReducerRecord = Record({
@@ -90,6 +94,9 @@ export default function reducer(state = new ReducerRecord(), action) {
         case SELECT_VAGON_KOD:
             return state
                 .setIn(['vagonsFilter','selectedVagonKod'], payload)
+        case SELECT_CLIENT_KOD:
+            return state
+                .setIn(['vagonsFilter','selectedClientKod'], payload)
         case SELECT_TIP_VAGONS:
             return state
                 .setIn(['vagonsFilter','selectedTipVagons'], payload)
@@ -105,6 +112,14 @@ export default function reducer(state = new ReducerRecord(), action) {
         case SELECT_GRUZ_VALUES:
             return state
                 .setIn(['vagonsFilter','selectedGruzValues'], payload)
+        case FETCH_ALL_CLIENTS_SUCCESS:
+            return state
+                .set('selectedClient', List(payload.data))
+                .set('infoMsg', payload.msg)
+        case FETCH_ALL_CLIENTS_ERROR:
+            return state
+                .set('infoMsg', payload.msg)
+                .set('selectedClient', new List([]))
         case SELECT_CLIENT:
             return state
                 .set('selectedClient', List(payload))
@@ -155,6 +170,7 @@ export const autoUpdateTimeSelector = createSelector(stateSelector, state=> stat
 export const selectedTipVagonsSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedTipVagons']))
 export const selectedPodhodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedPodhod']))
 export const selectedVagonKodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedVagonKod']))
+export const selectedClientKodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedClientKod']))
 export const selectedGruzValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedGruzValues']))
 export const selectedClientValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedClientValues']))
 export const selectedStantionToValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedStantionToValues']))
@@ -184,6 +200,9 @@ export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelect
     }
 })
 
+export const selectedFiltredClientsSelector= createSelector(selectedClientSelector,selectedClientKodSelector, (clients, findString)=>
+               clients.filter(elem=>elem.value.includes(findString) || elem.label.includes(findString))
+)
 
 const filtredVagonsSelector = createSelector(vagonsSelector,selectedPodhodSelector,selectedTipVagonsSelector, (vagons,podhod,tipVagons )=> {
     let filtredVagons=[]
@@ -228,6 +247,7 @@ export const actions = {
     selectVagon: (row)=> ({type: SELECT_ROW_FIND_VAGONS_REQUEST, payload: {row}}),
     closeFindVagonsHistory: () => ({type: DESELECT_ROW_FIND_VAGONS}),
     fetchAll: () => ({type: FETCH_FILTERS_DATA_REQUEST}),
+    fetchAllClients: () => ({type: FETCH_ALL_CLIENTS_REQUEST}),
     selectStantionTo: (payload) => ({type: SELECT_STANTION_TO_VALUES, payload: payload}),
     selectTipVagons: (payload) => ({type: SELECT_TIP_VAGONS, payload: payload}),
     selectPodhod: (payload) => ({type: SELECT_PODHOD, payload: payload}),
@@ -237,7 +257,8 @@ export const actions = {
     clearVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: ''}),
     findVagons: () => ({type: FETCH_FIND_VAGONS_REQUEST}),
     clearVagonsFilter: () => ({type: CLEAR_VAGON_FILTER}),
-
+    selectClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: payload.target.value}),
+    clearClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: ''}),
 
 
 }
@@ -352,12 +373,45 @@ export const selectRowSaga = function * (action) {
     }
 }
 
+export const fetchAllClientsSaga = function * () {
+    while (true) {
+        yield take(FETCH_ALL_CLIENTS_REQUEST)
+        yield put({
+            type: FIRST_LOAD_CHANGE, payload: true
+        })
+
+        const res = yield call(fetchGruzAllClients)
+        if (res.fetchOK) {
+            yield put({
+                type: FETCH_ALL_CLIENTS_SUCCESS,
+                payload: {data: res.data.map(elem=> ({ value: elem.KodClient, label: elem.NameClient })), msg: res.msg}
+            })
+            yield put({
+                type: FIRST_LOAD_CHANGE, payload: false
+            })
+
+        }else {
+            yield put({
+                type: FIRST_LOAD_CHANGE, payload: false
+            })
+            yield put({
+                type: FETCH_ALL_CLIENTS_ERROR,
+                payload: {msg: res.msg }
+            })
+        }
+
+    }
+}
+
+
 export function* saga() {
     yield all([
         fetchFindVagonsSaga(),
         fetchFiltersDataSaga(),
+        fetchAllClientsSaga(),
         takeEvery(SELECT_ROW_FIND_VAGONS_REQUEST,selectRowSaga),
         // takeEvery(FETCH_FIND_ALL_VAGONS_REQUEST,fetchFindAllVagonsSaga),
 
     ])
 }
+

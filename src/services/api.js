@@ -55,6 +55,8 @@ export const fetchGruzSprav31 = async () => await getResource(`gruzSprav31`)
 
 export const fetchGruzNaturki = async () => await getResource(`gruzNaturki`)
 export const fetchGruzClients = async () => await getResource(`gruzClients/nod`)
+export const fetchGruzAllClients = async () => await getResource(`gruzClients`)
+
 export const fetchGruzGruz = async () => await getResource(`gruzGruz`)
 
 

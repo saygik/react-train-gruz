@@ -1,12 +1,13 @@
 import React from "react"
-import Spravka31 from "../spravka31"
-import Naturki from "../naturki"
-import Spravka1 from "../spravka1"
-import Spravka2 from "../spravka2"
-import VagonPodhod from "../vagonpodhod"
-import GruzStatistics from "../gruz-statistics"
-import ExtReportIframe from "../ext-report-iframe"
-import {FindVagonsAll} from "../findvagons"
+import Spravka31 from "../pages/spravka31"
+import Naturki from "../pages/naturki"
+import Spravka1 from "../pages/spravka1"
+import Spravka2 from "../pages/spravka2"
+import VagonPodhod from "../pages/vagonpodhod"
+import GruzStatistics from "../shared/gruz-statistics"
+import ExtReportIframe from "../pages/ext-report-iframe"
+import {FindVagonsAll} from "../pages/findvagons"
+import Clients from '../pages/clients'
 import Logo from '../../img/train.png'
 
 const brand = { name: "Грузовая работа", to: "/", component: GruzStatistics, logo: Logo }
@@ -20,6 +21,7 @@ const navlinks = [
     { name: "Натурки мест", to: "/naturki", component: Naturki },
     { name: "Подход вагонов", to: "/podhod", component: VagonPodhod },
     { name: "Поиск вагонов", to: "/findvagons", component: FindVagonsAll },
+    { name: "Поиск клиентов", to: "/clients", component: Clients },
     { divider: "true" },
     { name: "НОД-2 Наличие экспорта на отделении", to: "/nod2exp", component: nod2exp, render: true},
     { name: "Наличие вагонов с грузом для Семянувки на отделении", to: "/semvag", component: semvag, render: true},
