@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewScrollConsumer } from '../context'
+import { ViewScrollConsumer } from '../shared/context'
 
 const withViewScroll = () => (Wrapped) => {
 
