@@ -3,7 +3,6 @@ import {connect} from "react-redux"
 import ClientsUI from './clients-ui'
 import {
     moduleName,  actions,
-    selectedClientSelector,
     selectedClientKodSelector,
     selectedFiltredClientsSelector,
 } from '../../../ducks/findvagonsall'
