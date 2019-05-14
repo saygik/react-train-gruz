@@ -34,7 +34,7 @@ class FindVagons extends Component {
                     <Row className='pt-1'>
                         <Col  className='p-0'>
                             <PogrVygrHeader caption={criteria.caption} />
-                            <FindVagonsTable vagonsOnStance={vagonsOnStance} selectVagon={selectVagon} selectedVagon={selectedVagon} closeFindVagonsHistory={closeFindVagonsHistory} columns={columns} />
+                            <FindVagonsTable data={vagonsOnStance} selectVagon={selectVagon} selectedVagon={selectedVagon} closeFindVagonsHistory={closeFindVagonsHistory} columns={columns} />
                         </Col>
                     </Row>
                 </Col>
