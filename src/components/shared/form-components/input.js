@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form} from 'react-bootstrap'
-const Input=({value, onChange, clearText, placeholder})=> {
+const Input=({value, onChange, placeholder})=> {
     return (
         <div>
             <Form>
@@ -14,6 +14,5 @@ const Input=({value, onChange, clearText, placeholder})=> {
         </div>
     )
 }
-
 
 export default Input

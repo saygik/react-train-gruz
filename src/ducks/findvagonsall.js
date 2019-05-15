@@ -200,9 +200,10 @@ export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelect
     }
 })
 
-export const selectedFiltredClientsSelector= createSelector(selectedClientSelector,selectedClientKodSelector, (clients, findString)=>
-               clients.filter(elem=>elem.value.includes(findString) || elem.label.includes(findString))
-)
+export const selectedFiltredClientsSelector= createSelector(selectedClientSelector,selectedClientKodSelector, (clients, findString)=> {
+    const findStringtoUpperCase=findString.toUpperCase()
+ return   clients.filter(elem => elem.value.includes(findString) || elem.label.includes(findString) || elem.label.includes(findStringtoUpperCase))
+})
 
 const filtredVagonsSelector = createSelector(vagonsSelector,selectedPodhodSelector,selectedTipVagonsSelector, (vagons,podhod,tipVagons )=> {
     let filtredVagons=[]
@@ -254,11 +255,9 @@ export const actions = {
     selectClient: (payload) => ({type: SELECT_CLIENT_VALUES, payload: payload}),
     selectGruz: (payload) => ({type: SELECT_GRUZ_VALUES, payload: payload}),
     selectVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: payload.target.value}),
-    clearVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: ''}),
     findVagons: () => ({type: FETCH_FIND_VAGONS_REQUEST}),
     clearVagonsFilter: () => ({type: CLEAR_VAGON_FILTER}),
     selectClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: payload.target.value}),
-    clearClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: ''}),
 
 
 }

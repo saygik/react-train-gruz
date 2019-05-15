@@ -541,11 +541,11 @@ const tablesColumns= {
         },
         {
             dataField: 'KODS',
-            text: 'КОД',
+            text: 'код',
         },
         {
             dataField: 'COLS',
-            text: 'ВСЕГО',
+            text: 'ВСЕ',
         },
         {
             dataField: 'COLS1',
@@ -573,7 +573,7 @@ const tablesColumns= {
         },
         {
             dataField: 'COLP',
-            text: 'ВСЕГО',
+            text: 'ВСЕ',
         },
         {
             dataField: 'COLP1',
@@ -601,7 +601,7 @@ const tablesColumns= {
         },
         {
             dataField: 'COLD',
-            text: 'ВСЕГО',
+            text: 'ВСЕ',
         },
         {
             dataField: 'COLD1',
@@ -629,7 +629,7 @@ const tablesColumns= {
         },
         {
             dataField: 'COL',
-            text: 'ИТОГО',
+            text: 'итог',
             align: 'center',
             headerClasses: 'gruz-bg-4 gruz-font-70 pb-1 pt-2',
             classes: 'p-0 gruz-bg-4',
@@ -847,31 +847,31 @@ const addSpravka1Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>
         el.headerStyle= () => ({ textAlign: 'center' })
     }
     if (el.dataField.includes('NAME')) {
-        el.classes= 'p-0 m-0 gruz-font-80'
-        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.classes= 'p-0 m-0 gruz-font-60'
+        el.headerClasses= 'gruz-font-70 gruz-bg-4  pb-1 pt-2  p-0 m-0 gruz-font-normal '
         el.headerStyle= () => ({ width: '160px', textAlign: 'center' })
     }
     if (el.dataField.includes('KODS')) {
-        el.classes= 'p-0 m-0 gruz-font-80'
-        el.headerClasses= 'gruz-font-80 gruz-bg-4  pb-1 pt-2'
+        el.classes= 'p-0 m-0 gruz-font-60'
+        el.headerClasses= 'gruz-font-70 gruz-bg-4  pb-1 pt-2  p-0 m-0 gruz-font-normal '
         el.headerStyle= () => ({ width: '50px', textAlign: 'center' })
     }
     if (el.dataField.includes('COL')) {
-        el.classes= 'p-0 gruz-bg-4 gruz-font-90'
-        el.headerClasses= 'gruz-bg-4 gruz-font-70 pb-1 pt-2'
+        el.classes= 'p-0 gruz-bg-4 gruz-font-70'
+        el.headerClasses= 'gruz-bg-4 gruz-font-70 pb-1 pt-2 p-0 m-0 gruz-font-normal '
     }
     switch (el.dataField) {
         case 'COLS':
-            el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1'
-            el.classes= 'gruz-font-90 p-0 gruz-bg-1 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-1 gruz-font-60 pb-1 gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 gruz-bg-1 gruz-grid-cell'
             return el
         case 'COLP':
-            el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
-            el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-6 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-6 gruz-font-60 pb-1 pt-2 gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 m-0 gruz-bg-6 gruz-grid-cell'
             return el
         case 'COLD':
-            el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
-            el.classes= 'gruz-font-90 p-0 m-0 gruz-bg-7 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2 gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 m-0 gruz-bg-7 gruz-grid-cell'
             return el
         case 'COLS1':
         case 'COLS2':
@@ -879,8 +879,8 @@ const addSpravka1Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>
         case 'COLS4':
         case 'COLS5':
         case 'COLS6':
-            el.headerClasses= 'gruz-bg-1 gruz-font-70 pb-1 pt-2'
-            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-1 gruz-font-60 pb-1 pt-2  gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 m-0 gruz-grid-cell'
             return el
         case 'COLP1':
         case 'COLP2':
@@ -888,8 +888,8 @@ const addSpravka1Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>
         case 'COLP4':
         case 'COLP5':
         case 'COLP6':
-            el.headerClasses= 'gruz-bg-6 gruz-font-70 pb-1 pt-2'
-            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-6 gruz-font-60 pb-1 pt-2 gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 m-0 gruz-grid-cell'
             return el
         case 'COLD1':
         case 'COLD2':
@@ -897,8 +897,8 @@ const addSpravka1Classes = tablesColumnsArray => tablesColumnsArray.map((elem)=>
         case 'COLD4':
         case 'COLD5':
         case 'COLD6':
-            el.headerClasses= 'gruz-bg-7 gruz-font-70 pb-1 pt-2'
-            el.classes= 'gruz-font-90 p-0 m-0 gruz-grid-cell'
+            el.headerClasses= 'gruz-bg-7 gruz-font-60 pb-1 pt-2 gruz-font-normal p-0 m-0'
+            el.classes= 'gruz-font-70 p-0 m-0 gruz-grid-cell'
             return el
         default:
             return el

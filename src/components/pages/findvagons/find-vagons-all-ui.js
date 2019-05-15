@@ -29,7 +29,6 @@ const FindVagonsAllUI = ({   caption,
                              findVagons,
                              selectedVagonKod,
                              selectVagonKod,
-                             clearVagonKod,
                              clearVagonsFilter,
                        columns
                    }) =>
@@ -55,7 +54,6 @@ const FindVagonsAllUI = ({   caption,
                            selectTipVagons={selectTipVagons}
                            selectedVagonKod={selectedVagonKod}
                            selectVagonKod={selectVagonKod}
-                           clearVagonKod={clearVagonKod}
                            clearVagonsFilter={clearVagonsFilter}
                            findVagons={findVagons}/>
         <FindVagonsTable data={data}
