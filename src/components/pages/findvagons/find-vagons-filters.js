@@ -88,7 +88,7 @@ const FindVagonsFilters = ({
                 />
             </div>
             <div className={'pl-1 gruz-font-70 form-group has-feedback has-clear'}  >
-                <Input value={selectedVagonKod} onChange={selectVagonKod} clearText={clearVagonKod} placeholder={'Набирайте код вагона...'}/>
+                <Input value={selectedVagonKod} onChange={selectVagonKod} placeholder={'Набирайте код вагона...'}/>
             </div>
 
         </Col>

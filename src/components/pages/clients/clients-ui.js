@@ -10,7 +10,6 @@ const ClientsUI=({   caption,
                      selectedClients,
                      selectedClientKod,
                      selectClientKod,
-                     clearClientKod
                  }) => {
     return  <PageTemplate
         fetchAll={fetchAllClients}
@@ -23,7 +22,7 @@ const ClientsUI=({   caption,
             <Row className="justify-content-md-center m-0 p-2" >
                 <Col md={7}>
                     <div className={'pl-1 gruz-font-70 form-group has-feedback has-clear'}  >
-                        <Input value={selectedClientKod} onChange={selectClientKod} clearText={clearClientKod}  placeholder={'Набирайте код клиента либо наименование...'}/>
+                        <Input value={selectedClientKod} onChange={selectClientKod}  placeholder={'Набирайте код клиента либо наименование...'}/>
                     </div>
                 </Col>
             </Row>

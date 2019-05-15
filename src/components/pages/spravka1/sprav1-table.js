@@ -29,7 +29,7 @@ class Sprav1Table extends Component {
                     <BootstrapTable keyField='ID'
                                 data={ stances }
                                 columns={ tableColumns }
-                                classes={'table-responsive-xl text-nowrap'}
+                                classes={'table-responsive-sm text-nowrap'}
                                 condensed
                                 expandRow={ expandRow }
                                 rowStyle={ rowStyle2 } />
