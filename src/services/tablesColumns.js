@@ -193,6 +193,14 @@ const tablesColumns= {
             }
         },
         {
+            dataField: 'Kodpol',
+            text: 'код кл',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
+            }
+        },
+        {
             dataField: 'Nameklient',
             text: 'клиент',
         },
@@ -275,6 +283,14 @@ const tablesColumns= {
             text: 'стан по',
             headerStyle: {
                 width: '130px'
+            }
+        },
+        {
+            dataField: 'Kodpol',
+            text: 'код кл',
+            align: 'center',
+            headerStyle: {
+                width: '50px'
             }
         },
         {
