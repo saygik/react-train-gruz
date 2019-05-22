@@ -2,7 +2,16 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {List,  Record} from 'immutable'
 import { createSelector } from 'reselect'
-import { fetchFindVagonsAll, fetchGruzStantions, fetchGruzClients, fetchGruzGruz, fetchGruzAllClients} from '../services/api'
+import {
+    fetchFindVagonsAll,
+    fetchGruzStantions,
+    fetchGruzClients,
+    fetchGruzGruz,
+    fetchGruzAllClients,
+    fetchUserByIP,
+    updateClient,
+    fetchGruzClientsForEdit
+} from '../services/api'
 
 
 /************************************************************************
@@ -38,6 +47,11 @@ export const SELECT_GRUZ_VALUES = `${prefix}/SELECT_GRUZ_VALUES`
 export const SELECT_VAGON_KOD = `${prefix}/SELECT_VAGON_KOD`
 export const CLEAR_VAGON_FILTER = `${prefix}/CLEAR_VAGON_FILTER`
 export const SELECT_CLIENT_KOD = `${prefix}/SELECT_CLIENT_KOD`
+export const CHANGE_USER_ACCESS = `${prefix}/CHANGE_USER_ACCESS`
+export const CLIENT_UPDATE_REQUEST = `${prefix}/CLIENT_UPDATE_REQUEST`
+export const CLIENT_UPDATE_SUCCESS = `${prefix}/CLIENT_UPDATE_SUCCESS`
+export const CLIENT_UPDATE_ERROR = `${prefix}/CLIENT_UPDATE_ERROR`
+export const SHOW_CLIENT_EDIT_FORM = `${prefix}/SHOW_CLIENT_EDIT_FORM`
 
 
 /*************************************************************************
@@ -63,6 +77,8 @@ export const ReducerRecord = Record({
     vagons: [],
     loading: false,
     firstLoad: true,
+    allowEdit: false,
+    showEditClientForm: false,
     infoMsg: '',
     autoUpdateTime:0,
     selectedVagon: null,
@@ -70,7 +86,7 @@ export const ReducerRecord = Record({
     selectedClient: new List([]),
     selectedGruz: new List([]),
     vagonsFilter: new VagonsFilterRecord({}),
-   findCriteria: null
+    findCriteria: null
 })
 
 
@@ -79,12 +95,27 @@ export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
 
     switch (type) {
+        case SHOW_CLIENT_EDIT_FORM:
+            return state
+                .set('showEditClientForm', payload)
+        case CLIENT_UPDATE_ERROR:
+            return state
+                .set('infoMsg', payload.msg)
+        case CLIENT_UPDATE_SUCCESS:
+            const index = state.get('selectedClient').findIndex(item => item.value === payload.data.kods)
+            return state
+                .setIn(['selectedClient',index,'label'],payload.data.name)
+                .setIn(['selectedClient',index,'adress'],payload.data.adress)
+                .set('infoMsg', payload.msg)
         case CLEAR_VAGON_FILTER:
             return state
                 .set('vagonsFilter', new VagonsFilterRecord({}))
                 .set('selectedVagon', null)
                 .set('vagons', [])
                 .set('infoMsg', "Данные отсутствуют.")
+        case CHANGE_USER_ACCESS:
+            return state
+                .set('allowEdit', payload)
         case FIRST_LOAD_CHANGE:
             return state
                 .set('firstLoad', payload)
@@ -166,6 +197,9 @@ export const stateSelector = state => state[moduleName];
 export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
 export const sVagonSelector = createSelector(stateSelector, state=> state.selectedVagon)
 export const autoUpdateTimeSelector = createSelector(stateSelector, state=> state.autoUpdateTime)
+export const allowEditSelector = createSelector(stateSelector, state=> state.allowEdit)
+export const showEditClientFormSelector = createSelector(stateSelector, state=> state.showEditClientForm)
+
 
 export const selectedTipVagonsSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedTipVagons']))
 export const selectedPodhodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedPodhod']))
@@ -201,7 +235,8 @@ export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelect
 })
 
 export const selectedFiltredClientsSelector= createSelector(selectedClientSelector,selectedClientKodSelector, (clients, findString)=> {
-    const findStringtoUpperCase=findString.toUpperCase()
+    if (findString.length<3) return  []
+  const findStringtoUpperCase=findString.toUpperCase()
  return   clients.filter(elem => elem.value.includes(findString) || elem.label.includes(findString) || elem.label.includes(findStringtoUpperCase))
 })
 
@@ -258,6 +293,8 @@ export const actions = {
     findVagons: () => ({type: FETCH_FIND_VAGONS_REQUEST}),
     clearVagonsFilter: () => ({type: CLEAR_VAGON_FILTER}),
     selectClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: payload.target.value}),
+    clientUpdate: (payload) => ({type: CLIENT_UPDATE_REQUEST, payload: payload}),
+    showClientEditForm: (payload) => ({type: SHOW_CLIENT_EDIT_FORM, payload: payload}),
 
 
 }
@@ -327,7 +364,7 @@ export const fetchFiltersDataSaga = function * () {
         if (res.fetchOK) {
             yield put({
                 type: SELECT_CLIENT,
-                payload: res.data.map(elem=> ({ value: elem.KodClient, label: `${elem.KodClient} ${elem.NameClient}` }))
+                payload: res.data.map(elem=> ({ value: elem.kodclient, label: `${elem.kodclient} ${elem.nameclient}` }))
             })
         }else {
         }
@@ -378,12 +415,34 @@ export const fetchAllClientsSaga = function * () {
         yield put({
             type: FIRST_LOAD_CHANGE, payload: true
         })
+        yield put({
+            type: CHANGE_USER_ACCESS, payload: false
+        })
+        let isAdmin=false
+        let res = yield call(fetchUserByIP)
+        if (res.fetchOK) {
+            if (res.data.Admin && res.data.Admin==='true') {
+                isAdmin=true
+                yield put({
+                    type: CHANGE_USER_ACCESS, payload: true
+                })
+            }
+        }
 
-        const res = yield call(fetchGruzAllClients)
+        // isAdmin=true
+        // yield put({
+        //     type: CHANGE_USER_ACCESS, payload: true
+        // })
+
+
+
+
+        res = yield call(isAdmin ? fetchGruzClientsForEdit : fetchGruzAllClients)
         if (res.fetchOK) {
             yield put({
                 type: FETCH_ALL_CLIENTS_SUCCESS,
-                payload: {data: res.data.map(elem=> ({ value: elem.KodClient, label: elem.NameClient })), msg: res.msg}
+                payload: {data: res.data.map(elem=> ({ value: elem.kodclient, label: elem.nameclient, adress: elem.adrclient })), msg: res.msg}
+
             })
             yield put({
                 type: FIRST_LOAD_CHANGE, payload: false
@@ -401,14 +460,45 @@ export const fetchAllClientsSaga = function * () {
 
     }
 }
+export const clientUpdateSaga =function * (action) {
+    try {
+        const kods=action.payload.kods===action.payload.name ? '' : '1348'
+        const updatedClient={kodclient: action.payload.kods, nameclient: action.payload.name.replace(/"/g, "'"), adrclient: action.payload.adress.replace(/"/g, "'"), kods: kods}
+        if (action.payload.kods) {
+            const res = yield call(updateClient,updatedClient)
+            if (res.fetchOK) {
+                yield put({
+                    type: CLIENT_UPDATE_SUCCESS, payload: {data: {kods: action.payload.kods,
+                                                                  name: action.payload.name.replace(/"/g, "'"),
+                                                                  adress: action.payload.adress.replace(/"/g, "'")},
+                                                           msg: res.msg}
+                })
+                yield put({
+                    type: SHOW_CLIENT_EDIT_FORM, payload: false
+                })
+            } else {
+                yield put({
+                    type: CLIENT_UPDATE_ERROR, payload: {msg: res.msg}
+                })
 
+            }
+
+        }
+
+
+    } catch (_) {
+
+    }
+}
 
 export function* saga() {
     yield all([
         fetchFindVagonsSaga(),
         fetchFiltersDataSaga(),
         fetchAllClientsSaga(),
+        takeEvery(CLIENT_UPDATE_REQUEST,clientUpdateSaga),
         takeEvery(SELECT_ROW_FIND_VAGONS_REQUEST,selectRowSaga),
+
         // takeEvery(FETCH_FIND_ALL_VAGONS_REQUEST,fetchFindAllVagonsSaga),
 
     ])

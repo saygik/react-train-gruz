@@ -1,7 +1,8 @@
 import React from 'react'
 import { PageTemplate } from '../../shared/containers/index'
-import { ListGroup ,Row, Col} from 'react-bootstrap'
+import { Row, Col} from 'react-bootstrap'
 import {Input} from '../../shared/form-components/index'
+import ClientsList from './clients-list'
 const ClientsUI=({   caption,
                      firstLoad,
                      infoMsg,
@@ -10,6 +11,10 @@ const ClientsUI=({   caption,
                      selectedClients,
                      selectedClientKod,
                      selectClientKod,
+                     clientUpdate,
+                     showEditForm,
+                     showClientEditForm,
+                     allowEdit
                  }) => {
     return  <PageTemplate
         fetchAll={fetchAllClients}
@@ -21,23 +26,17 @@ const ClientsUI=({   caption,
         <div>
             <Row className="justify-content-md-center m-0 p-2" >
                 <Col md={7}>
-                    <div className={'pl-1 gruz-font-70 form-group has-feedback has-clear'}  >
-                        <Input value={selectedClientKod} onChange={selectClientKod}  placeholder={'Набирайте код клиента либо наименование...'}/>
+                    <div className={'pl-1 pb-0 gruz-font-70 form-group has-feedback has-clear'}  >
+                        <span className={'pl-3'}>Набирайте код или наименование клиента (минимум 3 символа)</span>
+                        <Input value={selectedClientKod} onChange={selectClientKod}  placeholder={''}/>
                     </div>
                 </Col>
             </Row>
             <Row className="justify-content-md-center m-0 p-2" >
                 <Col md={5}>
-                    <ListGroup>
-                        {
-                            selectedClients.map((item,i) =>{
-                                return <ListGroup.Item key={i} className={'pt-1 pb-1'}><span className='text-secondary gruz-font-80'>{item.value}</span> <span className='text-primary gruz-font-80'>{item.label}</span></ListGroup.Item>
-                            })
-                        }
-                    </ListGroup>
+                    <ClientsList clientUpdate={clientUpdate} selectedClients={selectedClients} allowEdit={allowEdit} showEditForm={showEditForm} showClientEditForm={showClientEditForm} />
                 </Col>
             </Row>
-
         </div>
     </PageTemplate>
 }
