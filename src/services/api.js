@@ -7,22 +7,34 @@ import {OrderedMap, Map} from 'immutable'
 
 
 
-axios.defaults.timeout = 1000 * 45
+axios.defaults.timeout = 1000 * 55
 
-const _apiBase = apiConfig.apiGruzUrl
-
+const _apiBase =  apiConfig.apiGruzUrl
+//gruzClient 'http://localhost:9000/'
 const getResource =  (url) => {
-
-
     const errMsg='Ошибка получения данных'
     return axios.get(`${_apiBase}${url}`)
         .then (response =>  {
             if (response.status===200) {
-                // const ss=apiDatatoEntities(response.data.data,SpravRecord)
-                // console.log('---',ss.get(2))
-                // console.log('-2-',mapToArr(ss))
-
                 return {fetchOK: true,data: response.data.data, msg: `Данные обновлены в ${getCurrentDateTime()}`};
+            }
+            else {
+                console.log('-response-',response)
+                return {fetchOK: false, msg: errMsg};
+            }
+        })
+        .catch(error    =>   {
+            console.log('-err-',error )
+            return {fetchOK: false, msg: errMsg}
+        })
+}
+const postResource =  (url, data) => {
+    const errMsg='Ошибка изменения данных'
+    return axios.post(`${_apiBase}${url}`, data)
+        .then (response =>  {
+            if (response.status===200) {
+
+                return {fetchOK: true,data: [], msg: `Данные изменены в ${getCurrentDateTime()}`};
             }
             else {
                 return {fetchOK: false, msg: errMsg};
@@ -33,6 +45,7 @@ const getResource =  (url) => {
             return {fetchOK: false, msg: errMsg}
         })
 }
+
 
 export const  arrToEntities=(data, RecordModel = Map) => {
     return data.reduce((acc,item)=> {
@@ -46,7 +59,7 @@ export const  arrToMap=(data, RecordModel = Map) => {
 }
 
 
-
+export const updateClient = async (client) => await postResource(`gruzClient/`, client)
 export const fetchGruzSprav1 = async () => await getResource(`gruzSprav1`)
 
 export const fetchGruzSprav2 = async () => await getResource(`gruzSprav2`)
@@ -56,6 +69,8 @@ export const fetchGruzSprav31 = async () => await getResource(`gruzSprav31`)
 export const fetchGruzNaturki = async () => await getResource(`gruzNaturki`)
 export const fetchGruzClients = async () => await getResource(`gruzClients/nod`)
 export const fetchGruzAllClients = async () => await getResource(`gruzClients`)
+export const fetchGruzClientsForEdit = async () => await getResource(`gruzClients/all`)
+export const fetchUserByIP = async () => await getResource(`getIP`)
 
 export const fetchGruzGruz = async () => await getResource(`gruzGruz`)
 
