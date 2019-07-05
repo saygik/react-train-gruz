@@ -7,7 +7,8 @@ const AsusUI = ({   caption,
                        infoMsg,
                        loading,
                        fetchAll,
-                       autoUpdateTime
+                       autoUpdateTime,
+                       parks
                    }) =>
     <PageTemplate
         fetchAll={fetchAll}

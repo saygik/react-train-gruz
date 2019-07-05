@@ -4,7 +4,7 @@ import vagonsImages from '../../../../services/asus-vagons-images'
 const asusVagon = ({vagon}) => {
 
     return <><img
-        style={{width: '50px'}}
+        style={{width: '70px'}}
         src={vagonsImages[vagon.tip]}
         alt=""/></>
 }

@@ -9,6 +9,7 @@ const Asus = (props) => <AsusUI {...props} caption={rusName}/>
 export default connect(state=>({
     loading: state[moduleName].loading,
     infoMsg: state[moduleName].infoMsg,
-    firstLoad: state[moduleName].firstLoad
+    firstLoad: state[moduleName].firstLoad,
+    parks: selectors.parksSelector(state)
 }), actions)(Asus)
 

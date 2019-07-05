@@ -2,8 +2,8 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {OrderedMap, Record, List} from 'immutable'
 import { createSelector } from 'reselect'
-import { fetchAsusParks } from '../services/api'
-import {FETCH_SPRAVKA_REQUEST} from "./naturki"
+import {arrToMap, fetchAsusParks} from '../services/api'
+import {FETCH_SPRAVKA_ERROR, FETCH_SPRAVKA_REQUEST} from "./naturki"
 
 /************************************************************************
  * Constants
@@ -32,8 +32,11 @@ export const ReducerRecord = Record({
 
 
 
-export const SpravRecord = Record({
-
+export const parksRecord = Record({
+    id: null,
+    name: null,
+    num: null,
+    tip: null
 })
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -44,6 +47,16 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .set('loading', true)
                 .set('infoMsg', "Обновление данных...")
+        case FETCH_PARKS_SUCCESS:
+            return state
+                .set('loading', false)
+                .set('infoMsg', payload.msg)
+                .set('entities', payload.data)
+        case FETCH_PARKS_ERROR:
+            return state
+                .set('loading', false)
+                .set('firstLoad', false)
+                .set('infoMsg', payload.msg)
 
         default:
             return state
@@ -54,9 +67,10 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 const stateSelector = state => state[moduleName]
+const parksSelector = createSelector(stateSelector, state=> state.entities)
 
 export const selectors= {
-
+    parksSelector
 }
 
 /**********************************************************************
