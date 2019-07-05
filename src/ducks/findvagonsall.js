@@ -321,7 +321,6 @@ export const fetchFindVagonsSaga = function * () {
             gruz:gruz,
             vagon:vagon
         }
-         console.log('-criteria-',criteria)
         if (criteria === null) {
             yield put({
                 type: EMPTY_FIND_VAGONS
