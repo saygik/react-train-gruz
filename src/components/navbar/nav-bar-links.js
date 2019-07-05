@@ -6,6 +6,8 @@ import Spravka2 from "../pages/spravka2"
 import VagonPodhod from "../pages/vagonpodhod"
 import GruzStatistics from "../shared/gruz-statistics"
 import ExtReportIframe from "../pages/ext-report-iframe"
+import {FindVagonsAll} from "../pages/findvagons"
+import Clients from '../pages/clients'
 import Asus from "../pages/asus"
 import Logo from '../../img/train.png'
 
@@ -19,9 +21,12 @@ const navlinksGruz = [
     { name: "Наличие вагонов с местным грузом", to: "/mesgruz", component: Spravka31 },
     { name: "Натурки мест", to: "/naturki", component: Naturki },
     { name: "Подход вагонов", to: "/podhod", component: VagonPodhod },
+    { name: "Поиск вагонов", to: "/findvagons", component: FindVagonsAll },
+    { name: "Поиск клиентов", to: "/clients", component: Clients },
+    { divider: "true" },
     { name: "НОД-2 Наличие экспорта на отделении", to: "/nod2exp", component: nod2exp, render: true},
     { name: "Наличие вагонов с грузом для Семянувки на отделении", to: "/semvag", component: semvag, render: true},
-    { name: "Наличие вагонов с грузом для Семенувки/Кузницы на отделении", to: "/kuzvag", component: kuzvag, render: true},
+    { name: "Наличие вагонов с грузом для Семенувки/Кузницы на отделении", to: "/kuzvag", component: kuzvag, render: true}
 ]
 const navlinksAsus = [
     { name: "13857", to: "/nakoplenie13857", component: Asus},
