@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageTemplate } from  '../containers'
+import { PageTemplate } from  '../../shared/containers'
 
 
 const AsusUI = ({   caption,
