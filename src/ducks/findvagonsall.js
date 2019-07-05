@@ -463,7 +463,12 @@ export const fetchAllClientsSaga = function * () {
 export const clientUpdateSaga =function * (action) {
     try {
         const kods=action.payload.kods===action.payload.name ? '' : '1348'
-        const updatedClient={kodclient: action.payload.kods, nameclient: action.payload.name.replace(/"/g, "'"), adrclient: action.payload.adress.replace(/"/g, "'"), kods: kods}
+        const updatedClient={
+            kodclient: action.payload.kods,
+            nameclient:  action.payload.name.replace(/"/g, "'"),
+            adrclient:  action.payload.adress.replace(/"/g, "'") ,
+            kods: kods
+        }
         if (action.payload.kods) {
             const res = yield call(updateClient,updatedClient)
             if (res.fetchOK) {
@@ -486,8 +491,8 @@ export const clientUpdateSaga =function * (action) {
         }
 
 
-    } catch (_) {
-
+    } catch (err) {
+        console.log('-ERROR-',err)
     }
 }
 

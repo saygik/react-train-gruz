@@ -33,7 +33,7 @@ class ClientsList extends Component {
                                 {allowEdit ? <span className={'gruz-font-70 text-success'}
                                                    style={{float: 'right', cursor: 'pointer'}}
                                                    onClick={(e)=> {
-                                                       this.setState({ item: item });
+                                                       this.setState({ item: {kods: item.value || '', name: item.label || '', adress: item.adress || ''} });
                                                        showClientEditForm(true);
                                                    } }
                                 >изменить</span> : ''}

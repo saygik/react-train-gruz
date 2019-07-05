@@ -98,8 +98,6 @@ export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Да�
 
 export const fetchPoezdVagons = async (row) => await getResource(`gruzPoezdVagons/${row.kodp}/${row.fullnatur}`)
 
-export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
-
 
 const _transformStatistics = (stat) => {
     return [
