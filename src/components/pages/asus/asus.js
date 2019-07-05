@@ -1,7 +1,7 @@
 import React from 'react'
 import AsusUI from "./asus-ui"
 import {connect} from "react-redux"
-import {moduleName, rusName, selectors, actions} from "../../ducks/asus"
+import {moduleName, rusName, selectors, actions} from "../../../ducks/asus"
 
 
 const Asus = (props) => <AsusUI {...props} caption={rusName}/>

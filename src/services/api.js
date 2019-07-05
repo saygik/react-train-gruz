@@ -75,8 +75,6 @@ export const fetchUserByIP = async () => await getResource(`getIP`)
 export const fetchGruzGruz = async () => await getResource(`gruzGruz`)
 
 
-export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
-
 export const fetchStatistics =  async () => {
     const res= await getResource(`gruz`)
     return res.data ? {
@@ -99,6 +97,8 @@ export const fetchVagonHistory = async (row) => await getResource(`gruzFindVagon
 export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные обновлены в ${getCurrentDateTime()}`})
 
 export const fetchPoezdVagons = async (row) => await getResource(`gruzPoezdVagons/${row.kodp}/${row.fullnatur}`)
+
+export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
 
 
 const _transformStatistics = (stat) => {
