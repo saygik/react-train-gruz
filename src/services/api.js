@@ -55,6 +55,8 @@ export const fetchGruzSprav31 = async () => await getResource(`gruzSprav31`)
 
 export const fetchGruzNaturki = async () => await getResource(`gruzNaturki`)
 
+export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
+
 export const fetchStatistics =  async () => {
     const res= await getResource(`gruz`)
     return res.data ? {

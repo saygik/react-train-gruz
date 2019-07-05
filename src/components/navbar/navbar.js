@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, Route} from 'react-router-dom'
 import { Navbar, Nav,  NavDropdown} from 'react-bootstrap';
 import withViewScroll from "../hoc/with-view-scroll"
-import {brand, navlinks} from "./nav-bar-links"
+import {brand, navlinksGruz, navlinksAsus} from "./nav-bar-links"
 
 const NavbarGruz = ({showNavBar}) =>
             <>
@@ -14,19 +14,23 @@ const NavbarGruz = ({showNavBar}) =>
                     </Navbar.Brand>
                     <Nav className="pr-3">
                         <NavDropdown title="Отчеты" id="basic-nav-dropdown" >
-                            {navlinks.map((link, index) => <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
+                            {navlinksGruz.map((link, index) => <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
+                        </NavDropdown>
+                        <NavDropdown title="Asus" id="basic-nav-dropdown" >
+                            {navlinksAsus.map((link, index) => <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
                         </NavDropdown>
                     </Nav>
                 </Navbar>
                 </div>
                 <Route path="/" exact component={brand.component}/>
-                {navlinks.map((link, index) => !link.render ?  <Route key={index} path={link.to} component={link.component}/> :
+                {navlinksGruz.map((link, index) => !link.render ?  <Route key={index} path={link.to} component={link.component}/> :
                                                                <Route key={index}
                                                                       path={link.to}
                                                                       render={(routeProps)=>(
                                                                           React.cloneElement(link.component, {...routeProps})
                                                                       )}
                                                                />)}
+                {navlinksAsus.map((link, index) => <Route key={index} path={link.to} component={link.component}/>)}
             </>
 
 

@@ -8,6 +8,7 @@ import findvagonsReducer, {moduleName as findvagonsModule} from './findvagons'
 import naturkiReducer, {moduleName as naturkiModule} from './naturki'
 import findvagonhistoryReducer, {moduleName as findvagonhistoryModule} from './findvagonhistory'
 import findpoezdvagonsReducer, {moduleName as findpoezdvagonsModule} from './findpoezdvagons'
+import asusReducer, {moduleName as asusModule} from './asus'
 // import globalReducer, {moduleName as globalModule} from './global'
 
 
@@ -24,4 +25,5 @@ export  default  {
     [findvagonhistoryModule]: findvagonhistoryReducer,
     [naturkiModule]: naturkiReducer,
     [findpoezdvagonsModule]: findpoezdvagonsReducer,
+    [asusModule]: asusReducer
 }

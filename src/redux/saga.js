@@ -8,6 +8,7 @@ import {saga as pogrvygrSaga} from '../ducks/pogrvygr'
 import {saga as findvagonhistorySaga} from '../ducks/findvagonhistory'
 import {saga as findpoezdvagonsSaga} from '../ducks/findpoezdvagons'
 import {saga as naturkiSaga} from '../ducks/naturki'
+import {saga as asusSaga} from '../ducks/asus'
 
 import {all} from 'redux-saga/effects'
 
@@ -23,5 +24,6 @@ export default function * rootSaga() {
         findpoezdvagonsSaga(),
         findvagonhistorySaga(),
         naturkiSaga(),
+        asusSaga()
     ])
 }
