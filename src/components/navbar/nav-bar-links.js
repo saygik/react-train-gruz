@@ -29,7 +29,7 @@ const navlinksGruz = [
     { name: "Наличие вагонов с грузом для Семенувки/Кузницы на отделении", to: "/kuzvag", component: kuzvag, render: true}
 ]
 const navlinksAsus = [
-    { name: "13857", to: "/nakoplenie13857", component: Asus},
+    { name: "Барановичи-Центральные", to: "/nakoplenie13857", component: Asus},
 ]
 export {
     brand,

@@ -16,7 +16,7 @@ const NavbarGruz = ({showNavBar}) =>
                     <NavDropdown title="Отчеты" id="basic-nav-dropdown" >
                         {navlinksGruz.map((link, index) => link.divider ? <NavDropdown.Divider key={index} /> :<NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
                         </NavDropdown>
-                    <NavDropdown title="Asus" id="basic-nav-dropdown" >
+                    <NavDropdown title="АСУС" id="basic-nav-dropdown" >
                         {navlinksAsus.map((link, index) => <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
                     </NavDropdown>
                 </Nav>
