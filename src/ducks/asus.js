@@ -20,6 +20,7 @@ export const SELECT_PARKS_FIRSTLOAD = `${prefix}/SELECT_PARKS_FIRSTLOAD`
 export const FETCH_WAYS_REQUEST = `${prefix}/FETCH_WAYS_REQUEST`
 export const FETCH_WAYS_SUCCESS = `${prefix}/FETCH_WAYS_SUCCESS`
 export const FETCH_WAYS_ERROR = `${prefix}/FETCH_WAYS_ERROR`
+export const COLLAPSE_PARK = `${prefix}/COLLAPSE_PARK`
 
 
 
@@ -44,6 +45,7 @@ export const parkRecord = Record({
     name: null,
     tip: null,
     loading: false,
+    expanded: false,
     ways: new OrderedMap({}),
 })
 
@@ -72,10 +74,10 @@ export default function reducer(state = new ReducerRecord(), action) {
         case FETCH_WAYS_REQUEST:
               return state
                 .setIn(['parks', payload,'loading'], true)
-
         case FETCH_WAYS_SUCCESS:
             return state
                 .setIn(['parks', payload.parkId,'loading'], false)
+                .setIn(['parks', payload.parkId,'expanded'], true)
                 .setIn(['parks', payload.parkId,'ways'], arrToMapAsus(payload.data, wayRecord))
         case FETCH_PARKS_SUCCESS:
             return state
@@ -87,6 +89,11 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .set('loading', false)
                 .set('firstLoad', false)
                 .set('infoMsg', payload.msg)
+        case COLLAPSE_PARK:
+            return state
+                .setIn(['parks', payload.parkId,'loading'], false)
+                .setIn(['parks', payload.parkId,'expanded'], false)
+                .setIn(['parks', payload.parkId,'ways'], new OrderedMap({}))
 
         default:
             return state
@@ -97,9 +104,12 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 const stateSelector = state => state[moduleName]
-const parksSelector = createSelector(stateSelector, state=> {
+const parksSelector = createSelector(stateSelector, state => {
 //    console.log('-parks-',state.parks)
     return state.parks.valueSeq().toArray()
+})
+const parksRecordSelector = createSelector(stateSelector, state => {
+    return state.parks
 })
 
 export const selectors= {
@@ -112,7 +122,6 @@ export const selectors= {
 export const actions = {
     fetchAll: () => ({type: FETCH_PARKS_REQUEST}),
     fetchWays:  (payload) => ({type: FETCH_WAYS_REQUEST, payload: payload}),
-
 
 }
 
@@ -149,18 +158,27 @@ export const fetchAllSaga = function * () {
 export const fetchWaysSaga = function * (action) {
     try {
         const parkId=action.payload
-        const res = yield call(fetchAsusWays,parkId);
-        if (res.fetchOK) {
+        const parks = yield select(parksRecordSelector)
+        const expandedPark = parks.get(parkId).get('expanded')
+        if (expandedPark) {
             yield put({
-                type: FETCH_WAYS_SUCCESS,
-                payload: {data: res.data, msg: res.msg, parkId: parkId}
+                type: COLLAPSE_PARK,
+                payload: {parkId: parkId}
             })
+        } else {
+            const res = yield call(fetchAsusWays,parkId);
+            if (res.fetchOK) {
+                yield put({
+                    type: FETCH_WAYS_SUCCESS,
+                    payload: {data: res.data, msg: res.msg, parkId: parkId}
+                })
 
-        }else {
-            yield put({
-                type: FETCH_WAYS_ERROR,
-                payload: {msg: res.msg }
-            })
+            }else {
+                yield put({
+                    type: FETCH_WAYS_ERROR,
+                    payload: {msg: res.msg }
+                })
+            }
         }
     } catch (_) {
 

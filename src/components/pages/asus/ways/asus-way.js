@@ -3,20 +3,18 @@ import {Badge} from 'react-bootstrap'
 
 const AsusWay = ({way}) => {
     const wayInfo= way.kto_vgn
-        ? ` ${way.lng_sum}/${way.ves_sum}/`
+        ? `/${way.lng_sum}/${way.ves_sum}`
         : ``
-    return   <div className='pl-5  pr-1'>
+    return   <div className='pr-1 d-inline'>
         {/*<div className='position-absolute' style={{left:'25px'}}>*/}
             {/*{park.loading && <Loader/>}*/}
         {/*</div>*/}
         <Badge style={{background: '#b9c7c6', cursor: 'pointer'}} >
             <span style={{fontSize:'12px'}}>
-                {way.id}
+                {way.num_way}
                 <span className="text-secondary" style={{fontSize:'12px'}}>
+                        {way.kto_vgn && ' ' + way.kto_vgn}
                     {wayInfo}
-                    <span className="text-dark">
-                    {way.kto_vgn && way.kto_vgn}
-                </span>
                 </span>
             </span>
         </Badge>
