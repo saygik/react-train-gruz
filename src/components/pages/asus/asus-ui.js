@@ -1,8 +1,7 @@
 import React from 'react'
 import { PageTemplate } from  '../../shared/containers'
-import AsusVagon from './vagon'
+//import AsusVagon from './vagon'
 import AsusParks from './parks'
-import parks from '../../../services/parks'
 
 const AsusUI = ({   caption,
                        firstLoad,
@@ -10,6 +9,7 @@ const AsusUI = ({   caption,
                        loading,
                        fetchAll,
                        autoUpdateTime,
+                       fetchWays,
                        parks
                    }) =>
     <PageTemplate
@@ -19,7 +19,7 @@ const AsusUI = ({   caption,
         infoMsg={infoMsg}
         autoUpdateTime={autoUpdateTime}
         caption={caption} >
-        <AsusParks parks={parks}/>
+        <AsusParks parks={parks} fetchWays={fetchWays} />
         {/*<AsusVagon vagon={{number: '12345678', tip: '10'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}

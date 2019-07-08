@@ -57,24 +57,24 @@ export const  arrToMap=(data, RecordModel = Map) => {
         return acc.set(item.Id, (new RecordModel(item)))
     }, new OrderedMap({}))
 }
+export const  arrToMapAsus=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.id, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}
 
 
+//***************************** GRUZ *******************************************************
 export const updateClient = async (client) => await postResource(`gruzClient/`, client)
 export const fetchGruzSprav1 = async () => await getResource(`gruzSprav1`)
-
 export const fetchGruzSprav2 = async () => await getResource(`gruzSprav2`)
-
 export const fetchGruzSprav31 = async () => await getResource(`gruzSprav31`)
-
 export const fetchGruzNaturki = async () => await getResource(`gruzNaturki`)
 export const fetchGruzClients = async () => await getResource(`gruzClients/nod`)
 export const fetchGruzAllClients = async () => await getResource(`gruzClients`)
 export const fetchGruzClientsForEdit = async () => await getResource(`gruzClients/all`)
 export const fetchUserByIP = async () => await getResource(`getIP`)
-
 export const fetchGruzGruz = async () => await getResource(`gruzGruz`)
-
-
 export const fetchStatistics =  async () => {
     const res= await getResource(`gruz`)
     return res.data ? {
@@ -83,22 +83,19 @@ export const fetchStatistics =  async () => {
         msg: res.msg
     } : res
 }
-
 export const fetchPodhod = async (stantion) =>  await getResource(`gruzPodhod/${stantion}`)
-
 export const fetchFindVagons = async (row) => await  getResource(`gruzFindVagons/${row.stan}/${row.tip}/${row.onStation}/${row.onNod}`)
 export const fetchFindVagonsAll = async (row) => await  getResource(`gruzFindVagonsAll/${row.stan}/${row.client}/${row.gruz}/${row.vagon}`)
-
-
 export const fetchPogrVygr = async (row) =>  await getResource(`gruzFindPogrVygr/${row.stan}/${row.tip}/${row.oper}`)
-
 export const fetchVagonHistory = async (row) => await getResource(`gruzFindVagonsOneHistory/${row.Kodv}`)
-
 export const fetchGruzStantions = () => ({fetchOK: true,data: stanc, msg: `Данные обновлены в ${getCurrentDateTime()}`})
-
 export const fetchPoezdVagons = async (row) => await getResource(`gruzPoezdVagons/${row.kodp}/${row.fullnatur}`)
 
+
+//***************************** ASUS *******************************************************
 export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
+export const fetchAsusWays = async (parkId) => await getResource(`asus/ways/${parkId}`)
+
 
 
 const _transformStatistics = (stat) => {

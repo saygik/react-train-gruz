@@ -1,5 +1,5 @@
 import React from 'react'
-import Vag60 from '../../../../img/60.png'
+
 import vagonsImages from '../../../../services/asus-vagons-images'
 const asusVagon = ({vagon}) => {
 
