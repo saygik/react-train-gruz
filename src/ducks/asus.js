@@ -53,11 +53,13 @@ export const wayRecord = Record({
     num_way: null,
     long_way: null,
     weight_way: null,
+    lng_sum: null,
+    ves_sum: null,
+    kto_vgn: null,
     prk_id: null,
     loading: false,
     vagons: new OrderedMap({}),
 })
-
 
 export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
