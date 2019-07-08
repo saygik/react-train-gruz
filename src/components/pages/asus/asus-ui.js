@@ -10,6 +10,7 @@ const AsusUI = ({   caption,
                        fetchAll,
                        autoUpdateTime,
                        fetchWays,
+                       fetchVagons,
                        parks
                    }) =>
     <PageTemplate
@@ -19,7 +20,7 @@ const AsusUI = ({   caption,
         infoMsg={infoMsg}
         autoUpdateTime={autoUpdateTime}
         caption={caption} >
-        <AsusParks parks={parks} fetchWays={fetchWays} />
+        <AsusParks parks={parks} fetchWays={fetchWays} fetchVagons={fetchVagons}/>
         {/*<AsusVagon vagon={{number: '12345678', tip: '10'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}

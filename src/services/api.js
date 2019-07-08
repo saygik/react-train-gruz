@@ -62,6 +62,11 @@ export const  arrToMapAsus=(data, RecordModel = Map) => {
         return acc.set(item.id, (new RecordModel(item)))
     }, new OrderedMap({}))
 }
+export const  arrToMapAsusVagons=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.ord_num, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}
 
 
 //***************************** GRUZ *******************************************************
@@ -95,7 +100,7 @@ export const fetchPoezdVagons = async (row) => await getResource(`gruzPoezdVagon
 //***************************** ASUS *******************************************************
 export const fetchAsusParks = async () => await getResource(`asus/parks/13857`)
 export const fetchAsusWays = async (parkId) => await getResource(`asus/ways/${parkId}`)
-
+export const fetchAsusVagons = async (wayId) => await getResource(`asus/vagons/13857/${wayId}`)
 
 
 const _transformStatistics = (stat) => {

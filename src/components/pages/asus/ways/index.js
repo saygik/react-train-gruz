@@ -1,2 +1,3 @@
 import AsusWays from './asus-ways'
-export default AsusWays
+import AsusWaysActive from './asus-ways-active'
+export { AsusWays, AsusWaysActive}

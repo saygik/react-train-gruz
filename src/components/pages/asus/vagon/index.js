@@ -1,2 +1,2 @@
-import asusVagon from './asus-vagon'
-export default asusVagon
+import AsusVagons from './asus-vagons'
+export default AsusVagons

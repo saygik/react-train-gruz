@@ -2,7 +2,7 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {OrderedMap, Record, } from 'immutable'
 import { createSelector } from 'reselect'
-import {arrToMapAsus, fetchAsusParks, fetchAsusWays} from '../services/api'
+import {arrToMapAsus,arrToMapAsusVagons, fetchAsusParks, fetchAsusWays, fetchAsusVagons} from '../services/api'
 
 
 
@@ -21,6 +21,10 @@ export const FETCH_WAYS_REQUEST = `${prefix}/FETCH_WAYS_REQUEST`
 export const FETCH_WAYS_SUCCESS = `${prefix}/FETCH_WAYS_SUCCESS`
 export const FETCH_WAYS_ERROR = `${prefix}/FETCH_WAYS_ERROR`
 export const COLLAPSE_PARK = `${prefix}/COLLAPSE_PARK`
+export const FETCH_VAGONS_REQUEST = `${prefix}/FETCH_VAGONS_REQUEST`
+export const FETCH_VAGONS_SUCCESS = `${prefix}/FETCH_VAGONS_SUCCESS`
+export const FETCH_VAGONS_ERROR = `${prefix}/FETCH_VAGONS_ERROR`
+export const COLLAPSE_WAY = `${prefix}/COLLAPSE_WAY`
 
 
 
@@ -60,7 +64,17 @@ export const wayRecord = Record({
     kto_vgn: null,
     prk_id: null,
     loading: false,
+    expanded: false,
     vagons: new OrderedMap({}),
+})
+export const vagonRecord = Record({
+    ord_num: null,
+    id_vgn: null,
+    rod_v: null,
+    ves_gruz: null,
+    destn: null,
+    cod_gruz: null,
+    cod_grpl: null
 })
 
 export default function reducer(state = new ReducerRecord(), action) {
@@ -73,12 +87,17 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .set('infoMsg', "Обновление данных...")
         case FETCH_WAYS_REQUEST:
               return state
-                .setIn(['parks', payload,'loading'], true)
+                  .setIn(['parks', payload.parkId,'loading'], true)
         case FETCH_WAYS_SUCCESS:
             return state
                 .setIn(['parks', payload.parkId,'loading'], false)
                 .setIn(['parks', payload.parkId,'expanded'], true)
                 .setIn(['parks', payload.parkId,'ways'], arrToMapAsus(payload.data, wayRecord))
+        case FETCH_WAYS_ERROR:
+            return state
+                .setIn(['parks', payload.parkId,'loading'], false)
+                .setIn(['parks', payload.parkId,'expanded'], false)
+                .setIn(['parks', payload.parkId,'ways'], new OrderedMap({}))
         case FETCH_PARKS_SUCCESS:
             return state
                 .set('loading', false)
@@ -94,7 +113,23 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .setIn(['parks', payload.parkId,'loading'], false)
                 .setIn(['parks', payload.parkId,'expanded'], false)
                 .setIn(['parks', payload.parkId,'ways'], new OrderedMap({}))
-
+        case FETCH_VAGONS_REQUEST:
+            return state
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'loading'], true)
+        case FETCH_VAGONS_SUCCESS:
+            return state
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'loading'], false)
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'expanded'], true)
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'vagons'], arrToMapAsusVagons(payload.data, vagonRecord))
+        case FETCH_VAGONS_ERROR:
+            return state
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'loading'], false)
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'expanded'], false)
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'vagons'], new OrderedMap({}))
+        case COLLAPSE_WAY:
+            return state
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'loading'], false)
+                .setIn(['parks',payload.parkId,'ways',payload.wayId,'expanded'], false)
         default:
             return state
     }
@@ -122,6 +157,7 @@ export const selectors= {
 export const actions = {
     fetchAll: () => ({type: FETCH_PARKS_REQUEST}),
     fetchWays:  (payload) => ({type: FETCH_WAYS_REQUEST, payload: payload}),
+    fetchVagons:  (payload) => ({type: FETCH_VAGONS_REQUEST, payload: payload}),
 
 }
 
@@ -157,7 +193,7 @@ export const fetchAllSaga = function * () {
 }
 export const fetchWaysSaga = function * (action) {
     try {
-        const parkId=action.payload
+        const parkId=action.payload.parkId
         const parks = yield select(parksRecordSelector)
         const expandedPark = parks.get(parkId).get('expanded')
         if (expandedPark) {
@@ -183,14 +219,43 @@ export const fetchWaysSaga = function * (action) {
     } catch (_) {
 
     }
+}
+export const fetchVagonsSaga = function * (action) {
+    try {
+        const parkId=action.payload.parkId
+        const wayId=action.payload.wayId
+        const parks = yield select(parksRecordSelector)
+        const expandedWay = parks.getIn([parkId,'ways',wayId,'expanded'])
+        if (expandedWay) {
+            yield put({
+                type: COLLAPSE_WAY,
+                payload: {parkId: parkId, wayId: wayId}
+            })
+        } else {
+            const res = yield call(fetchAsusVagons,wayId);
+            if (res.fetchOK) {
+                yield put({
+                    type: FETCH_VAGONS_SUCCESS,
+                    payload: {data: res.data, msg: res.msg, parkId: parkId, wayId: wayId}
+                })
+
+            }else {
+                yield put({
+                    type: FETCH_VAGONS_ERROR,
+                    payload: {msg: res.msg }
+                })
+            }
+        }
+    } catch (err) {
+        console.log('-ERROR-',err)
+    }
 
 }
-
 
 export function* saga() {
     yield all([
         fetchAllSaga(),
-        takeEvery(FETCH_WAYS_REQUEST,fetchWaysSaga)
-
+        takeEvery(FETCH_WAYS_REQUEST,fetchWaysSaga),
+        takeEvery(FETCH_VAGONS_REQUEST,fetchVagonsSaga)
     ])
 }
