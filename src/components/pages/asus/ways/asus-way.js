@@ -7,7 +7,7 @@ const AsusWay = ({park, way, fetchVagons}) => {
         ? `/${way.lng_sum}/${way.ves_sum}`
         : ``
     const badgeColor=way.expanded ? 'primary' :'secondary'
-    return    <div className='pr-1 d-inline-block'>
+    return    <div className='pr-1 pb-3 d-inline-block'>
         {!way.empty && <AsusWayProgressSm name={'Длина'} currentVar={way.lng_sum} staticVar={way.long_way} />}
         {!way.empty && <AsusWayProgressSm name={'Вес'} currentVar={way.ves_sum} staticVar={way.weight_way} />}
         <Badge variant={badgeColor} style={{ cursor: 'pointer'}} onClick={()=> fetchVagons({parkId: park.id, wayId: way.id})}>

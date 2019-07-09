@@ -1,4 +1,4 @@
-import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
+import {all, take, call, put, select,takeEvery, fork} from 'redux-saga/effects'
 import {appName} from '../config'
 import {OrderedMap, Record, } from 'immutable'
 import { createSelector } from 'reselect'
@@ -25,9 +25,6 @@ export const FETCH_VAGONS_REQUEST = `${prefix}/FETCH_VAGONS_REQUEST`
 export const FETCH_VAGONS_SUCCESS = `${prefix}/FETCH_VAGONS_SUCCESS`
 export const FETCH_VAGONS_ERROR = `${prefix}/FETCH_VAGONS_ERROR`
 export const COLLAPSE_WAY = `${prefix}/COLLAPSE_WAY`
-
-
-
 
 
 
@@ -80,7 +77,6 @@ export const vagonRecord = Record({
 
 export default function reducer(state = new ReducerRecord(), action) {
     const {type, payload} = action
-
     switch (type) {
         case FETCH_PARKS_REQUEST:
             return state
@@ -222,6 +218,7 @@ export const fetchWaysSaga = function * (action) {
     }
 }
 
+
 export const fetchVagonsSaga = function * (action) {
     try {
         const parkId=action.payload.parkId
@@ -258,6 +255,6 @@ export function* saga() {
     yield all([
         fetchAllSaga(),
         takeEvery(FETCH_WAYS_REQUEST,fetchWaysSaga),
-        takeEvery(FETCH_VAGONS_REQUEST,fetchVagonsSaga)
+        takeEvery(FETCH_VAGONS_REQUEST,fetchVagonsSaga),
     ])
 }

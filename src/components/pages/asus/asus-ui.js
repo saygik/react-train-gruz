@@ -20,7 +20,7 @@ const AsusUI = ({   caption,
         infoMsg={infoMsg}
         autoUpdateTime={autoUpdateTime}
         caption={caption} >
-        <AsusParks parks={parks} fetchWays={fetchWays} fetchVagons={fetchVagons}/>
+        <AsusParks parks={parks} fetchWays={fetchWays} fetchVagons={fetchVagons} />
         {/*<AsusVagon vagon={{number: '12345678', tip: '10'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}
         {/*<AsusVagon vagon={{number: '12345678', tip: '20'}} />*/}
