@@ -57,16 +57,6 @@ export const  arrToMap=(data, RecordModel = Map) => {
         return acc.set(item.Id, (new RecordModel(item)))
     }, new OrderedMap({}))
 }
-export const  arrToMapAsus=(data, RecordModel = Map) => {
-    return data.reduce((acc,item)=> {
-        return acc.set(item.id, (new RecordModel(item)))
-    }, new OrderedMap({}))
-}
-export const  arrToMapAsusVagons=(data, RecordModel = Map) => {
-    return data.reduce((acc,item)=> {
-        return acc.set(item.ord_num, (new RecordModel(item)))
-    }, new OrderedMap({}))
-}
 
 
 //***************************** GRUZ *******************************************************

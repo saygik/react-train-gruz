@@ -132,3 +132,7 @@ body { padding-top: 5.2rem; }
     padding: 0; /* Поля вокруг текста */
     text-overflow: clip; /* Добавляем многоточие */
 }
+
+.progress-sm .progress {
+    height: 3px !important;
+}

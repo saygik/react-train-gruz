@@ -1,4 +1,5 @@
 import moment from 'moment'
+import {Map, OrderedMap} from "immutable"
 
 export function getCurrentDateTime() {
     // return moment().format("DD.MM.YYYY H:mm:ss")
@@ -74,3 +75,23 @@ export function declOfNum(number, titles) {
     return titles[ (number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5] ]
 }
 
+export const  arrToMapAsusWays=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        let itemRecord=(new RecordModel(item))
+        itemRecord=itemRecord
+            .set('empty', itemRecord.kto_vgn === null || itemRecord.kto_vgn===0 || (itemRecord.long_way===0 && itemRecord.weight_way===0 ))
+        return acc.set(item.id, itemRecord)
+    }, new OrderedMap({}))
+}
+
+export const  arrToMapAsus=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.id, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}
+
+export const  arrToMapAsusVagons=(data, RecordModel = Map) => {
+    return data.reduce((acc,item)=> {
+        return acc.set(item.ord_num, (new RecordModel(item)))
+    }, new OrderedMap({}))
+}

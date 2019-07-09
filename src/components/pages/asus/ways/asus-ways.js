@@ -6,7 +6,6 @@ const AsusWays= ({ways,park , fetchVagons}) => {
             {ways.map(way=> {
                 return (<AsusWay key={way.id}  park={park} way={way} fetchVagons={fetchVagons}/>)})
             }
-
         </div>
 }
 export default AsusWays

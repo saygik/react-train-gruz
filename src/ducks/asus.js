@@ -2,8 +2,8 @@ import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {OrderedMap, Record, } from 'immutable'
 import { createSelector } from 'reselect'
-import {arrToMapAsus,arrToMapAsusVagons, fetchAsusParks, fetchAsusWays, fetchAsusVagons} from '../services/api'
-
+import { fetchAsusParks, fetchAsusWays, fetchAsusVagons} from '../services/api'
+import {arrToMapAsus,arrToMapAsusVagons,arrToMapAsusWays} from './utils'
 
 
 /************************************************************************
@@ -57,14 +57,15 @@ export const wayRecord = Record({
     id: null,
     num_park: null,
     num_way: null,
-    long_way: null,
-    weight_way: null,
-    lng_sum: null,
-    ves_sum: null,
-    kto_vgn: null,
+    long_way: 0,
+    weight_way: 0,
+    lng_sum: 0,
+    ves_sum: 0,
+    kto_vgn: 0,
     prk_id: null,
     loading: false,
     expanded: false,
+    empty: true,
     vagons: new OrderedMap({}),
 })
 export const vagonRecord = Record({
@@ -92,7 +93,7 @@ export default function reducer(state = new ReducerRecord(), action) {
             return state
                 .setIn(['parks', payload.parkId,'loading'], false)
                 .setIn(['parks', payload.parkId,'expanded'], true)
-                .setIn(['parks', payload.parkId,'ways'], arrToMapAsus(payload.data, wayRecord))
+                .setIn(['parks', payload.parkId,'ways'], arrToMapAsusWays(payload.data, wayRecord))
         case FETCH_WAYS_ERROR:
             return state
                 .setIn(['parks', payload.parkId,'loading'], false)
@@ -220,6 +221,7 @@ export const fetchWaysSaga = function * (action) {
 
     }
 }
+
 export const fetchVagonsSaga = function * (action) {
     try {
         const parkId=action.payload.parkId
