@@ -53,7 +53,7 @@ const FindVagonsFilters = ({
             <Col className={'pt-1 '}  sm={'5'} md={'5'}  lg={'3'} >
             <div className={'pb-1'}>
                 <Select
-                    placeholder={'Выбирите станцию назначения...'}
+                    placeholder={'Выберите станцию назначения...'}
                     options={selectedStantionTo}
                     value={selectedStantionToValues}
                     onChange={selectStantionTo}
@@ -64,7 +64,7 @@ const FindVagonsFilters = ({
             </div>
             <div >
                 <Select
-                    placeholder={'Выбирите грузополучателя...'}
+                    placeholder={'Выберите грузополучателя...'}
                     options={selectedClient}
                     value={selectedClientValues}
                     onChange={selectClient}
@@ -78,7 +78,7 @@ const FindVagonsFilters = ({
         <Col className={'pt-1 '}  sm={'5'} md={'5'}  lg={'3'} >
             <div className={'pb-1'}>
                 <Select
-                    placeholder={'Выбирите род груза...'}
+                    placeholder={'Выберите род груза...'}
                     options={selectedGruz}
                     value={selectedGruzValues}
                     onChange={selectGruz}

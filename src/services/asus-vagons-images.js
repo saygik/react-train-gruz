@@ -4,6 +4,7 @@ import Vag40 from '../img/40.png'
 import Vag60 from '../img/60.png'
 import Vag70 from '../img/70.png'
 import Vag87 from '../img/87.png'
+import Vag90 from '../img/90.png'
 import Vag92 from '../img/92.png'
 import Vag93 from '../img/93.png'
 import Vag96 from '../img/96.png'
@@ -41,7 +42,7 @@ import Vag96 from '../img/96.png'
     '87':Vag87,
     '88':Vag87,
     '89':Vag87,
-    '90':Vag93,
+    '90':Vag90,
     '91':Vag92,
     '92':Vag92,
     '93':Vag93,
