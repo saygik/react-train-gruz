@@ -1,4 +1,4 @@
-import {all, take, call, put, select,takeEvery, fork} from 'redux-saga/effects'
+import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
 import {appName} from '../config'
 import {OrderedMap, Record, } from 'immutable'
 import { createSelector } from 'reselect'

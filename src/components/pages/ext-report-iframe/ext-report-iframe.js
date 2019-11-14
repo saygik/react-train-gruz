@@ -5,7 +5,6 @@ import { PageTemplate } from '../../shared/containers/index'
 
 
 const ExtReportIframe = ({url}) => {
-    console.log(url)
     return (
         <PageTemplate
             fetchAll={null}
