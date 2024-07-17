@@ -1,6 +1,6 @@
-import {all, take, call, put, select,takeEvery} from 'redux-saga/effects'
-import {appName} from '../config'
-import {List,  Record} from 'immutable'
+import { all, take, call, put, select, takeEvery } from 'redux-saga/effects'
+import { appName } from '../config'
+import { List, Record } from 'immutable'
 import { createSelector } from 'reselect'
 import {
     fetchFindVagonsAll,
@@ -64,13 +64,13 @@ export const SHOW_CLIENT_EDIT_FORM = `${prefix}/SHOW_CLIENT_EDIT_FORM`
  *              }
  * */
 export const VagonsFilterRecord = Record({
-    selectedPodhod:1,
-    selectedStantionToValues:  null,
-    selectedClientValues:  null,
-    selectedGruzValues:  null,
-    selectedVagonKod:  '',
-    selectedTipVagons:0,
-    selectedClientKod:  '',
+    selectedPodhod: 1,
+    selectedStantionToValues: null,
+    selectedClientValues: null,
+    selectedGruzValues: null,
+    selectedVagonKod: '',
+    selectedTipVagons: 0,
+    selectedClientKod: '',
 })
 
 export const ReducerRecord = Record({
@@ -80,7 +80,7 @@ export const ReducerRecord = Record({
     allowEdit: false,
     showEditClientForm: false,
     infoMsg: '',
-    autoUpdateTime:0,
+    autoUpdateTime: 0,
     selectedVagon: null,
     selectedStantionTo: new List([]),
     selectedClient: new List([]),
@@ -92,7 +92,7 @@ export const ReducerRecord = Record({
 
 
 export default function reducer(state = new ReducerRecord(), action) {
-    const {type, payload} = action
+    const { type, payload } = action
 
     switch (type) {
         case SHOW_CLIENT_EDIT_FORM:
@@ -104,8 +104,8 @@ export default function reducer(state = new ReducerRecord(), action) {
         case CLIENT_UPDATE_SUCCESS:
             const index = state.get('selectedClient').findIndex(item => item.value === payload.data.kods)
             return state
-                .setIn(['selectedClient',index,'label'],payload.data.name)
-                .setIn(['selectedClient',index,'adress'],payload.data.adress)
+                .setIn(['selectedClient', index, 'label'], payload.data.name)
+                .setIn(['selectedClient', index, 'adress'], payload.data.adress)
                 .set('infoMsg', payload.msg)
         case CLEAR_VAGON_FILTER:
             return state
@@ -121,28 +121,28 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .set('firstLoad', payload)
         case SELECT_PODHOD:
             return state
-                .setIn(['vagonsFilter','selectedPodhod'], payload)
+                .setIn(['vagonsFilter', 'selectedPodhod'], payload)
         case SELECT_VAGON_KOD:
             return state
-                .setIn(['vagonsFilter','selectedVagonKod'], payload)
+                .setIn(['vagonsFilter', 'selectedVagonKod'], payload)
         case SELECT_CLIENT_KOD:
             return state
-                .setIn(['vagonsFilter','selectedClientKod'], payload)
+                .setIn(['vagonsFilter', 'selectedClientKod'], payload)
         case SELECT_TIP_VAGONS:
             return state
-                .setIn(['vagonsFilter','selectedTipVagons'], payload)
+                .setIn(['vagonsFilter', 'selectedTipVagons'], payload)
         case SELECT_STANTION_TO:
             return state
                 .set('selectedStantionTo', List(payload))
         case SELECT_STANTION_TO_VALUES:
             return state
-                .setIn(['vagonsFilter','selectedStantionToValues'], payload)
+                .setIn(['vagonsFilter', 'selectedStantionToValues'], payload)
         case SELECT_CLIENT_VALUES:
             return state
-                .setIn(['vagonsFilter','selectedClientValues'], payload)
+                .setIn(['vagonsFilter', 'selectedClientValues'], payload)
         case SELECT_GRUZ_VALUES:
             return state
-                .setIn(['vagonsFilter','selectedGruzValues'], payload)
+                .setIn(['vagonsFilter', 'selectedGruzValues'], payload)
         case FETCH_ALL_CLIENTS_SUCCESS:
             return state
                 .set('selectedClient', List(payload.data))
@@ -171,7 +171,7 @@ export default function reducer(state = new ReducerRecord(), action) {
                 .set('loading', true)
                 .set('infoMsg', "Обновление данных...")
         case FETCH_FIND_VAGONS_SUCCESS:
-                return state
+            return state
                 .set('loading', false)
                 .set('firstLoad', false)
                 .set('infoMsg', payload.msg)
@@ -194,78 +194,78 @@ export default function reducer(state = new ReducerRecord(), action) {
  * Selectors
  * */
 export const stateSelector = state => state[moduleName];
-export const vagonsSelector = createSelector(stateSelector, state=> state.vagons)
-export const sVagonSelector = createSelector(stateSelector, state=> state.selectedVagon)
-export const autoUpdateTimeSelector = createSelector(stateSelector, state=> state.autoUpdateTime)
-export const allowEditSelector = createSelector(stateSelector, state=> state.allowEdit)
-export const showEditClientFormSelector = createSelector(stateSelector, state=> state.showEditClientForm)
+export const vagonsSelector = createSelector(stateSelector, state => state.vagons)
+export const sVagonSelector = createSelector(stateSelector, state => state.selectedVagon)
+export const autoUpdateTimeSelector = createSelector(stateSelector, state => state.autoUpdateTime)
+export const allowEditSelector = createSelector(stateSelector, state => state.allowEdit)
+export const showEditClientFormSelector = createSelector(stateSelector, state => state.showEditClientForm)
 
 
-export const selectedTipVagonsSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedTipVagons']))
-export const selectedPodhodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedPodhod']))
-export const selectedVagonKodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedVagonKod']))
-export const selectedClientKodSelector = createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedClientKod']))
-export const selectedGruzValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedGruzValues']))
-export const selectedClientValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedClientValues']))
-export const selectedStantionToValuesSelector= createSelector(stateSelector, state=> state.getIn(['vagonsFilter','selectedStantionToValues']))
+export const selectedTipVagonsSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedTipVagons']))
+export const selectedPodhodSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedPodhod']))
+export const selectedVagonKodSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedVagonKod']))
+export const selectedClientKodSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedClientKod']))
+export const selectedGruzValuesSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedGruzValues']))
+export const selectedClientValuesSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedClientValues']))
+export const selectedStantionToValuesSelector = createSelector(stateSelector, state => state.getIn(['vagonsFilter', 'selectedStantionToValues']))
 
-export const selectedStantionToSelector= createSelector(stateSelector, state=> state.selectedStantionTo.valueSeq().toArray())
-export const selectedClientSelector= createSelector(stateSelector, state=> state.selectedClient.valueSeq().toArray())
-export const selectedGruzSelector= createSelector(stateSelector, state=> state.selectedGruz.valueSeq().toArray())
+export const selectedStantionToSelector = createSelector(stateSelector, state => state.selectedStantionTo.valueSeq().toArray())
+export const selectedClientSelector = createSelector(stateSelector, state => state.selectedClient.valueSeq().toArray())
+export const selectedGruzSelector = createSelector(stateSelector, state => state.selectedGruz.valueSeq().toArray())
 
-export const filtredSelectedvagonsSelector = createSelector(sVagonSelector, vagonsSelector, (selectedVagon,vagons )=> {
-    if (selectedVagon !== null ) {
-        return vagons.filter(row => row.Id===selectedVagon.id)
+export const filtredSelectedvagonsSelector = createSelector(sVagonSelector, vagonsSelector, (selectedVagon, vagons) => {
+    if (selectedVagon !== null) {
+        return vagons.filter(row => row.Id === selectedVagon.id)
     } else {
         return []
     }
 })
 
-export const selectedVagonSelector = createSelector( filtredSelectedvagonsSelector, sVagonSelector, (filtredVagons, vagon) => {
-    if (vagon && filtredVagons.length>0) {
-        let selectedVagon=vagon
-        selectedVagon.Kodv=filtredVagons[0].Kodv
-        selectedVagon.Ves=filtredVagons[0].Ves
-        selectedVagon.Namegruz=filtredVagons[0].Namegruz
-        selectedVagon.Nameklient=filtredVagons[0].Nameklient
+export const selectedVagonSelector = createSelector(filtredSelectedvagonsSelector, sVagonSelector, (filtredVagons, vagon) => {
+    if (vagon && filtredVagons.length > 0) {
+        let selectedVagon = vagon
+        selectedVagon.Kodv = filtredVagons[0].Kodv
+        selectedVagon.Ves = filtredVagons[0].Ves
+        selectedVagon.Namegruz = filtredVagons[0].Namegruz
+        selectedVagon.Nameklient = filtredVagons[0].Nameklient
         return selectedVagon
     } else {
         return null
     }
 })
 
-export const selectedFiltredClientsSelector= createSelector(selectedClientSelector,selectedClientKodSelector, (clients, findString)=> {
-    if (findString.length<3) return  []
-  const findStringtoUpperCase=findString.toUpperCase()
- return   clients.filter(elem => elem.value.includes(findString) || elem.label.includes(findString) || elem.label.includes(findStringtoUpperCase))
+export const selectedFiltredClientsSelector = createSelector(selectedClientSelector, selectedClientKodSelector, (clients, findString) => {
+    if (findString.length < 3) return []
+    const findStringtoUpperCase = findString.toUpperCase()
+    return clients.filter(elem => elem.value.includes(findString) || elem.label.includes(findString) || elem.label.includes(findStringtoUpperCase))
 })
 
-const filtredVagonsSelector = createSelector(vagonsSelector,selectedPodhodSelector,selectedTipVagonsSelector, (vagons,podhod,tipVagons )=> {
-    let filtredVagons=[]
-    const podh=(!!podhod).toString()
-    if (podhod !==2) {
-        filtredVagons=vagons.filter(elem=>elem.Nod===podh)
-    } else filtredVagons=[...vagons]
+const filtredVagonsSelector = createSelector(vagonsSelector, selectedPodhodSelector, selectedTipVagonsSelector, (vagons, podhod, tipVagons) => {
+    let filtredVagons = []
+    const podh = (!!podhod).toString()
+    if (podhod !== 2) {
+        filtredVagons = vagons.filter(elem => elem.Nod === podh)
+    } else filtredVagons = [...vagons]
     switch (tipVagons) {
         case 1:
-            return filtredVagons.filter(elem=>{
-                return elem.Ves>0 && elem.Kodgruz.substring(0,2)!=='42'  && elem.Pr!=='9'
+            return filtredVagons.filter(elem => {
+                return elem.Ves > 0 && elem.Kodgruz.substring(0, 2) !== '42' && elem.Pr !== '9'
             })
 
         case 2:
-            return filtredVagons.filter(elem=>elem.Ves==='0' && elem.Kodgruz.substring(0,2)!=='42' && elem.Pr!=='9')
+            return filtredVagons.filter(elem => elem.Ves === '0' && elem.Kodgruz.substring(0, 2) !== '42' && elem.Pr !== '9')
         case 3:
-            return filtredVagons.filter(elem=>elem.Pripis==='1')
+            return filtredVagons.filter(elem => elem.Pripis === '1')
         default:
             return filtredVagons
     }
 })
 
-export const filtredNumeredVagonsSelector = createSelector(filtredVagonsSelector, (vagons )=> {
-    if (vagons !== []) {
-        return vagons.map((elem, index)=>{
-            const el=elem
-            el.Idd=index+1
+export const filtredNumeredVagonsSelector = createSelector(filtredVagonsSelector, (vagons) => {
+    if (vagons.length > 0) {
+        return vagons.map((elem, index) => {
+            const el = elem
+            el.Idd = index + 1
             return el
         })
 
@@ -280,21 +280,21 @@ export const filtredNumeredVagonsSelector = createSelector(filtredVagonsSelector
  * Action Creators
  * */
 export const actions = {
-    selectVagon: (row)=> ({type: SELECT_ROW_FIND_VAGONS_REQUEST, payload: {row}}),
-    closeFindVagonsHistory: () => ({type: DESELECT_ROW_FIND_VAGONS}),
-    fetchAll: () => ({type: FETCH_FILTERS_DATA_REQUEST}),
-    fetchAllClients: () => ({type: FETCH_ALL_CLIENTS_REQUEST}),
-    selectStantionTo: (payload) => ({type: SELECT_STANTION_TO_VALUES, payload: payload}),
-    selectTipVagons: (payload) => ({type: SELECT_TIP_VAGONS, payload: payload}),
-    selectPodhod: (payload) => ({type: SELECT_PODHOD, payload: payload}),
-    selectClient: (payload) => ({type: SELECT_CLIENT_VALUES, payload: payload}),
-    selectGruz: (payload) => ({type: SELECT_GRUZ_VALUES, payload: payload}),
-    selectVagonKod: (payload) => ({type: SELECT_VAGON_KOD, payload: payload.target.value}),
-    findVagons: () => ({type: FETCH_FIND_VAGONS_REQUEST}),
-    clearVagonsFilter: () => ({type: CLEAR_VAGON_FILTER}),
-    selectClientKod: (payload) => ({type: SELECT_CLIENT_KOD, payload: payload.target.value}),
-    clientUpdate: (payload) => ({type: CLIENT_UPDATE_REQUEST, payload: payload}),
-    showClientEditForm: (payload) => ({type: SHOW_CLIENT_EDIT_FORM, payload: payload}),
+    selectVagon: (row) => ({ type: SELECT_ROW_FIND_VAGONS_REQUEST, payload: { row } }),
+    closeFindVagonsHistory: () => ({ type: DESELECT_ROW_FIND_VAGONS }),
+    fetchAll: () => ({ type: FETCH_FILTERS_DATA_REQUEST }),
+    fetchAllClients: () => ({ type: FETCH_ALL_CLIENTS_REQUEST }),
+    selectStantionTo: (payload) => ({ type: SELECT_STANTION_TO_VALUES, payload: payload }),
+    selectTipVagons: (payload) => ({ type: SELECT_TIP_VAGONS, payload: payload }),
+    selectPodhod: (payload) => ({ type: SELECT_PODHOD, payload: payload }),
+    selectClient: (payload) => ({ type: SELECT_CLIENT_VALUES, payload: payload }),
+    selectGruz: (payload) => ({ type: SELECT_GRUZ_VALUES, payload: payload }),
+    selectVagonKod: (payload) => ({ type: SELECT_VAGON_KOD, payload: payload.target.value }),
+    findVagons: () => ({ type: FETCH_FIND_VAGONS_REQUEST }),
+    clearVagonsFilter: () => ({ type: CLEAR_VAGON_FILTER }),
+    selectClientKod: (payload) => ({ type: SELECT_CLIENT_KOD, payload: payload.target.value }),
+    clientUpdate: (payload) => ({ type: CLIENT_UPDATE_REQUEST, payload: payload }),
+    showClientEditForm: (payload) => ({ type: SHOW_CLIENT_EDIT_FORM, payload: payload }),
 
 
 }
@@ -303,7 +303,7 @@ export const actions = {
  * Sagas
  * */
 
-export const fetchFindVagonsSaga = function * () {
+export const fetchFindVagonsSaga = function* () {
     while (true) {
         yield take(FETCH_FIND_VAGONS_REQUEST)
         let stantion = yield select(selectedStantionToValuesSelector)
@@ -311,21 +311,21 @@ export const fetchFindVagonsSaga = function * () {
         let gruz = yield select(selectedGruzValuesSelector)
         let vagon = yield select(selectedVagonKodSelector)
 
-        stantion=stantion ? stantion.value : 0
-        client=client ? client.value : 0
-        vagon=vagon.length>0 ? vagon : 0
-        gruz=gruz ? gruz.value.substring(0,2) : 0
-        const criteria= {
-            stan: stantion ,
-            client:client,
-            gruz:gruz,
-            vagon:vagon
+        stantion = stantion ? stantion.value : 0
+        client = client ? client.value : 0
+        vagon = vagon.length > 0 ? vagon : 0
+        gruz = gruz ? gruz.value.substring(0, 2) : 0
+        const criteria = {
+            stan: stantion,
+            client: client,
+            gruz: gruz,
+            vagon: vagon
         }
         if (criteria === null) {
             yield put({
                 type: EMPTY_FIND_VAGONS
             })
-        }else {
+        } else {
             yield put({
                 type: EMPTY_FIND_VAGONS
             })
@@ -333,74 +333,74 @@ export const fetchFindVagonsSaga = function * () {
             if (res.fetchOK) {
                 yield put({
                     type: FETCH_FIND_VAGONS_SUCCESS,
-                    payload: {data: res.data, msg: res.msg}
+                    payload: { data: res.data, msg: res.msg }
                 })
 
-            }else {
+            } else {
                 yield put({
                     type: FETCH_FIND_VAGONS_ERROR,
-                    payload: {msg:  'Результат не обнаружен'}
+                    payload: { msg: 'Результат не обнаружен' }
                 })
             }
         }
     }
 }
-export const fetchFiltersDataSaga = function * () {
+export const fetchFiltersDataSaga = function* () {
     while (true) {
         yield take(FETCH_FILTERS_DATA_REQUEST)
-            let res = yield call(fetchGruzStantions);
-            if (res.fetchOK) {
-                yield put({
-                    type: SELECT_STANTION_TO,
-                    payload: res.data.map(elem=> ({ value: elem.Kod, label: `${elem.Kod} ${elem.Name}` }))
-                })
+        let res = yield call(fetchGruzStantions);
+        if (res.fetchOK) {
+            yield put({
+                type: SELECT_STANTION_TO,
+                payload: res.data.map(elem => ({ value: elem.Kod, label: `${elem.Kod} ${elem.Name}` }))
+            })
 
-                // console.log('---',res.data.map(elem=> ({ value: elem.Kod, label: `${elem.Kod} ${elem.Name}` }))
-            }else {
-            }
+            // console.log('---',res.data.map(elem=> ({ value: elem.Kod, label: `${elem.Kod} ${elem.Name}` }))
+        } else {
+        }
 
         res = yield call(fetchGruzClients);
         if (res.fetchOK) {
             yield put({
                 type: SELECT_CLIENT,
-                payload: res.data.map(elem=> ({ value: elem.kodclient, label: `${elem.kodclient} ${elem.nameclient}` }))
+                payload: res.data.map(elem => ({ value: elem.kodclient, label: `${elem.kodclient} ${elem.nameclient}` }))
             })
-        }else {
+        } else {
         }
         res = yield call(fetchGruzGruz);
 
         if (res.fetchOK) {
             yield put({
                 type: SELECT_GRUZ,
-                payload: res.data.map(elem=> ({ value: elem.KodGruz, label: `${elem.KodGruz} ${elem.NameGruz}` }))
+                payload: res.data.map(elem => ({ value: elem.KodGruz, label: `${elem.KodGruz} ${elem.NameGruz}` }))
             })
             yield put({
                 type: FIRST_LOAD_CHANGE, payload: false
             })
 
             // console.log('---',res.data.map(elem=> ({ value: elem.Kod, label: `${elem.Kod} ${elem.Name}` }))
-        }else {
+        } else {
         }
 
 
 
-        }
+    }
 }
 
-export const selectRowSaga = function * (action) {
+export const selectRowSaga = function* (action) {
 
     try {
-        const rowClicked=action.payload
+        const rowClicked = action.payload
         const row = yield select(selectedVagonSelector)
-        if (row === null || row.id!==rowClicked.row.id) {
+        if (row === null || row.id !== rowClicked.row.id) {
             yield put({
                 type: SELECT_ROW_FIND_VAGONS_SUCCESS,
-                payload: {vagon: {id: rowClicked.row.id}}
+                payload: { vagon: { id: rowClicked.row.id } }
             })
         } else {
             yield put({
                 type: SELECT_ROW_FIND_VAGONS_SUCCESS,
-                payload: {vagon: null}
+                payload: { vagon: null }
             })
         }
     } catch (_) {
@@ -408,7 +408,7 @@ export const selectRowSaga = function * (action) {
     }
 }
 
-export const fetchAllClientsSaga = function * () {
+export const fetchAllClientsSaga = function* () {
     while (true) {
         yield take(FETCH_ALL_CLIENTS_REQUEST)
         yield put({
@@ -417,11 +417,11 @@ export const fetchAllClientsSaga = function * () {
         yield put({
             type: CHANGE_USER_ACCESS, payload: false
         })
-        let isAdmin=false
+        let isAdmin = false
         let res = yield call(fetchUserByIP)
         if (res.fetchOK) {
-            if (res.data.Admin && res.data.Admin==='true') {
-                isAdmin=true
+            if (res.data.Admin && res.data.Admin === 'true') {
+                isAdmin = true
                 yield put({
                     type: CHANGE_USER_ACCESS, payload: true
                 })
@@ -440,49 +440,53 @@ export const fetchAllClientsSaga = function * () {
         if (res.fetchOK) {
             yield put({
                 type: FETCH_ALL_CLIENTS_SUCCESS,
-                payload: {data: res.data.map(elem=> ({ value: elem.kodclient, label: elem.nameclient, adress: elem.adrclient })), msg: res.msg}
+                payload: { data: res.data.map(elem => ({ value: elem.kodclient, label: elem.nameclient, adress: elem.adrclient })), msg: res.msg }
 
             })
             yield put({
                 type: FIRST_LOAD_CHANGE, payload: false
             })
 
-        }else {
+        } else {
             yield put({
                 type: FIRST_LOAD_CHANGE, payload: false
             })
             yield put({
                 type: FETCH_ALL_CLIENTS_ERROR,
-                payload: {msg: res.msg }
+                payload: { msg: res.msg }
             })
         }
 
     }
 }
-export const clientUpdateSaga =function * (action) {
+export const clientUpdateSaga = function* (action) {
     try {
-        const kods=action.payload.kods===action.payload.name ? '' : '1348'
-        const updatedClient={
+        const kods = action.payload.kods === action.payload.name ? '' : '1348'
+        const updatedClient = {
             kodclient: action.payload.kods,
-            nameclient:  action.payload.name.replace(/"/g, "'"),
-            adrclient:  action.payload.adress.replace(/"/g, "'") ,
+            nameclient: action.payload.name.replace(/"/g, "'"),
+            adrclient: action.payload.adress.replace(/"/g, "'"),
             kods: kods
         }
         if (action.payload.kods) {
-            const res = yield call(updateClient,updatedClient)
+            const res = yield call(updateClient, updatedClient)
             if (res.fetchOK) {
                 yield put({
-                    type: CLIENT_UPDATE_SUCCESS, payload: {data: {kods: action.payload.kods,
-                                                                  name: action.payload.name.replace(/"/g, "'"),
-                                                                  adress: action.payload.adress.replace(/"/g, "'")},
-                                                           msg: res.msg}
+                    type: CLIENT_UPDATE_SUCCESS, payload: {
+                        data: {
+                            kods: action.payload.kods,
+                            name: action.payload.name.replace(/"/g, "'"),
+                            adress: action.payload.adress.replace(/"/g, "'")
+                        },
+                        msg: res.msg
+                    }
                 })
                 yield put({
                     type: SHOW_CLIENT_EDIT_FORM, payload: false
                 })
             } else {
                 yield put({
-                    type: CLIENT_UPDATE_ERROR, payload: {msg: res.msg}
+                    type: CLIENT_UPDATE_ERROR, payload: { msg: res.msg }
                 })
 
             }
@@ -491,7 +495,7 @@ export const clientUpdateSaga =function * (action) {
 
 
     } catch (err) {
-        console.log('-ERROR-',err)
+        console.log('-ERROR-', err)
     }
 }
 
@@ -500,8 +504,8 @@ export function* saga() {
         fetchFindVagonsSaga(),
         fetchFiltersDataSaga(),
         fetchAllClientsSaga(),
-        takeEvery(CLIENT_UPDATE_REQUEST,clientUpdateSaga),
-        takeEvery(SELECT_ROW_FIND_VAGONS_REQUEST,selectRowSaga),
+        takeEvery(CLIENT_UPDATE_REQUEST, clientUpdateSaga),
+        takeEvery(SELECT_ROW_FIND_VAGONS_REQUEST, selectRowSaga),
 
         // takeEvery(FETCH_FIND_ALL_VAGONS_REQUEST,fetchFindAllVagonsSaga),
 

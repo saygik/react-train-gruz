@@ -1,15 +1,15 @@
 import React from "react"
-import Spravka31 from "../pages/spravka31"
-import Naturki from "../pages/naturki"
-import Spravka1 from "../pages/spravka1"
-import Spravka2 from "../pages/spravka2"
-import VagonPodhod from "../pages/vagonpodhod"
-import GruzStatistics from "../shared/gruz-statistics"
-import ExtReportIframe from "../pages/ext-report-iframe"
-import {FindVagonsAll} from "../pages/findvagons"
-import Clients from '../pages/clients'
-import Asus from "../pages/asus"
-import Logo from '../../img/train.png'
+import Spravka31 from "../components/pages/spravka31"
+import Naturki from "../components/pages/naturki"
+import Spravka1 from "../components/pages/spravka1"
+import Spravka2 from "../components/pages/spravka2"
+import VagonPodhod from "../components/pages/vagonpodhod"
+import GruzStatistics from "../components/shared/gruz-statistics"
+import ExtReportIframe from "../components/pages/ext-report-iframe"
+import { FindVagonsAll } from "../components/pages/findvagons"
+import Clients from '../components/pages/clients'
+import Asus from "../components/pages/asus"
+import Logo from '../img/train.png'
 
 const brand = { name: "Грузовая работа", to: "/", component: GruzStatistics, logo: Logo }
 const nod2exp = <ExtReportIframe url={"http://reports.brnv.rw/ReportServer/Pages/ReportViewer.aspx?%2fAPI%2f%d0%9d%d0%9e%d0%94-2+%d0%9d%d0%b0%d0%bb%d0%b8%d1%87%d0%b8%d0%b5+%d1%8d%d0%ba%d1%81%d0%bf%d0%be%d1%80%d1%82%d0%b0+%d0%bd&rs:Command=Render"} />
@@ -23,13 +23,13 @@ const navlinksGruz = [
     { name: "Подход вагонов", to: "/podhod", component: VagonPodhod },
     { name: "Поиск вагонов", to: "/findvagons", component: FindVagonsAll },
     { name: "Поиск клиентов", to: "/clients", component: Clients },
-    { divider: "true" },
-    { name: "НОД-2 Наличие экспорта на отделении", to: "/nod2exp", component: nod2exp, render: true},
-    { name: "Наличие экспорта для Кузницы/Семянувки", to: "/semvag", component: semvag, render: true},
-    { name: "Наличие вагонов с грузом для Семенувки/Кузницы на отделении", to: "/kuzvag", component: kuzvag, render: true}
+    // { divider: "true" },
+    // { name: "НОД-2 Наличие экспорта на отделении", to: "/nod2exp", component: nod2exp, render: true },
+    // { name: "Наличие экспорта для Кузницы/Семянувки", to: "/semvag", component: semvag, render: true },
+    // { name: "Наличие вагонов с грузом для Семенувки/Кузницы на отделении", to: "/kuzvag", component: kuzvag, render: true }
 ]
 const navlinksAsus = [
-    { name: "Барановичи-Центральные", to: "/nakoplenie13857", component: Asus},
+    { name: "Барановичи-Центральные", to: "/nakoplenie13857", component: Asus },
 ]
 export {
     brand,
