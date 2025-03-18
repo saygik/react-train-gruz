@@ -1,7 +1,7 @@
 export const appName = "gruz-01"
 export const apiConfig = {
-    //    apiGruzUrl: "http://api.brnv.rw"
-    apiGruzUrl: "http://w-058-258049004.brnv.rw:9000"
+    //apiGruzUrl: "https://gruz-api.brnv.rw"
+    apiGruzUrl: "https://w-058-gruz.brnv.rw"
 
 
 }

@@ -14,7 +14,7 @@ const Login = ({ signIn }) => {
     <div className="container py-5">
       <div className="row">
         <div className="col-md-2 text-center">
-          <p><i className="fa fa-exclamation-triangle fa-5x"></i><br />Status Code: 403</p>
+
         </div>
         <div className="col-md-10">
           <h3>Доступ отклонен!</h3>

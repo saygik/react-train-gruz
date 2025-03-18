@@ -6,7 +6,7 @@ import { brand, navlinksGruz, navlinksAsus } from "../../routes/nav-bar-links"
 import { useAuth } from '../../context/Auth';
 
 const NavbarGruz = ({ showNavBar }) => {
-    const { signedIn, user, signOut, signIn } = useAuth();
+    const { signedIn, user, signOut, signIn, isFullAccess, isASUSAccess } = useAuth();
 
     return (
         <>
@@ -19,11 +19,16 @@ const NavbarGruz = ({ showNavBar }) => {
                     {signedIn &&
                         <Nav className="pr-3">
                             <NavDropdown title="Отчеты" id="basic-nav-dropdown" >
-                                {navlinksGruz.map((link, index) => link.divider ? <NavDropdown.Divider key={index} /> : <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
+                                {navlinksGruz.map((link, index) => {
+                                    if (!isFullAccess && link.fullAccess) return
+                                    return link.divider ? <NavDropdown.Divider key={index} /> : <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>
+                                }
+                                )}
                             </NavDropdown>
-                            <NavDropdown title="АСУС" id="basic-nav-dropdown" >
+                            {isASUSAccess && < NavDropdown title="АСУС" id="basic-nav-dropdown" >
                                 {navlinksAsus.map((link, index) => <NavDropdown.Item key={index} as={Link} to={link.to}>{link.name}</NavDropdown.Item>)}
                             </NavDropdown>
+                            }
                         </Nav>
                     }
                     <Navbar.Collapse className="justify-content-end pr-2">

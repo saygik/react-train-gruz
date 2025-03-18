@@ -84,19 +84,22 @@ const AuthProvider = ({ children }) => {
     const exchangeCode = useCallback(async (params) => {
 
         try {
+            //            console.log('params', params)
             const res = await api.exchangeCode(params);
-
+            //            console.log('res', res)
+            //            console.log('access_token', res.data.token.access_token)
             res.data.token.access_token && localStorage.setItem('REACT_APPS_GRUZ_ATOKEN', res.data.token.access_token);
             //console.log('res', res)
             // if (!!res.data.token.expiry) {
             //     let dete = new Date(res.data.token.expiry)
             //      console.log('res.data1', res.data)
-            res.data.token.refresh_token && cookies.set('REACT_APPS_GRUZ_RTOKEN', res.data.token.refresh_token, { path: '/' });
-            res.data.token.id_token && cookies.set('REACT_APPS_GRUZ_IDTOKEN', res.data.token.id_token, { path: '/' });
+            //            res.data.token.refresh_token && cookies.set('REACT_APPS_GRUZ_RTOKEN', res.data.token.refresh_token, { path: '/' });
+            // res.data.token.id_token && cookies.set('REACT_APPS_GRUZ_IDTOKEN', res.data.token.id_token, { path: '/' });
             //            }
             dispatch({
                 type: 'SIGN_IN_SUCCESS', payload: {
-                    "name": res.data.user.name
+                    "name": res.data.user.name,
+                    "groups": res.data.user.groups
                 }
             })
             navigate('/');
@@ -119,13 +122,23 @@ const AuthProvider = ({ children }) => {
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
 
-
+    const isFullAccess = useMemo(() => {
+        if (!state?.authUser?.groups) return false
+        return state?.authUser?.groups.includes("ИВЦ2: АРМ Грузового: полный доступ")
+        // getUserData()
+    }, [state.authUser])// eslint-disable-line react-hooks/exhaustive-deps
+    const isASUSAccess = useMemo(() => {
+        if (!state?.authUser?.groups) return false
+        return state?.authUser?.groups.includes("ИВЦ2: АРМ Грузового: АСУС")
+        // getUserData()
+    }, [state.authUser])// eslint-disable-line react-hooks/exhaustive-deps
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         let token = localStorage.getItem('REACT_APPS_GRUZ_ATOKEN')
+
         if (token === "null" || token === null) token = ""
         if (!token) return
         getUserData()
@@ -141,6 +154,8 @@ const AuthProvider = ({ children }) => {
         exchangeCode,
         signInAuto,
         signOut,
+        isFullAccess,
+        isASUSAccess
     };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

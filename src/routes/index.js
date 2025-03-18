@@ -54,6 +54,7 @@ function RequireAuth({ children }) {
     let location = useLocation();
 
     if (!signedIn) {
+
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return children;

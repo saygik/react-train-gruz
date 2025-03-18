@@ -12,10 +12,10 @@ import Routes from '../routes';
 
 //Setup axios Interceptors with signOut
 function AxiosInterceptorsComponent(props) {
-      const { signOut } = useAuth();
+      const { signOut, signIn } = useAuth();
       const [ran, setRan] = useState(false);
       if (!ran) {
-            SetupInterceptors(signOut);
+            SetupInterceptors(signOut, signIn);
             setRan(true);
       }
       return <></>;
