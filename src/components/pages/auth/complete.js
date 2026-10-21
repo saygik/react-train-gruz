@@ -1,68 +1,67 @@
-import { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 
-// material-ui
-
-import { Container, Row, Col, Button } from 'react-bootstrap';
-
+import { Alert, Button } from 'react-bootstrap';
 // project-imports
 
-
-import Loader from '../../shared/bigloader'
 import { useAuth } from '../../../context/Auth';
-// ================================|| LOGIN ||================================ //
+import { authConfig } from '../../../config';
+import { takeReturnTo } from '../../../context/Auth/utils';
+import './login.css';
+// ================================|| OAUTH CALLBACK ||================================ //
 
-const Callback = () => {
+const Complete = () => {
+  const { completeSignIn, signIn } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+
+    let active = true;
+    completeSignIn(location.search).then((result) => {
+      if (!active) return;
+      if (result.ok) {
+        navigate(takeReturnTo(), { replace: true });
+      } else {
+        setError(result.message);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [completeSignIn, location.search, navigate]);
+
+  if (error) {
+    return (
+      <div className="login-page">
+        <div className="login-card text-center">
+          <h1 className="h5 mb-3">Не удалось войти</h1>
+          <Alert variant="danger" className="py-2 small text-left">
+            {error}
+          </Alert>
+          <Button variant="primary" className="btn-block" onClick={() => signIn(authConfig.homePath)}>
+            Войти снова
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <Container>
-      <Row>
-        <Col>
-          Вход
-        </Col>
-      </Row>
-    </Container>
+    <div className="login-page">
+      <div className="login-card text-center">
+        <div className="spinner-border text-primary mb-3" role="status">
+          <span className="sr-only">Загрузка…</span>
+        </div>
+        <p className="text-muted mb-0">Завершаем вход…</p>
+      </div>
+    </div>
   );
 };
 
-const LoginWrapper = () => {
-  const { exchangeCode } = useAuth();
-  const [showLoader, setShowLoader] = useState(true)
-  const [errMsg, setErrMsg] = useState("")
-  const queryParams = new URLSearchParams(window.location.search);
-
-  //  const saved_state = sessionStorage.getItem('FINDUSERS_OAUTH_STATE_KEY');
-  const saved_state = useMemo(() => {
-    const value = sessionStorage.getItem('GRUZ_OAUTH_STATE_KEY');
-    sessionStorage.removeItem('GRUZ_OAUTH_STATE_KEY');
-    return value
-  }, [])
-
-
-  //const code = queryParams.get('code');
-  const state = queryParams.get('state');
-
-
-
-  // console.log('saved_state', saved_state)
-  //  console.log('code', code)
-  // console.log('state', state)
-
-  useEffect(() => {
-    // console.log('saved_state', saved_state)
-    // console.log('state', state)
-    if (saved_state === state) {
-      exchangeCode(window.location.search)
-    }
-
-  }, [state, saved_state]);// eslint-disable-line react-hooks/exhaustive-deps
-
-  if (saved_state !== state) {
-    //setErrMsg("Не совпадают случайные числа авторизации запроса и ответа")
-    //setShowLoader(false)
-    return <>Не совпадают случайные числа авторизации запроса и ответа</>
-
-  }
-  if (showLoader) return <Loader minHeight='100vh' />
-  if (!showLoader && errMsg.length > 1) return <> {errMsg} </>
-  return <Callback />
-};
-export default LoginWrapper;
+export default Complete;

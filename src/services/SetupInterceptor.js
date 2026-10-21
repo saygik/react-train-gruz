@@ -1,64 +1,77 @@
-import axios from './axiosconfigfile'
-import Cookies from 'universal-cookie';
+import axios from './axiosconfigfile';
 
-import { apiConfig } from "../config";
+/**
+ * Интерсепторы axios.
+ *
+ * - Ко всем запросам добавляется актуальный access token.
+ * - Если токен истёк, он один раз обновляется через /api/oauth/refresh,
+ *   после чего исходный запрос повторяется. Полноценный редирект на SSO
+ *   происходит только если обновить токен невозможно.
+ */
 
-let isRefreshing = false;
+const AUTH_ENDPOINTS = [
+    '/api/oauth/login',
+    '/api/oauth/token',
+    '/api/oauth/refresh',
+    '/api/oauth/logout',
+];
 
-let failedQueue = [];
-const _apiBase = apiConfig.apiGruzUrl
-const processQueue = (error, token = null) => {
-    failedQueue.forEach(prom => {
-        if (error) {
-            prom.reject(error);
-        } else {
-            prom.resolve(token);
-        }
-    })
+const isAuthEndpoint = (url) => AUTH_ENDPOINTS.some((path) => (url || '').includes(path));
 
-    failedQueue = [];
-}
-
-const SetupInterceptors = (signOut, signIn) => {
-    const cookies = new Cookies();
+const SetupInterceptors = ({ getAccessToken, refreshSession, onSessionExpired }) => {
     //Request Interceptor
-    axios.interceptors.request.use(
+    const requestInterceptor = axios.interceptors.request.use(
         async (config) => {
-
-            config.headers["Content-Type"] = "application/json";
-            //        const cookies = new Cookies()
-            let token = localStorage.getItem('REACT_APPS_GRUZ_ATOKEN')
-            if (token === "null" || token === null) token = ""
-            //            console.log('tok', token)
-            if (config.url.includes("/api/oauth/login")) return config;
-            //            console.log('token1', token)
-            if (token.length > 5) {
-                config.headers["Authorization"] = "Bearer " + token;
+            config.headers = config.headers || {};
+            if (!config.headers['Content-Type']) {
+                config.headers['Content-Type'] = 'application/json';
             }
-            // console.log('token', token)
+
+            if (isAuthEndpoint(config.url)) return config;
+
+            let token = getAccessToken();
+            if (!token) {
+                const session = await refreshSession();
+                token = session && session.accessToken;
+            }
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
             return config;
         },
-        (error) => {
-            console.log('error int', error)
-            return Promise.reject(error);
-        }
-    )
-    //Response Interceptor
-    axios.interceptors.response.use((response) => {
-        return response
-    }, function (error) {
-        //        const token = localStorage.getItem('REACT_APPS_GRUZ_ATOKEN')
-        if (error.response && error.response.status === 401) {
-            console.log('LOGOUT')
-            localStorage.removeItem('REACT_APPS_GRUZ_ATOKEN');
-            isRefreshing = false
-            failedQueue = [];
-            signIn()
-            return Promise.reject(error);
-        }
+        (error) => Promise.reject(error)
+    );
 
-        return Promise.reject(error);
-    });
-}
+    //Response Interceptor
+    const responseInterceptor = axios.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+            const original = error.config;
+            const status = error.response && error.response.status;
+
+            if (status !== 401 || !original || original.__isRetry || isAuthEndpoint(original.url)) {
+                return Promise.reject(error);
+            }
+            original.__isRetry = true;
+
+            const session = await refreshSession(true);
+            if (!session || !session.accessToken) {
+                onSessionExpired();
+                return Promise.reject(error);
+            }
+
+            original.headers = {
+                ...(original.headers || {}),
+                Authorization: `Bearer ${session.accessToken}`,
+            };
+            return axios(original);
+        }
+    );
+
+    return () => {
+        axios.interceptors.request.eject(requestInterceptor);
+        axios.interceptors.response.eject(responseInterceptor);
+    };
+};
 
 export default SetupInterceptors;

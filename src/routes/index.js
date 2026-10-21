@@ -10,6 +10,7 @@ import {
 
 } from "react-router-dom";
 import { useAuth } from '../context/Auth';
+import { authConfig } from '../config';
 
 
 import MainLayout from '../components/layout/MainLayout';
@@ -25,6 +26,7 @@ import Clients from '../components/pages/clients'
 
 import Login from "../components/pages/auth/login"
 import Complete from "../components/pages/auth/complete"
+import Loader from '../components/shared/bigloader'
 // ==============================|| ROUTING RENDER ||============================== //
 
 export default function MRoutes() {
@@ -32,8 +34,8 @@ export default function MRoutes() {
         <Routes >
             <Route element={<MainLayout />}>
                 <Route path="/" element={<RequireAuth><GruzStatistics /></RequireAuth>} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/complete" element={<Complete />} />
+                <Route path={authConfig.loginPath} element={<Login />} />
+                <Route path={authConfig.callbackPath} element={<Complete />} />
                 <Route path="/disl" element={<RequireAuth><Spravka1 /></RequireAuth>} />
                 <Route path="/pogrvygr" element={<RequireAuth><Spravka2 /></RequireAuth>} />
                 <Route path="/mesgruz" element={<RequireAuth><Spravka31 /></RequireAuth>} />
@@ -50,12 +52,17 @@ export default function MRoutes() {
 
 
 function RequireAuth({ children }) {
-    const { signedIn } = useAuth();
-    let location = useLocation();
+    const { signedIn, initializing } = useAuth();
+    const location = useLocation();
+
+    // Пока восстанавливаем сессию из localStorage, не отправляем на /login
+    if (initializing) {
+        return <Loader minHeight='100vh' />;
+    }
 
     if (!signedIn) {
-
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        const from = `${location.pathname}${location.search}`;
+        return <Navigate to={authConfig.loginPath} state={{ from }} replace />;
     }
     return children;
 }

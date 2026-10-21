@@ -1,12 +1,14 @@
 //* ****** Initial state ****************//
 
-const EmptyUser = {
-};
+const EmptyUser = {};
+
 export const initialState = {
+    // Пока идёт восстановление сессии из localStorage, не показываем /login
+    initializing: true,
     loginProcess: false,
     authUser: EmptyUser,
     signedIn: false,
-
+    error: null,
 };
 //* *************************************//
 
@@ -14,23 +16,38 @@ export const initialState = {
 export const reducer = (state, action) => {
     switch (action.type) {
 
+        case 'AUTH_INITIALIZED':
+            return {
+                ...state,
+                initializing: false,
+            };
         case 'SIGN_IN_REQUEST':
             return {
                 ...state,
-                loginProcess: true
-            }
+                loginProcess: true,
+                error: null,
+            };
         case 'SIGN_IN_SUCCESS':
             return {
                 ...state,
+                initializing: false,
                 signedIn: true,
                 loginProcess: false,
-                authUser: action.payload
+                error: null,
+                authUser: action.payload || EmptyUser,
             };
         case 'SIGN_IN_ERROR':
-            return initialState;
+            return {
+                ...initialState,
+                initializing: false,
+                error: action.payload || 'Не удалось выполнить вход',
+            };
 
-        case 'SIGN_OUT_REQUEST':
-            return initialState;
+        case 'SIGN_OUT':
+            return {
+                ...initialState,
+                initializing: false,
+            };
 
         default:
             return state;

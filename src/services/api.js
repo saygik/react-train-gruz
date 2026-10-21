@@ -104,6 +104,7 @@ export const fetchAsusVagons = async (wayId) => await getResource(`/asus/vagons/
 
 api.oAuth2login = async (state) => await apiData(`/api/oauth/login?state=${state}`, 'get');
 api.exchangeCode = async (params) => await apiData(`/api/oauth/token${params}`, 'get');
+api.refreshToken = async (refreshToken) => await apiData('/api/oauth/refresh', 'post', { "refresh_token": refreshToken });
 
 api.whoami = async (idtoken) => await apiData('/api/oauth/whoami', 'post', { "id_token": idtoken })
 api.logout = async (idtoken) => await apiData('/api/oauth/logout', 'post', { "id_token": idtoken, "url": `${window.location.origin}/auth/logout` })
