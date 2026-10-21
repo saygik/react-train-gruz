@@ -136,3 +136,35 @@ body { padding-top: 5.2rem; }
 .progress-sm .progress {
     height: 3px !important;
 }
+
+/* Logout icon button in the navbar */
+.navbar-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    font-size: 1.05rem;
+    line-height: 1;
+    color: #6c757d;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.navbar-logout:hover {
+    color: #ffffff;
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.navbar-logout:focus {
+    outline: none;
+    color: #ffffff;
+    background-color: #c0392b;
+    border-color: #c0392b;
+    box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.15);
+}

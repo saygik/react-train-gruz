@@ -54,7 +54,7 @@ const SetupInterceptors = ({ getAccessToken, refreshSession, onSessionExpired })
             }
             original.__isRetry = true;
 
-            const session = await refreshSession(true);
+            const session = await refreshSession();
             if (!session || !session.accessToken) {
                 onSessionExpired();
                 return Promise.reject(error);

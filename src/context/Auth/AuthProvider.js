@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
         sessionRef.current = session;
         if (!mountedRef.current) return;
         if (session) {
-            dispatch({ type: 'SIGN_IN_SUCCESS', payload: session.user });
+            dispatch({ type: 'SIGN_IN_SUCCESS', payload: session.user, expiresAt: session.expiresAt });
         } else {
             dispatch({ type: 'SIGN_OUT' });
         }
@@ -63,11 +63,22 @@ const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    //********************  Обработка истёкшей сессии  ********************//
+
+    const onSessionExpired = useCallback(() => {
+        dropSession();
+        suppressAutoRedirect();
+
+        const current = `${window.location.pathname}${window.location.search}`;
+        const from = current !== authConfig.loginPath ? safePath(current) : authConfig.homePath;
+        navigate(authConfig.loginPath, { replace: true, state: { from, expired: true } });
+    }, [dropSession, navigate]);
+
     /**
      * Обновление токена через /api/oauth/refresh.
      * Запросы "склеиваются": параллельные 401 не порождают пачку refresh.
      */
-    const refreshSession = useCallback(async (force = false) => {
+    const refreshSession = useCallback(async () => {
         const current = sessionRef.current;
         if (!current || !current.refreshToken) return null;
         if (refreshRef.current) return refreshRef.current;
@@ -84,12 +95,24 @@ const AuthProvider = ({ children }) => {
                 applySession(next);
                 return next;
             })
-            .catch(() => {
-                const latest = sessionRef.current;
-                // Сеть или SSO временно недоступны, но токен ещё жив — не разлогиниваем
-                if (!force && hasValidAccessToken(latest)) {
-                    return latest;
+            .catch((error) => {
+                const status = error && error.response && error.response.status;
+                // 4xx — refresh token недействителен (истёк/отозван), нужен повторный вход.
+                // Нет ответа или 5xx — временная проблема, сессию не уничтожаем.
+                const temporaryFailure = !status || status >= 500;
+
+                if (process.env.NODE_ENV !== 'production') {
+                    console.warn(
+                        '[auth] Не удалось обновить токен',
+                        status || error.message,
+                        (error.response && error.response.data) || ''
+                    );
                 }
+
+                if (temporaryFailure) {
+                    return sessionRef.current;
+                }
+
                 dropSession();
                 return null;
             })
@@ -145,6 +168,44 @@ const AuthProvider = ({ children }) => {
             cancelled = true;
         };
     }, [applySession, refreshSession]);
+
+    //********************  Своевременное обновление токена  ********************//
+
+    // Продлеваем сессию заранее (за refreshLeewayMs до истечения access token),
+    // чтобы рабочие запросы не упирались в 401.
+    useEffect(() => {
+        if (!state.signedIn || !state.expiresAt) return;
+        const session = sessionRef.current;
+        if (!session || !session.refreshToken) return;
+
+        const delay = Math.max(state.expiresAt - Date.now() - authConfig.refreshLeewayMs, 5000);
+        const timer = window.setTimeout(async () => {
+            const refreshed = await refreshSession();
+            if (!refreshed) onSessionExpired();
+        }, delay);
+
+        return () => window.clearTimeout(timer);
+    }, [state.signedIn, state.expiresAt, refreshSession, onSessionExpired]);
+
+    // После сна ноутбука/возврата во вкладку таймер мог не сработать вовремя.
+    useEffect(() => {
+        const refreshIfNeeded = async () => {
+            if (document.visibilityState === 'hidden') return;
+            const session = sessionRef.current;
+            if (session && session.refreshToken && isExpired(session, authConfig.refreshLeewayMs)) {
+                const refreshed = await refreshSession();
+                if (!refreshed) onSessionExpired();
+            }
+        };
+
+        document.addEventListener('visibilitychange', refreshIfNeeded);
+        window.addEventListener('focus', refreshIfNeeded);
+
+        return () => {
+            document.removeEventListener('visibilitychange', refreshIfNeeded);
+            window.removeEventListener('focus', refreshIfNeeded);
+        };
+    }, [refreshSession, onSessionExpired]);
 
     //********************  Вход  ********************//
 
@@ -209,6 +270,15 @@ const AuthProvider = ({ children }) => {
                 return fail('Сервер авторизации не вернул access token');
             }
 
+            if (!session.refreshToken) {
+                // Без refresh token сессия умрёт вместе с access token (у Authentik это минуты).
+                // Причина обычно в том, что у провайдера не включён scope offline_access.
+                console.warn(
+                    '[auth] Authentik не вернул refresh_token. ' +
+                    'Включите scope offline_access в настройках провайдера Authentik.'
+                );
+            }
+
             writeSession(session);
             removeState();
             clearAutoRedirectMark();
@@ -244,18 +314,6 @@ const AuthProvider = ({ children }) => {
         }
 
         navigate(authConfig.loginPath, { replace: true, state: { manual: true } });
-    }, [dropSession, navigate]);
-
-    //********************  Обработка истёкшей сессии  ********************//
-
-    const onSessionExpired = useCallback(() => {
-        if (!sessionRef.current) return;
-        dropSession();
-        suppressAutoRedirect();
-
-        const current = `${window.location.pathname}${window.location.search}`;
-        const from = current !== authConfig.loginPath ? safePath(current) : authConfig.homePath;
-        navigate(authConfig.loginPath, { replace: true, state: { from, expired: true } });
     }, [dropSession, navigate]);
 
     //********************  Для axios-интерсептора  ********************//

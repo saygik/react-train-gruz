@@ -9,6 +9,8 @@ export const initialState = {
     authUser: EmptyUser,
     signedIn: false,
     error: null,
+    // Срок жизни текущего access token (для своевременного обновления)
+    expiresAt: 0,
 };
 //* *************************************//
 
@@ -35,6 +37,7 @@ export const reducer = (state, action) => {
                 loginProcess: false,
                 error: null,
                 authUser: action.payload || EmptyUser,
+                expiresAt: action.expiresAt || 0,
             };
         case 'SIGN_IN_ERROR':
             return {

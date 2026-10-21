@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import withViewScroll from "../hoc/with-view-scroll"
 import { brand, navlinksGruz, navlinksAsus } from "../../routes/nav-bar-links"
 import { useAuth } from '../../context/Auth';
@@ -38,7 +40,15 @@ const NavbarGruz = ({ showNavBar }) => {
                     <Navbar.Text className="pr-2 ">
                         {user.name}
                     </Navbar.Text>
-                    <Button variant="secondary" size="sm" onClick={() => signOut()}>Выйти</Button>
+                    <button
+                        type="button"
+                        className="navbar-logout"
+                        onClick={() => signOut()}
+                        title="Выйти"
+                        aria-label="Выйти"
+                    >
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                    </button>
                 </Navbar.Collapse>
             </Navbar>
         </div>
