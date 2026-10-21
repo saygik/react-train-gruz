@@ -25,7 +25,7 @@ class Sprav1Table extends Component {
         return (
             <>
                 <SpravTableLegend />
-                <div className={'pt-2'}>
+                <div className="sprav-table-compact">
                     <BootstrapTable keyField='ID'
                         data={stances}
                         columns={tableColumns}

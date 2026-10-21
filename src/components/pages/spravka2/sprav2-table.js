@@ -5,32 +5,32 @@ import SpravTableLegend from './sprav-table-legend'
 class Sprav2Table extends Component {
 
     render() {
-        const { stances, selectCell, selectedStationAndTip,closeExpanded,columns} = this.props
-        const tableColumns = columns.map((elem)=> {
+        const { stances, selectCell, selectedStationAndTip, closeExpanded, columns } = this.props
+        const tableColumns = columns.map((elem) => {
             const el = elem
-            el.events= {
-                onClick: (e, column, columnIndex, row) => {selectCell({id: row.ID, stan: row.KODS, col: column.dataField , cell: row[column.dataField], name: row.NAME})},
+            el.events = {
+                onClick: (e, column, columnIndex, row) => { selectCell({ id: row.ID, stan: row.KODS, col: column.dataField, cell: row[column.dataField], name: row.NAME }) },
             }
             return el
         })
-        const rowStyle2 = (row) =>  (row.KODS === 's001' || row.KODS === 's002') ? {backgroundColor: '#dce6b0'} : {}
+        const rowStyle2 = (row) => (row.KODS === 's001' || row.KODS === 's002') ? { backgroundColor: '#dce6b0' } : {}
         const expandRow = {
-            renderer: () => <PogrVygr findCriteria={ selectedStationAndTip} closeExpanded={closeExpanded}/>,
+            renderer: () => <PogrVygr findCriteria={selectedStationAndTip} closeExpanded={closeExpanded} />,
             onlyOneExpanding: true,
             expandByColumnOnly: true,
-            expanded: selectedStationAndTip=== null ? [] : [selectedStationAndTip.id]
+            expanded: selectedStationAndTip === null ? [] : [selectedStationAndTip.id]
         }
         return (
             <>
                 <SpravTableLegend />
-                <div className={'pt-2'}>
+                <div className="sprav-table-compact">
                     <BootstrapTable keyField='ID'
-                                    data={ stances }
-                                    columns={ tableColumns }
-                                    classes={'table-responsive-sm text-nowrap'}
-                                    condensed
-                                    expandRow={ expandRow }
-                                    rowStyle={ rowStyle2 } />
+                        data={stances}
+                        columns={tableColumns}
+                        classes={'table-responsive-sm text-nowrap'}
+                        condensed
+                        expandRow={expandRow}
+                        rowStyle={rowStyle2} />
                 </div>
             </>
         );

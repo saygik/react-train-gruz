@@ -315,3 +315,35 @@ body {
 .legend-caption {
     white-space: nowrap;
 }
+
+.sprav-table-compact {
+    max-height: calc(100vh - 50px);
+    overflow: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.sprav-table-compact .table {
+    font-size: 0.85rem;
+    /* ≈12.8px — мелко, но читаемо */
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: #212529;
+    /* контрастный, не серый */
+    margin-bottom: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+.sprav-table-compact .table>thead>tr>th,
+.sprav-table-compact .table>tbody>tr>td {
+    padding: 0.2rem 0.35rem;
+    line-height: 1.35;
+    vertical-align: middle;
+}
+
+.sprav-table-compact .table>thead>tr>th {
+    font-size: 0.68rem;
+    font-weight: 400;
+}
