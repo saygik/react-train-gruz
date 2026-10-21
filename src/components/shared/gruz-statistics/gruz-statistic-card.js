@@ -1,23 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Col, Card } from 'react-bootstrap'
-import GruzOneStatistic from './gruz-one-statistic'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Card } from 'react-bootstrap';
+
+import GruzOneStatistic from './gruz-one-statistic';
 
 const GruzStatisticCard = ({ name, caption, value, url }) => (
-    <Col sm={12} md={6} lg={4} className='justify-content-center'>
-        <div style={{ width: '18rem', margin: 'auto' }}>
-            <Link to={url} className="d-block text-reset text-decoration-none">
-                <Card className="text-center shadow m-2 gruz-button">
-                    <Card.Header>{name}</Card.Header>
-                    <Card.Body>
-                        <Card.Title><GruzOneStatistic value={value} /></Card.Title>
-                        <Card.Text>
-                            <small className="text-muted">{caption}</small>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Link>
-        </div>
+    <Col sm={12} md={6} lg={4} className="d-flex mb-4">
+        <Link
+            to={url}
+            className="gruz-card-link d-block w-100 text-reset text-decoration-none"
+        >
+            <Card className="gruz-card h-100 text-center border-0">
+                <Card.Header className="gruz-card-header">
+                    <span className="gruz-card-title">{name}</span>
+                </Card.Header>
+                <Card.Body className="d-flex flex-column justify-content-center py-3">
+                    <div className="gruz-card-value">
+                        <GruzOneStatistic value={value} />
+                    </div>
+                    {caption && <small className="gruz-card-caption">{caption}</small>}
+                </Card.Body>
+                <span className="gruz-card-arrow" aria-hidden="true">→</span>
+            </Card>
+        </Link>
     </Col>
-)
-export default GruzStatisticCard
+);
+
+export default GruzStatisticCard;

@@ -1,17 +1,16 @@
-import React from 'react'
-import { Container, Row } from 'react-bootstrap'
-import GruzStatisticCard from './gruz-statistic-card'
+import React from 'react';
+import { Container, Row } from 'react-bootstrap';
 
-const GruzStatisticPage = ({ data }) => (
+import GruzStatisticCard from './gruz-statistic-card';
+
+const GruzStatisticPage = ({ data = [] }) => (
     <Container>
-        <Row className='justify-content-left pt-3'>
-            {data.map((prop) => <GruzStatisticCard key={prop.id}
-                url={prop.url}
-                name={prop.name}
-                caption={prop.caption}
-                value={prop.value} />)
-            }
+        <Row className="g-3 pt-3">
+            {data.map((item) => (
+                <GruzStatisticCard key={item.id} {...item} />
+            ))}
         </Row>
     </Container>
-)
-export default GruzStatisticPage
+);
+
+export default GruzStatisticPage;

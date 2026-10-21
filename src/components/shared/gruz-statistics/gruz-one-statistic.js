@@ -1,14 +1,18 @@
-import React from 'react'
-import AnimatedNumber from "animated-number-react"
+import React from 'react';
+import AnimatedNumber from 'animated-number-react';
 
-const GruzOneStatistic =({value})=>(
-            <div>
-            <span style={{fontSize: '2.4rem', color: 'grey' }}>
-                <AnimatedNumber
-                    value={value}
-                    formatValue={value => value.toFixed(0)}
-                />
-            </span>
-            </div>
-        )
-export default GruzOneStatistic
+const GruzOneStatistic = ({ value }) => {
+    const safeValue = Number.isFinite(Number(value)) ? Number(value) : 0;
+
+    return (
+        <span className="gruz-number">
+            <AnimatedNumber
+                value={safeValue}
+                duration={600}
+                formatValue={(v) => Math.round(v).toLocaleString('ru-RU')}
+            />
+        </span>
+    );
+};
+
+export default GruzOneStatistic;

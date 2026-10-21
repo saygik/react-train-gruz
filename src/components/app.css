@@ -1,20 +1,27 @@
-body { padding-top: 5.2rem; }
+body {
+    padding-top: 5.2rem;
+}
+
 @media screen and (max-width: 768px) {
     body {
         padding-top: 5.8rem;
     }
+
     #spravka1-header {
         display: none;
     }
 }
+
 #Intro {
     position: fixed;
     width: 100%;
     z-index: 10;
 }
+
 .pageHeaderNavBarVisible {
     top: 2.5rem;
 }
+
 .pageHeaderNavBarNonVisible {
     top: 0;
 }
@@ -22,6 +29,7 @@ body { padding-top: 5.2rem; }
 .active {
     visibility: visible;
 }
+
 .hidden {
     visibility: hidden;
 }
@@ -29,9 +37,11 @@ body { padding-top: 5.2rem; }
 .gruz-bg-header-one {
     background: #c5d9c6;
 }
+
 .gruz-bg-header-two {
     background: #edeceb;
 }
+
 .gruz-bg-header-3 {
     background: #f8f9fa;
 }
@@ -39,12 +49,15 @@ body { padding-top: 5.2rem; }
 .gruz-bg-1 {
     background: #fbfbfb;
 }
+
 .gruz-bg-2 {
     background: #eff8d4;
 }
+
 .gruz-bg-3 {
     background: #b7c092;
 }
+
 .gruz-bg-4 {
     background: #f3f3ed;
 }
@@ -52,9 +65,11 @@ body { padding-top: 5.2rem; }
 .gruz-bg-5 {
     background: #ced6bb;
 }
+
 .gruz-bg-6 {
     background: #97b08c;
 }
+
 .gruz-bg-7 {
     background: #bfdbb0;
 }
@@ -62,42 +77,53 @@ body { padding-top: 5.2rem; }
 .gruz-font-normal {
     font-weight: normal;
 }
+
 .gruz-font-bold {
     font-weight: bold;
 }
+
 .gruz-font-60 {
     font-size: 0.60rem;
 }
+
 .gruz-font-70 {
     font-size: 0.70rem;
 }
+
 .gruz-font-80 {
     font-size: 0.80rem;
 }
+
 .gruz-font-90 {
     font-size: 0.90rem;
 }
+
 .gruz-font-110 {
     font-size: 1.1rem;
 }
+
 .gruz-text-ls {
     letter-spacing: 0.1rem;
 }
+
 .gruz-text-ls-sm {
     letter-spacing: 0.07rem;
 }
+
 .gruz-button-row {
     height: 3rem;
 }
 
 .gruz-header-height {
-     height: 2.4rem;
- }
+    height: 2.4rem;
+}
+
 .gruz-button-col:hover {
     cursor: pointer;
     background: #828b93;
     color: #ffffff;
 }
+
 .gruz-button {
     cursor: pointer;
     color: #9b9b9b;
@@ -117,7 +143,8 @@ body { padding-top: 5.2rem; }
     font-weight: bold;
     cursor: pointer;
     background: #828b93;
-    color: #ffffff;;
+    color: #ffffff;
+    ;
 }
 
 .gruz-verticalText {
@@ -125,12 +152,17 @@ body { padding-top: 5.2rem; }
     -webkit-writing-mode: vertical-rl;
     -ms-writing-mode: bt-rl;
 }
+
 .clip {
-    width:27px;
-    white-space: nowrap; /* Запрещаем перенос строк */
-    overflow: hidden; /* Обрезаем все, что не помещается в область */
-    padding: 0; /* Поля вокруг текста */
-    text-overflow: clip; /* Добавляем многоточие */
+    width: 27px;
+    white-space: nowrap;
+    /* Запрещаем перенос строк */
+    overflow: hidden;
+    /* Обрезаем все, что не помещается в область */
+    padding: 0;
+    /* Поля вокруг текста */
+    text-overflow: clip;
+    /* Добавляем многоточие */
 }
 
 .progress-sm .progress {
@@ -167,4 +199,75 @@ body { padding-top: 5.2rem; }
     background-color: #c0392b;
     border-color: #c0392b;
     box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.15);
+}
+
+
+
+
+.gruz-card-link {
+    border-radius: 0.75rem;
+    display: block;
+}
+
+.gruz-card {
+    border-radius: 0.75rem;
+    background: #ffffff;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.06);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+    border-top: 3px solid var(--bs-primary, #0d6efd);
+    /* цветной акцент */
+}
+
+.gruz-card-link:hover .gruz-card,
+.gruz-card-link:focus-visible .gruz-card {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1.25rem rgba(13, 110, 253, 0.15);
+}
+
+.gruz-card-header {
+    background: #f8f9ff;
+    /* лёгкий голубоватый фон */
+    border-bottom: 1px solid #eef1f7;
+    padding: 0.75rem 1rem;
+}
+
+.gruz-card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #1f2d3d;
+    /* тёмно-синий, не серый */
+}
+
+.gruz-number {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #499b4d;
+    /* синий акцент вместо серого */
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.gruz-card-caption {
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.gruz-card-arrow {
+    position: absolute;
+    right: 0.85rem;
+    bottom: 0.65rem;
+    font-size: 1.1rem;
+    color: #499b4d;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.gruz-card-link:hover .gruz-card-arrow,
+.gruz-card-link:focus-visible .gruz-card-arrow {
+    opacity: 1;
+    transform: translateX(0);
 }
