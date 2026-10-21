@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Alert, Button } from 'react-bootstrap';
 // project-imports
 
-import Logo from '../../../img/train.png';
+import Logo from '../../../img/gruz-pogr.png';
 import { useAuth } from '../../../context/Auth';
 import { authConfig } from '../../../config';
 import { canAutoRedirect, safePath } from '../../../context/Auth/utils';
@@ -70,11 +70,27 @@ const Login = () => {
 
         <Button
           variant="primary"
-          size="lg"
-          className="btn-block"
+          className="btn-block login-btn"
           onClick={() => signIn(from)}
         >
-          Войти через корпоративную учётную запись
+          <span className="login-btn-icon" aria-hidden="true">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+              <polyline points="10 17 15 12 10 7" />
+              <line x1="15" y1="12" x2="3" y2="12" />
+            </svg>
+          </span>
+          <span className="login-btn-label">Войти</span>
         </Button>
 
         <p className="login-hint">
